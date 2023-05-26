@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationWeb", "AutomationWeb\AutomationWeb.csproj", "{66AD6A84-32B8-4D65-BE91-BF67EC16C95B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationMobile", "AutomationMobile\AutomationMobile.csproj", "{CCF729E4-244C-4E3C-8180-8056DB78FFCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationFramework", "AutomationFramework\AutomationFramework.csproj", "{336F85B9-9688-4CB5-9CE0-61A73BD17CD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationAPI", "AutomationAPI\AutomationAPI.csproj", "{1BA1C8D4-2691-42E1-B638-12F9BA50D9F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{66AD6A84-32B8-4D65-BE91-BF67EC16C95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66AD6A84-32B8-4D65-BE91-BF67EC16C95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66AD6A84-32B8-4D65-BE91-BF67EC16C95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66AD6A84-32B8-4D65-BE91-BF67EC16C95B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF729E4-244C-4E3C-8180-8056DB78FFCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF729E4-244C-4E3C-8180-8056DB78FFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF729E4-244C-4E3C-8180-8056DB78FFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF729E4-244C-4E3C-8180-8056DB78FFCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336F85B9-9688-4CB5-9CE0-61A73BD17CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336F85B9-9688-4CB5-9CE0-61A73BD17CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336F85B9-9688-4CB5-9CE0-61A73BD17CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336F85B9-9688-4CB5-9CE0-61A73BD17CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA1C8D4-2691-42E1-B638-12F9BA50D9F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA1C8D4-2691-42E1-B638-12F9BA50D9F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA1C8D4-2691-42E1-B638-12F9BA50D9F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA1C8D4-2691-42E1-B638-12F9BA50D9F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
