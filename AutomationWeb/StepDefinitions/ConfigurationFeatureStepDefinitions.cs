@@ -33,9 +33,9 @@ public class ConfigurationFeatureStepDefinitions
     [Given(@"The GUID is set in Configuration for specific scenario")]
     public void GivenTheGuidIsSetInConfigurationForSpecificScenario()
     {
-        var guid = Guid.NewGuid().ToString();
+        var guid = Guid.NewGuid();
         AutomationConfiguration.TestThreadScopedModel.guid = guid;
-        scenarioContext.Set(guid, "guid");
+        scenarioContext.Set(guid);
     }
 
     [When(@"I wait for '(\d+)' seconds")]
@@ -47,7 +47,7 @@ public class ConfigurationFeatureStepDefinitions
     [Then(@"I assert that GUID set in Configuration is the same")]
     public void ThenIAssertThatGuidSetInConfigurationIsTheSame()
     {
-        var expectedGuid = scenarioContext.Get<string>("guid");
+        var expectedGuid = scenarioContext.Get<Guid>();
         AutomationConfiguration.TestThreadScopedModel.guid.Should().Be(expectedGuid);
     }
 }
