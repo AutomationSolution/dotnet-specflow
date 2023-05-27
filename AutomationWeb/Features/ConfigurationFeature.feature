@@ -15,3 +15,11 @@ Scenario: environment.json file contains in ConfigurationManager sources
 @ConfigurationFeature
 Scenario: environment variables contains in ConfigurationManager sources
   Then I assert that environment variables contains in ConfigurationManager sources
+
+@ParallelizationTesting
+@SolutionTesting
+@ConfigurationFeature
+Scenario: Time is set correctly
+  Given The GUID is set in Configuration for specific scenario
+  When I wait for '5' seconds
+  Then I assert that GUID set in Configuration is the same
