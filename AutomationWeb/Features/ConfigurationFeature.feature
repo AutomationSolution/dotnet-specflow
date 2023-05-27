@@ -19,7 +19,7 @@ Scenario: environment variables contains in ConfigurationManager sources
 @ParallelizationTesting
 @SolutionTesting
 @ConfigurationFeature
-Scenario: Time is set correctly
+Scenario: GUID in Configuration is set at scenario level and thread safe
   Given The GUID is set in Configuration for specific scenario
   When I wait for '5' seconds
   Then I assert that GUID set in Configuration is the same
