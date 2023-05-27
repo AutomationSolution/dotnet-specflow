@@ -1,0 +1,6 @@
+﻿{
+  "Environment": {
+    "Endpoint": "https://{0}endpoint.com",
+    "EnvironmentType": "test."
+  }
+}
