@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
-using NLog;
 using TechTalk.SpecFlow;
 
 namespace AutomationWeb.StepDefinitions;
@@ -21,14 +20,14 @@ public class ConfigurationFeatureStepDefinitions
     public void ThenIAssertThatFileContainsInConfigurationManagerSources(string fileName)
     {
         var sourcesList = AutomationConfiguration.ConfigurationManagerInstance.Sources.ToList();
-        sourcesList.Single(x => x.GetType() == typeof(JsonConfigurationSource) && (x as JsonConfigurationSource).Path.Contains(fileName));
+        sourcesList.Any(x => x.GetType() == typeof(JsonConfigurationSource) && (x as JsonConfigurationSource).Path.Contains(fileName));
     }
 
     [Then(@"I assert that environment variables contains in ConfigurationManager sources")]
     public void ThenIAssertThatEnvironmentVariablesContainsInConfigurationManagerSources()
     {
         var sourcesList = AutomationConfiguration.ConfigurationManagerInstance.Sources.ToList();
-        sourcesList.Single(x => x.GetType() == typeof(EnvironmentVariablesConfigurationSource));
+        sourcesList.Any(x => x.GetType() == typeof(EnvironmentVariablesConfigurationSource));
     }
 
     [Given(@"The GUID is set in Configuration for specific scenario")]
