@@ -59,7 +59,7 @@ public static class AutomationConfiguration
         // If you have some env variable(or config value), which is set after InitTestRunConfiguration method, you need to manually add dependent resource here
         
         Environment.SetEnvironmentVariable("template:time", "now");    // TODO delete or refactor
-        Environment.SetEnvironmentVariable("template:guid", "0000");    // TODO delete or refactor
+        Environment.SetEnvironmentVariable("template:guid", "00000000-0000-0000-0000-000000000000");    // TODO delete or refactor
         ConfigurationManagerInstance.AddEnvironmentVariables();    // TODO delete or refactor
     }
 

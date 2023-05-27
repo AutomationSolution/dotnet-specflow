@@ -3,5 +3,5 @@
 public class TestThreadScopedModel
 {
     public string time { get; set; }
-    public string guid { get; set; }
+    public Guid guid { get; set; }
 }
