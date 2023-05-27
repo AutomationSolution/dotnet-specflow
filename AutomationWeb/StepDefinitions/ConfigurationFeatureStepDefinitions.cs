@@ -1,4 +1,5 @@
 ﻿using AutomationWeb.Configuration;
+using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
 using TechTalk.SpecFlow;
 
@@ -12,5 +13,12 @@ public class ConfigurationFeatureStepDefinitions
     {
         var sourcesList = AutomationConfiguration.ConfigurationManagerInstance.Sources.ToList();
         sourcesList.Single(x => x.GetType() == typeof(JsonConfigurationSource) && (x as JsonConfigurationSource).Path.Contains(fileName));
+    }
+
+    [Then(@"I assert that environment variables contains in ConfigurationManager sources")]
+    public void ThenIAssertThatEnvironmentVariablesContainsInConfigurationManagerSources()
+    {
+        var sourcesList = AutomationConfiguration.ConfigurationManagerInstance.Sources.ToList();
+        sourcesList.Single(x => x.GetType() == typeof(EnvironmentVariablesConfigurationSource));
     }
 }
