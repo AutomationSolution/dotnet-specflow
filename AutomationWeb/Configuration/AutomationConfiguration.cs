@@ -5,23 +5,36 @@ namespace AutomationWeb.Configuration;
 
 public static class AutomationConfiguration
 {
-    public static AutomationEnvironmentModel AutomationEnvironmentModel { get; private set; }
-    public static AutomationLoggingModel AutomationLoggingModel { get; private set; }
+    public static AppSettingsModel AppSettingsModel { get; private set; }
+    public static EnvironmentModel EnvironmentModel { get; private set; }
     public static ConfigurationManager ConfigurationManagerInstance { get; private set; }
-    
+
+    private const string AppSettingsFileName = "appsettings.json";
+    private const string EnvironmentFileName = "environment.json";
+    private const string EnvironmentFormattedFileName = "environment.{0}.json";
+    private static readonly string ConfigurationResourcesPath = Path.Combine("Resources", "Configuration");
+
     public static void InitializeAutomationConfiguration()
     {
         // Init Configuration manager
         ConfigurationManagerInstance = new ConfigurationManager();
 
         // Add sources
-        ConfigurationManagerInstance.AddJsonFile(Path.Combine("appsettings.json"));
-        ConfigurationManagerInstance.AddJsonFile(Path.Combine("Resources", "Configuration", "environment.json"));
+        ConfigurationManagerInstance.AddJsonFile(AppSettingsFileName);
+        AppSettingsModel = ConfigurationManagerInstance.Get<AppSettingsModel>(); // Partial load to use correct environment.json file
+
+        ConfigurationManagerInstance.AddJsonFile(Path.Combine(ConfigurationResourcesPath, EnvironmentFileName));
+        ConfigurationManagerInstance.AddJsonFile(
+            Path.Combine(ConfigurationResourcesPath, string.Format(EnvironmentFormattedFileName, AppSettingsModel.DOTNETCORE_ENVIRONMENT)),
+            optional: true);
+        EnvironmentModel = ConfigurationManagerInstance.GetSection("environment").Get<EnvironmentModel>();
+
         // x.AddUserSecrets();  // TODO implement
+
         ConfigurationManagerInstance.AddEnvironmentVariables();
 
-        // Bind settings from configuration manager to a model
-        AutomationEnvironmentModel = ConfigurationManagerInstance.GetSection("environment").Get<AutomationEnvironmentModel>();
-        AutomationLoggingModel = ConfigurationManagerInstance.GetSection("Logging").Get<AutomationLoggingModel>();
+        // Full load
+        AppSettingsModel = ConfigurationManagerInstance.Get<AppSettingsModel>();
+        EnvironmentModel = ConfigurationManagerInstance.GetSection("environment").Get<EnvironmentModel>();
     }
 }
