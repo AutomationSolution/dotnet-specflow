@@ -1,6 +1,12 @@
 ﻿namespace AutomationWeb.Models.Configuration;
 
-public class AutomationLoggingModel
+public class AppSettingsModel
+{
+    public Logging Logging { get; set; }
+    public string DOTNETCORE_ENVIRONMENT { get; set; }
+}
+
+public class Logging
 {
     public LogLevel LogLevel { get; set; }
 }
