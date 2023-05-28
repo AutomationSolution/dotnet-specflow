@@ -9,6 +9,7 @@ public static class AutomationConfiguration
     public static AppSettingsModel AppSettingsModel { get; private set; }
     public static EnvironmentModel EnvironmentModel { get; private set; }
     public static SecretsModel SecretsModel { get; private set; }
+    public static ProjectPropertiesAttribute ProjectProperties { get; private set; }
 
     [field: ThreadStatic] public static TestThreadScopedModel TestThreadScopedModel { get; private set; }
 
@@ -58,6 +59,7 @@ public static class AutomationConfiguration
         AppSettingsModel = ConfigurationManagerInstance.Get<AppSettingsModel>();
         EnvironmentModel = ConfigurationManagerInstance.GetRequiredSection("Environment").Get<EnvironmentModel>();
         SecretsModel = ConfigurationManagerInstance.GetRequiredSection("Secrets").Get<SecretsModel>();
+        ProjectProperties = Assembly.GetCallingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();
     }
 
     private static void AddThreadStaticSources()

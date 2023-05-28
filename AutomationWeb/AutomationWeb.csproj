@@ -7,7 +7,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Environment>Production</Environment>
+    <Environment>Testing</Environment>
 
     <UserSecretsId>f6b9eab2-c806-41fb-80a3-622bc1631d22</UserSecretsId>
   </PropertyGroup>
@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AssemblyAttribute Include="AutomationWeb.Configuration.AutomationConfigurationAttribute">
+    <AssemblyAttribute Include="AutomationWeb.Models.Configuration.ProjectPropertiesAttribute">
       <_Parameter1>"$(Environment)"</_Parameter1>
       <_Parameter2>"$(UserSecretsId)"</_Parameter2>
     </AssemblyAttribute>
