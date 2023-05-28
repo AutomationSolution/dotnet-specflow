@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AutomationFramework.Configuration;
+using AutomationWeb.Extensions.Configuration;
 using AutomationWeb.Models.Configuration;
 using Microsoft.Extensions.Configuration;
 
@@ -15,14 +16,12 @@ public static class AutomationWebConfiguration
 
     private const string EnvironmentFileName = "environment.json";
     private const string EnvironmentFormattedFileName = "environment.{0}.json";
-    private static readonly string ConfigurationResourcesPath = Path.Combine("Resources", "Configuration");
 
     private static void AddStaticSources()
     {
         // environment.json + environment.DOTNETCORE_ENVIRONMENT.json
-        AutomationConfiguration.Instance.AddJsonFile(Path.Combine(ConfigurationResourcesPath, EnvironmentFileName));
-        AutomationConfiguration.Instance.AddJsonFile(
-            Path.Combine(ConfigurationResourcesPath, string.Format(EnvironmentFormattedFileName, AutomationConfiguration.RuntimeConfigurationModel.AutomationEnvironment)),
+        AutomationConfiguration.Instance.AddJsonFileFromResourcesDirectory(EnvironmentFileName);
+        AutomationConfiguration.Instance.AddJsonFileFromResourcesDirectory(string.Format(EnvironmentFormattedFileName, AutomationConfiguration.RuntimeConfigurationModel.AutomationEnvironment),
             optional: true);
 
         // CMD args
