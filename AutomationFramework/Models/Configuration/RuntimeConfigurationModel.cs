@@ -1,4 +1,4 @@
-﻿namespace AutomationWeb.Models.Configuration;
+﻿namespace AutomationFramework.Models.Configuration;
 
 public class RuntimeConfigurationModel
 {

@@ -1,4 +1,5 @@
-﻿using AutomationWeb.Configuration;
+﻿using AutomationFramework.Configuration;
+using AutomationWeb.Configuration;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
@@ -19,14 +20,14 @@ public class ConfigurationFeatureStepDefinitions
     [Then(@"I assert that '(.*)' file contains in ConfigurationManager sources")]
     public void ThenIAssertThatFileContainsInConfigurationManagerSources(string fileName)
     {
-        var sourcesList = AutomationConfiguration.ConfigurationManagerInstance.Sources.ToList();
+        var sourcesList = AutomationConfiguration.Instance.Sources.ToList();
         sourcesList.Any(x => x.GetType() == typeof(JsonConfigurationSource) && (x as JsonConfigurationSource).Path.Contains(fileName));
     }
 
     [Then(@"I assert that environment variables contains in ConfigurationManager sources")]
     public void ThenIAssertThatEnvironmentVariablesContainsInConfigurationManagerSources()
     {
-        var sourcesList = AutomationConfiguration.ConfigurationManagerInstance.Sources.ToList();
+        var sourcesList = AutomationConfiguration.Instance.Sources.ToList();
         sourcesList.Any(x => x.GetType() == typeof(EnvironmentVariablesConfigurationSource));
     }
 
@@ -34,7 +35,7 @@ public class ConfigurationFeatureStepDefinitions
     public void GivenTheGuidIsSetInConfigurationForSpecificScenario()
     {
         var guid = Guid.NewGuid();
-        AutomationConfiguration.TestThreadScopedModel.guid = guid;
+        AutomationWebConfiguration.TestThreadScopedModel.guid = guid;
         scenarioContext.Set(guid);
     }
 
@@ -48,14 +49,14 @@ public class ConfigurationFeatureStepDefinitions
     public void ThenIAssertThatGuidSetInConfigurationIsTheSame()
     {
         var expectedGuid = scenarioContext.Get<Guid>();
-        AutomationConfiguration.TestThreadScopedModel.guid.Should().Be(expectedGuid);
+        AutomationWebConfiguration.TestThreadScopedModel.guid.Should().Be(expectedGuid);
     }
 
     [Then(@"I assert that RuntimeProperty from \.csproj file is accessible in runtime")]
     public void ThenIAssertThatRuntimePropertyFromCsprojFileIsAccessibleInRuntime()
     {
-        AutomationConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe(null);
-        AutomationConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe(string.Empty);
-        AutomationConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe("\"\"");
+        AutomationWebConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe(null);
+        AutomationWebConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe(string.Empty);
+        AutomationWebConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe("\"\"");
     }
 }
