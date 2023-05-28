@@ -36,6 +36,9 @@ public static class AutomationConfiguration
             Path.Combine(ConfigurationResourcesPath, string.Format(EnvironmentFormattedFileName, AppSettingsModel.DOTNETCORE_ENVIRONMENT)),
             optional: true);
 
+        // CMD args
+        ConfigurationManagerInstance.AddCommandLine(Environment.GetCommandLineArgs());
+
         // User secrets
         ConfigurationManagerInstance.AddUserSecrets(Assembly.GetCallingAssembly(), optional: false);    // Secrets stored locally
 
