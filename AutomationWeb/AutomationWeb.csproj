@@ -59,4 +59,8 @@
     </AssemblyAttribute>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AutomationFramework\AutomationFramework.csproj" />
+  </ItemGroup>
+
 </Project>
