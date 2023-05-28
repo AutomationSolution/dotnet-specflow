@@ -29,7 +29,7 @@ public static class AutomationWebConfiguration
         AutomationConfiguration.Instance.AddCommandLine(Environment.GetCommandLineArgs());
 
         // User secrets
-        AutomationConfiguration.Instance.AddUserSecrets(Assembly.GetCallingAssembly(), optional: false);    // Secrets stored locally
+        SecretsSetUp.Setup(AutomationConfiguration.RuntimeConfigurationModel.SecretsClient);
 
         // Environment variables
         AutomationConfiguration.Instance.AddEnvironmentVariables();
