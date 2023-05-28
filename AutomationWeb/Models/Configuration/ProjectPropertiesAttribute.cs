@@ -3,12 +3,12 @@
 [AttributeUsage(AttributeTargets.Assembly)]
 public sealed class ProjectPropertiesAttribute : Attribute
 {
-    public string Environment { get; }
+    public string RuntimePropertyExample { get; }
     public string UserSecretsId { get; }
     
-    public ProjectPropertiesAttribute(string environment, string userSecretsId)
+    public ProjectPropertiesAttribute(string runtimePropertyExample, string userSecretsId)
     {
-        Environment = environment;
+        RuntimePropertyExample = runtimePropertyExample;
         UserSecretsId = userSecretsId;
     }
 }
