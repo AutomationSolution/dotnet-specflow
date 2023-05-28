@@ -1,4 +1,5 @@
-﻿using AutomationWeb.Models.Configuration;
+﻿using System.Reflection;
+using AutomationWeb.Models.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace AutomationWeb.Configuration;
@@ -7,6 +8,7 @@ public static class AutomationConfiguration
 {
     public static AppSettingsModel AppSettingsModel { get; private set; }
     public static EnvironmentModel EnvironmentModel { get; private set; }
+    public static SecretsModel SecretsModel { get; private set; }
 
     [field: ThreadStatic] public static TestThreadScopedModel TestThreadScopedModel { get; private set; }
 
@@ -35,7 +37,7 @@ public static class AutomationConfiguration
             optional: true);
 
         // User secrets
-        // x.AddUserSecrets();  // TODO implement
+        ConfigurationManagerInstance.AddUserSecrets(Assembly.GetCallingAssembly(), optional: false);    // Secrets stored locally
 
         // Environment variables
         ConfigurationManagerInstance.AddEnvironmentVariables();
@@ -51,7 +53,8 @@ public static class AutomationConfiguration
 
         // Bind necessary static objects
         AppSettingsModel = ConfigurationManagerInstance.Get<AppSettingsModel>();
-        EnvironmentModel = ConfigurationManagerInstance.GetRequiredSection("environment").Get<EnvironmentModel>();
+        EnvironmentModel = ConfigurationManagerInstance.GetRequiredSection("Environment").Get<EnvironmentModel>();
+        SecretsModel = ConfigurationManagerInstance.GetRequiredSection("Secrets").Get<SecretsModel>();
     }
 
     private static void AddThreadStaticSources()
