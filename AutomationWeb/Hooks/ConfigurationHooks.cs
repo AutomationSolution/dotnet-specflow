@@ -5,7 +5,7 @@ using TechTalk.SpecFlow;
 namespace AutomationWeb.Hooks;
 
 [Binding]
-public class BaseHooks
+public class ConfigurationHooks
 {
     [BeforeTestRun(Order = 10)]
     public static void BeforeTestRunInitConfiguration(IObjectContainer objectContainer)
