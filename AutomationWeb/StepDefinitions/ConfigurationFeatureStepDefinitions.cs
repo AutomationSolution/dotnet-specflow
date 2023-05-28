@@ -50,4 +50,12 @@ public class ConfigurationFeatureStepDefinitions
         var expectedGuid = scenarioContext.Get<Guid>();
         AutomationConfiguration.TestThreadScopedModel.guid.Should().Be(expectedGuid);
     }
+
+    [Then(@"I assert that Environment property from \.csproj file is accessible in runtime")]
+    public void ThenIAssertThatEnvironmentPropertyFromCsprojFileIsAccessibleInRuntime()
+    {
+        AutomationConfiguration.ProjectProperties.Environment.Should().NotBe(null);
+        AutomationConfiguration.ProjectProperties.Environment.Should().NotBe(string.Empty);
+        AutomationConfiguration.ProjectProperties.Environment.Should().NotBe("\"\"");
+    }
 }

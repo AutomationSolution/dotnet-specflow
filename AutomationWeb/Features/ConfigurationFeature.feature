@@ -23,3 +23,8 @@ Scenario: GUID in Configuration is set at scenario level and thread safe
   Given The GUID is set in Configuration for specific scenario
   When I wait for '5' seconds
   Then I assert that GUID set in Configuration is the same
+
+@SolutionTesting
+@ConfigurationFeature
+Scenario: Properties defined in .csproj file are accessible in runtime
+  Then I assert that Environment property from .csproj file is accessible in runtime
