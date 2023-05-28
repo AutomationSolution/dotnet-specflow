@@ -27,4 +27,4 @@ Scenario: GUID in Configuration is set at scenario level and thread safe
 @SolutionTesting
 @ConfigurationFeature
 Scenario: Properties defined in .csproj file are accessible in runtime
-  Then I assert that Environment property from .csproj file is accessible in runtime
+  Then I assert that RuntimeProperty from .csproj file is accessible in runtime

@@ -6,7 +6,8 @@ namespace AutomationWeb.Configuration;
 
 public static class AutomationConfiguration
 {
-    public static AppSettingsModel AppSettingsModel { get; private set; }
+    public static RuntimeConfigurationModel RuntimeConfigurationModel { get; private set; }
+    public static LoggingModel LoggingModel { get; private set; }
     public static EnvironmentModel EnvironmentModel { get; private set; }
     public static SecretsModel SecretsModel { get; private set; }
     public static ProjectPropertiesAttribute ProjectProperties { get; private set; }
@@ -29,12 +30,12 @@ public static class AutomationConfiguration
     {
         // appsettings.json
         ConfigurationManagerInstance.AddJsonFile(AppSettingsFileName);
-        AppSettingsModel = ConfigurationManagerInstance.Get<AppSettingsModel>(); // Partial load to use correct environment.json file
+        RuntimeConfigurationModel = ConfigurationManagerInstance.GetSection("RuntimeConfiguration").Get<RuntimeConfigurationModel>(); // Partial load to use correct environment.json file
 
         // environment.json + environment.DOTNETCORE_ENVIRONMENT.json
         ConfigurationManagerInstance.AddJsonFile(Path.Combine(ConfigurationResourcesPath, EnvironmentFileName));
         ConfigurationManagerInstance.AddJsonFile(
-            Path.Combine(ConfigurationResourcesPath, string.Format(EnvironmentFormattedFileName, AppSettingsModel.DOTNETCORE_ENVIRONMENT)),
+            Path.Combine(ConfigurationResourcesPath, string.Format(EnvironmentFormattedFileName, RuntimeConfigurationModel.AutomationEnvironment)),
             optional: true);
 
         // CMD args
@@ -56,7 +57,8 @@ public static class AutomationConfiguration
         AddStaticSources();
 
         // Bind necessary static objects
-        AppSettingsModel = ConfigurationManagerInstance.Get<AppSettingsModel>();
+        RuntimeConfigurationModel = ConfigurationManagerInstance.GetRequiredSection("RuntimeConfiguration").Get<RuntimeConfigurationModel>();
+        LoggingModel = ConfigurationManagerInstance.GetSection("Logging").Get<LoggingModel>();
         EnvironmentModel = ConfigurationManagerInstance.GetRequiredSection("Environment").Get<EnvironmentModel>();
         SecretsModel = ConfigurationManagerInstance.GetRequiredSection("Secrets").Get<SecretsModel>();
         ProjectProperties = Assembly.GetCallingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();

@@ -7,7 +7,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <Environment>Testing</Environment>
+    <RuntimePropertyExample>Testing</RuntimePropertyExample>
 
     <UserSecretsId>f6b9eab2-c806-41fb-80a3-622bc1631d22</UserSecretsId>
   </PropertyGroup>
@@ -41,14 +41,20 @@
     <None Update="Resources\Configuration\environment.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Configuration\environment.$(Environment).json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Resources\Configuration\environment.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Configuration\environment.Staging.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Configuration\environment.Testing.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <AssemblyAttribute Include="AutomationWeb.Models.Configuration.ProjectPropertiesAttribute">
-      <_Parameter1>"$(Environment)"</_Parameter1>
+      <_Parameter1>"$(RuntimePropertyExample)"</_Parameter1>
       <_Parameter2>"$(UserSecretsId)"</_Parameter2>
     </AssemblyAttribute>
   </ItemGroup>
