@@ -1,0 +1,9 @@
+{
+  "AzureKeyVault":{
+    "KeyVaultName": "automationsolutionkeyvault",
+    "KeyVaultEndPoint": "https://{0}.vault.azure.net/",
+    "KeyVaultTenantId": "00000000-0000-0000-0000-000000000000",
+    "KeyVaultClientId": "00000000-0000-0000-0000-000000000000",
+    "KeyVaultClientSecret": "00000000-0000-0000-0000-000000000000"
+  }
+}

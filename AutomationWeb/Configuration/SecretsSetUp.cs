@@ -44,14 +44,17 @@ public static class SecretsSetUp
 
     private static void AzureSecretsSetup()
     {
-        AutomationConfiguration.Instance.AddJsonFileFromResourcesDirectory("azureSettings.json", optional: false);
+        AutomationConfiguration.Instance.AddJsonFileFromResourcesDirectory("azureKeyVaultSettings.json", optional: false);
 
-        var azureSettings = AutomationConfiguration.Instance.GetRequiredSection("Azure").Get<AzureSettingsModel>();
+        var azureSettings = AutomationConfiguration.Instance.GetRequiredSection("AzureKeyVault").Get<AzureSettingsModel>();
+
+        var clientSecretCredential = new ClientSecretCredential(azureSettings.TenantId.ToString(), azureSettings.ClientId.ToString(),
+            azureSettings.ClientSecret.ToString());
 
         var secretClient = new SecretClient(
             new Uri(string.Format(azureSettings.KeyVaultEndPoint, azureSettings.KeyVaultName)),
-            new DefaultAzureCredential());
+            clientSecretCredential);
 
-        AutomationConfiguration.Instance.AddAzureKeyVault(secretClient, new KeyVaultSecretManager());
+        AutomationConfiguration.Instance.AddAzureKeyVault(secretClient, new AzureKeyVaultConfigurationOptions());
     }
 }
