@@ -1,6 +1,0 @@
-{
-  "Azure":{
-    "KeyVaultName": "Key Vault Name",
-    "KeyVaultEndPoint": "https://{0}.vault.azure.net/"
-  }
-}
