@@ -1,0 +1,19 @@
+{
+  "UserData": {
+    "RegisteredUser": {
+      "Username": "RegisteredUsername",
+      "Status": "Registered",
+      "Verification": "NotVerified"
+    },
+    "RegisteredVerifiedUser": {
+      "Username": "RegisteredVerifiedUsername",
+      "Status": "Registered",
+      "Verification": "Verified"
+    },
+    "DraftUser": {
+      "Username": "DraftUsername",
+      "Status": "Draft",
+      "Verification": "NotVerified"
+    }
+  }
+}

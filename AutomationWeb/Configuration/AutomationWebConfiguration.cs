@@ -1,7 +1,9 @@
 ﻿using System.Reflection;
 using AutomationFramework.Configuration;
 using AutomationWeb.Models.Configuration;
+using AutomationWeb.Models.TestData;
 using Microsoft.Extensions.Configuration;
+using static AutomationFramework.Configuration.ConfigurationPaths;
 
 namespace AutomationWeb.Configuration;
 
@@ -12,9 +14,11 @@ public static class AutomationWebConfiguration
     public static ProjectPropertiesAttribute ProjectProperties { get; private set; }
 
     [field: ThreadStatic] public static TestThreadScopedModel TestThreadScopedModel { get; private set; }
+    [field: ThreadStatic] public static UsersDataModel UsersDataModel { get; private set; }
 
     private const string EnvironmentFileName = "environment.json";
     private const string EnvironmentFormattedFileName = "environment.{0}.json";
+    private const string UserDataFileName = "UserData.json";
 
     private static void AddStaticSources()
     {
@@ -48,7 +52,7 @@ public static class AutomationWebConfiguration
 
     private static void AddThreadStaticSources()
     {
-        // If you have some env variable(or config value), which is set after InitTestRunConfiguration method, you need to manually add dependent resource here
+        AutomationConfiguration.Instance.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserDataFileName));
         
         Environment.SetEnvironmentVariable("template:time", "now");    // TODO delete or refactor
         Environment.SetEnvironmentVariable("template:guid", "00000000-0000-0000-0000-000000000000");    // TODO delete or refactor
@@ -63,5 +67,6 @@ public static class AutomationWebConfiguration
         AddThreadStaticSources();
 
         TestThreadScopedModel = AutomationConfiguration.Instance.GetSection("template").Get<TestThreadScopedModel>();
+        UsersDataModel = AutomationConfiguration.Instance.GetSection("UserData").Get<UsersDataModel>();
     }
 }
