@@ -1,4 +1,5 @@
-﻿using AutomationWeb.Configuration;
+﻿using AutomationFramework.Configuration;
+using AutomationWeb.Configuration;
 using BoDi;
 using TechTalk.SpecFlow;
 
@@ -10,12 +11,6 @@ public class ConfigurationHooks
     [BeforeTestRun(Order = 10)]
     public static void BeforeTestRunInitConfiguration(IObjectContainer objectContainer)
     {
-        AutomationWebConfiguration.InitTestRunConfiguration();
-    }
-
-    [BeforeScenario(Order = 10)]
-    public static void BeforeScenarioInitConfiguration()
-    {
-        AutomationWebConfiguration.InitTestThreadConfiguration();
+        objectContainer.RegisterTypeAs<AutomationWebConfiguration, IAutomationConfiguration>();
     }
 }
