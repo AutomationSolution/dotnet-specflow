@@ -1,6 +1,5 @@
-﻿using AutomationMobile.Configuration;
-using AutomationMobile.Models;
-using AutomationMobile.Utilities.SpecFlow;
+﻿using AutomationFramework.Configuration;
+using AutomationMobile.Configuration;
 using BoDi;
 using TechTalk.SpecFlow;
 
@@ -12,14 +11,6 @@ public class ConfigurationHooks
     [BeforeTestRun(Order = 10)]
     public static void BeforeTestRunInitConfiguration(IObjectContainer objectContainer)
     {
-        // AutomationMobileConfiguration.InitTestRunConfiguration();
-    }
-
-    [BeforeScenario(Order = 10)]
-    public static void BeforeScenarioInitConfiguration(ScenarioContext scenarioContext)
-    {
-        var applicationName = TagsUtilities.GetApplicationName(scenarioContext);
-
-        AutomationMobileConfiguration.DeviceConfigModel = new DeviceConfigModel(applicationName);
+        objectContainer.RegisterTypeAs<AutomationMobileConfiguration, IAutomationConfiguration>();
     }
 }
