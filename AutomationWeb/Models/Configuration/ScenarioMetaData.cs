@@ -2,6 +2,6 @@
 
 public class ScenarioMetaData
 {
-    public string time { get; set; }
-    public Guid guid { get; set; }
+    public DateTime StartTime { get; set; }
+    public Guid ScenarioGuid { get; set; }
 }
