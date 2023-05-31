@@ -6,7 +6,6 @@ name: .NET
 env:
   artifact_name: dotnet-specflow-build
   default_output_target_path: bin/Debug/net6.0/
-  branch_name: '$(basename ${{ github.ref }})'
 
 on:
   push:
@@ -24,13 +23,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Echo branch
-      run: |
-        echo ${{ github.ref_name  }}
-        echo $(basename ${{ github.ref_name  }})
-        echo $branch_name
-        
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -48,7 +40,7 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.project }}
+        name: ${{ github.ref_name }}/${{ matrix.project }}
         path: ${{ matrix.project }}.zip
       
   run-tests:
@@ -69,7 +61,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.project }}
+          name: ${{ github.ref_name }}/${{ matrix.project }}
           
       - name: Unzip build artifact
         run: unzip ${{ matrix.project }}.zip
