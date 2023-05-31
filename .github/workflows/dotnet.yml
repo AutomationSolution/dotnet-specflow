@@ -32,7 +32,7 @@ jobs:
       
     - name: Zip build artifact
       run: |
-        echo ls
+        ls
 #        zip $artifact_name.zip  ./* -r
       
     - name: Upload build artifact
