@@ -45,7 +45,7 @@ public static class SecretsSetUp
 
     private static void AzureSecretsSetup(ConfigurationManager configurationManager)
     {
-        configurationManager.AddJsonFile(AzureKeyVaultSettingsFileName, optional: false);
+        configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, AzureKeyVaultSettingsFileName), optional: false);
 
         var azureSettings = configurationManager.GetRequiredSection("AzureKeyVault").Get<AzureSettingsModel>();
 
