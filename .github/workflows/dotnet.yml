@@ -27,7 +27,7 @@ jobs:
     - name: Echo branch
       run: |
         echo ${{ github.ref }}
-        echo ${{ github.ref#refs/heads/ }}
+        echo $(basename ${{ github.ref }})
         
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
