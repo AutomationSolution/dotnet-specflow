@@ -6,7 +6,7 @@ name: .NET
 env:
   artifact_name: dotnet-specflow-build
   default_output_target_path: bin/Debug/net6.0/
-  branch_name: $(basename ${{ github.ref }})
+  branch_name: '$(basename ${{ github.ref }})'
 
 on:
   push:
@@ -27,8 +27,8 @@ jobs:
 
     - name: Echo branch
       run: |
-        echo ${{ github.ref }}
-        echo $(basename ${{ github.ref }})
+        echo ${{ github.ref_name  }}
+        echo $(basename ${{ github.ref_name  }})
         echo $branch_name
         
     - name: Setup .NET
