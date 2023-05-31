@@ -5,6 +5,7 @@ name: .NET
 
 env:
   artifact_name: dotnet-specflow-build
+  default_output_target_path: bin/Debug/net6.0
 
 on:
   push:
@@ -14,6 +15,9 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        project: [ AutomationWeb, AutomationMobile, AutomationAPI ]
 
     runs-on: ubuntu-latest
 
@@ -28,7 +32,7 @@ jobs:
       run: dotnet restore
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build "${{ matrix.project }}" --no-restore
       
     - name: Zip build artifact
       run: |
@@ -37,13 +41,14 @@ jobs:
         ls AutomationWeb
         ls AutomationMobile
         ls AutomationAPI
-#        zip $artifact_name.zip  ./* -r
+        echo zip ${{ matrix.project }}.zip ./${{ matrix.project }}/$default_output_target_path -r
+        zip ${{ matrix.project }}.zip ./${{ matrix.project }}/$default_output_target_path -r
       
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: $artifact_name
-        path: $artifact_name.zip
+        name: ${{ matrix.project }}
+        path: ${{ matrix.project }}.zip
       
   run-tests:
     needs: [build]
@@ -67,10 +72,10 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: $artifact_name
+          name: ${{ matrix.project }}
           
       - name: Unzip build artifact
-        run: unzip $artifact_name.zip
+        run: unzip ${{ matrix.project }}.zip
         
       - name: Test
         env:
