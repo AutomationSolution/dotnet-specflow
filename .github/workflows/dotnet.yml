@@ -46,4 +46,5 @@ jobs:
       - name: Test
         env:
           Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
+          Secrets__BackOfficePassword: ${{ secrets.SECRETS__BACKOFFICEPASSWORD }}
         run: dotnet test "${{ matrix.project }}" --no-build --verbosity normal
