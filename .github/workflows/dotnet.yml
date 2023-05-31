@@ -6,7 +6,7 @@ name: .NET
 env:
   artifact_name: dotnet-specflow-build
   default_output_target_path: bin/Debug/net6.0/
-  project_assemblies_to_build: "AutomationWeb, AutomationMobile, AutomationAPI"
+  project_assemblies_to_build: "['AutomationWeb', 'AutomationMobile', 'AutomationAPI']"
 
 on:
   push:
