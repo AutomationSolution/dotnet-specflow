@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Aquality.Appium.Mobile" Version="4.1.0" />
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Fody" Version="6.7.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
