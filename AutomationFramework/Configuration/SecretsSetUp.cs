@@ -1,13 +1,13 @@
 ﻿using System.Reflection;
-using AutomationFramework.Configuration;
 using AutomationFramework.Enums.Configuration;
 using AutomationWeb.Models.Configuration;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.Extensions.Configuration;
+using static AutomationFramework.Configuration.ConfigurationPaths;
 
-namespace AutomationWeb.Configuration;
+namespace AutomationFramework.Configuration;
 
 public static class SecretsSetUp
 {
@@ -43,7 +43,7 @@ public static class SecretsSetUp
 
     private static void AzureSecretsSetup(ConfigurationManager configurationManager)
     {
-        configurationManager.AddJsonFile("azureKeyVaultSettings.json", optional: false);
+        configurationManager.AddJsonFile(AzureKeyVaultSettingsFileName, optional: false);
 
         var azureSettings = configurationManager.GetRequiredSection("AzureKeyVault").Get<AzureSettingsModel>();
 
