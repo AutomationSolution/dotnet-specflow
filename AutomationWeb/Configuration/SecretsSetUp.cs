@@ -11,41 +11,41 @@ namespace AutomationWeb.Configuration;
 
 public static class SecretsSetUp
 {
-    public static void Setup(SecretsClient secretsClient)
+    public static void Setup(SecretsClient secretsClient, ConfigurationManager configurationManager)
     {
         switch (secretsClient)
         {
             case SecretsClient.Local:
-                LocalSecretsSetup();
+                LocalSecretsSetup(configurationManager);
                 break;
             case SecretsClient.Jenkins:
-                JenkinsSecretsSetup();
+                JenkinsSecretsSetup(configurationManager);
                 break;
             case SecretsClient.Azure:
-                AzureSecretsSetup();
+                AzureSecretsSetup(configurationManager);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(secretsClient), secretsClient, $"There are no secrets handling implementations found for {nameof(secretsClient)}");
         }
     }
 
-    private static void LocalSecretsSetup()
+    private static void LocalSecretsSetup(ConfigurationManager configurationManager)
     {
-        AutomationConfiguration.Instance.AddUserSecrets(Assembly.GetCallingAssembly(), optional: false);
+        configurationManager.AddUserSecrets(Assembly.GetCallingAssembly(), optional: false);
     }
 
-    private static void JenkinsSecretsSetup()
+    private static void JenkinsSecretsSetup(ConfigurationManager configurationManager)
     {
         // In Jenkins we should use credentials feature and pass defined credentials in environment variables.
         // So we're just making sure that they are added
-        AutomationConfiguration.Instance.AddEnvironmentVariables();
+        configurationManager.AddEnvironmentVariables();
     }
 
-    private static void AzureSecretsSetup()
+    private static void AzureSecretsSetup(ConfigurationManager configurationManager)
     {
-        AutomationConfiguration.Instance.AddJsonFile("azureKeyVaultSettings.json", optional: false);
+        configurationManager.AddJsonFile("azureKeyVaultSettings.json", optional: false);
 
-        var azureSettings = AutomationConfiguration.Instance.GetRequiredSection("AzureKeyVault").Get<AzureSettingsModel>();
+        var azureSettings = configurationManager.GetRequiredSection("AzureKeyVault").Get<AzureSettingsModel>();
 
         var clientSecretCredential = new ClientSecretCredential(azureSettings.TenantId.ToString(), azureSettings.ClientId.ToString(),
             azureSettings.ClientSecret.ToString());
@@ -54,6 +54,6 @@ public static class SecretsSetUp
             new Uri(string.Format(azureSettings.KeyVaultEndPoint, azureSettings.KeyVaultName)),
             clientSecretCredential);
 
-        AutomationConfiguration.Instance.AddAzureKeyVault(secretClient, new AzureKeyVaultConfigurationOptions());
+        configurationManager.AddAzureKeyVault(secretClient, new AzureKeyVaultConfigurationOptions());
     }
 }

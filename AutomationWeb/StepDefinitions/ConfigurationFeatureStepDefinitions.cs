@@ -20,14 +20,14 @@ public class ConfigurationFeatureStepDefinitions
     [Then(@"I assert that '(.*)' file contains in ConfigurationManager sources")]
     public void ThenIAssertThatFileContainsInConfigurationManagerSources(string fileName)
     {
-        var sourcesList = AutomationConfiguration.Instance.Sources.ToList();
+        var sourcesList = AutomationConfigurationManager.Instance.Sources.ToList();
         sourcesList.Any(x => x.GetType() == typeof(JsonConfigurationSource) && (x as JsonConfigurationSource).Path.Contains(fileName));
     }
 
     [Then(@"I assert that environment variables contains in ConfigurationManager sources")]
     public void ThenIAssertThatEnvironmentVariablesContainsInConfigurationManagerSources()
     {
-        var sourcesList = AutomationConfiguration.Instance.Sources.ToList();
+        var sourcesList = AutomationConfigurationManager.Instance.Sources.ToList();
         sourcesList.Any(x => x.GetType() == typeof(EnvironmentVariablesConfigurationSource));
     }
 

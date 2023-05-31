@@ -7,7 +7,7 @@ using static AutomationFramework.Configuration.ConfigurationPaths;
 
 namespace AutomationWeb.Configuration;
 
-public static class AutomationWebConfiguration
+public class AutomationWebConfiguration : IAutomationConfiguration
 {
     public static EnvironmentModel EnvironmentModel { get; private set; }
     public static SecretsModel SecretsModel { get; private set; }
@@ -16,57 +16,45 @@ public static class AutomationWebConfiguration
     [field: ThreadStatic] public static TestThreadScopedModel TestThreadScopedModel { get; private set; }
     [field: ThreadStatic] public static UsersDataModel UsersDataModel { get; private set; }
 
-    private const string EnvironmentFileName = "environment.json";
-    private const string EnvironmentFormattedFileName = "environment.{0}.json";
-    private const string UserDataFileName = "UserData.json";
-
-    private static void AddStaticSources()
+    public void AddStaticSources(ConfigurationManager configurationManager)
     {
-        // environment.json + environment.DOTNETCORE_ENVIRONMENT.json
-        AutomationConfiguration.Instance.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, EnvironmentFileName));
-        var environmentBasedFileName = string.Format(EnvironmentFormattedFileName, AutomationConfiguration.RuntimeConfigurationModel.AutomationEnvironment);
-        AutomationConfiguration.Instance.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, environmentBasedFileName), optional: true);
+        // environment.json + environment.%Environment%.json
+        configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, EnvironmentFileName));
+        var environmentBasedFileName = string.Format(EnvironmentFormattedFileName, AutomationFrameworkConfiguration.RuntimeConfigurationModel.AutomationEnvironment);
+        configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, environmentBasedFileName), optional: true);
 
         // CMD args
-        AutomationConfiguration.Instance.AddCommandLine(Environment.GetCommandLineArgs());
+        configurationManager.AddCommandLine(Environment.GetCommandLineArgs());
 
         // User secrets
-        SecretsSetUp.Setup(AutomationConfiguration.RuntimeConfigurationModel.SecretsClient);
+        SecretsSetUp.Setup(AutomationFrameworkConfiguration.RuntimeConfigurationModel.SecretsClient, configurationManager);
 
         // Environment variables
-        AutomationConfiguration.Instance.AddEnvironmentVariables();
+        configurationManager.AddEnvironmentVariables();
     }
 
-    /// <summary>
-    /// Use with static configuration Properties. Call in [BeforeTestRun] hook.
-    /// </summary>
-    public static void InitTestRunConfiguration()
-    {
-        AddStaticSources();
 
+    public void InitStaticConfiguration(ConfigurationManager configurationManager)
+    {
         // Bind necessary static objects
-        EnvironmentModel = AutomationConfiguration.Instance.GetRequiredSection("Environment").Get<EnvironmentModel>();
-        SecretsModel = AutomationConfiguration.Instance.GetRequiredSection("Secrets").Get<SecretsModel>();
-        ProjectProperties = Assembly.GetCallingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();
+        EnvironmentModel = configurationManager.GetRequiredSection("Environment").Get<EnvironmentModel>();
+        SecretsModel = configurationManager.GetRequiredSection("Secrets").Get<SecretsModel>();
+        ProjectProperties = Assembly.GetExecutingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();
     }
 
-    private static void AddThreadStaticSources()
+    public void AddThreadStaticSources(ConfigurationManager configurationManager)
     {
-        AutomationConfiguration.Instance.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserDataFileName));
+        configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserDataFileName));
         
         Environment.SetEnvironmentVariable("template:time", "now");    // TODO delete or refactor
         Environment.SetEnvironmentVariable("template:guid", "00000000-0000-0000-0000-000000000000");    // TODO delete or refactor
-        AutomationConfiguration.Instance.AddEnvironmentVariables();    // TODO delete or refactor
+        configurationManager.AddEnvironmentVariables();    // TODO delete or refactor
     }
 
-    /// <summary>
-    /// Use with ThreadStatic configuration Properties (Test Thread scoped). Call in [BeforeScenario] hook
-    /// </summary>
-    public static void InitTestThreadConfiguration()
+    public void InitThreadStaticConfiguration(ConfigurationManager configurationManager)
     {
-        AddThreadStaticSources();
-
-        TestThreadScopedModel = AutomationConfiguration.Instance.GetSection("template").Get<TestThreadScopedModel>();
-        UsersDataModel = AutomationConfiguration.Instance.GetSection("UserData").Get<UsersDataModel>();
+        // Bind necessary thread static objects
+        TestThreadScopedModel = configurationManager.GetSection("template").Get<TestThreadScopedModel>();
+        UsersDataModel = configurationManager.GetSection("UserData").Get<UsersDataModel>();
     }
 }
