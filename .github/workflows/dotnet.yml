@@ -10,7 +10,7 @@ env:
 on:
   push:
 #    branches: [ "main" ]
-  pull_request:
+#  pull_request:
 #    branches: [ "main" ]
 
 jobs:
@@ -40,8 +40,9 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.project }}
+        name: ${{ github.ref_name }}_${{ matrix.project }}
         path: ${{ matrix.project }}.zip
+        retention-days: 5
       
   run-tests:
     needs: [build]
@@ -61,7 +62,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.project }}
+          name: ${{ github.ref_name }}_${{ matrix.project }}
           
       - name: Unzip build artifact
         run: unzip ${{ matrix.project }}.zip
