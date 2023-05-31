@@ -28,12 +28,12 @@ public class ConfigurationHooks
     }
 
     [BeforeScenario(Order = 30)]
-    public static void BeforeScenarioInitializeCustomConfiguration()
+    public static void BeforeScenarioInitializeCustomConfiguration(ScenarioContext scenarioContext)
     {
         _defaultConfiguration.AddThreadStaticSources(AutomationConfigurationManager.Instance);
-        _defaultConfiguration.InitThreadStaticConfiguration(AutomationConfigurationManager.Instance);
+        _defaultConfiguration.InitThreadStaticConfiguration(AutomationConfigurationManager.Instance, scenarioContext);
         
         _customConfiguration.AddThreadStaticSources(AutomationConfigurationManager.Instance);
-        _customConfiguration.InitThreadStaticConfiguration(AutomationConfigurationManager.Instance);
+        _customConfiguration.InitThreadStaticConfiguration(AutomationConfigurationManager.Instance, scenarioContext);
     }
 }

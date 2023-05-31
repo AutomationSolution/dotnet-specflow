@@ -3,6 +3,7 @@ using AutomationFramework.Configuration;
 using AutomationWeb.Models.Configuration;
 using AutomationWeb.Models.TestData;
 using Microsoft.Extensions.Configuration;
+using TechTalk.SpecFlow;
 using static AutomationFramework.Configuration.ConfigurationPaths;
 
 namespace AutomationWeb.Configuration;
@@ -49,7 +50,7 @@ public class AutomationWebConfiguration : IAutomationConfiguration
         configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserDataFileName));
     }
 
-    public void InitThreadStaticConfiguration(ConfigurationManager configurationManager)
+    public void InitThreadStaticConfiguration(ConfigurationManager configurationManager, ScenarioContext scenarioContext)
     {
         ScenarioMetaData = configurationManager.GetSection("ScenarioMetaData").Get<ScenarioMetaData>(binderOptionsThrowOnError) ?? new ScenarioMetaData();
         UsersDataModel = configurationManager.GetSection("UserData").Get<UsersDataModel>();
