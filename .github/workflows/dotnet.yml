@@ -4,7 +4,7 @@
 name: .NET
 
 env:
-  artifact-name: dotnet-specflow-build
+  artifact_name: dotnet-specflow-build
 
 on:
   push:
@@ -36,8 +36,8 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ artifact-name }}
-        path: ${{ artifact-name }}.zip
+        name: ${{ artifact_name }}
+        path: ${{ artifact_name }}.zip
       
   run-tests:
     needs: [build]
@@ -61,10 +61,10 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ artifact-name }}
+          name: ${{ artifact_name }}
           
       - name: Unzip build artifact
-        run: unzip ${{ artifact-name }}.zip
+        run: unzip ${{ artifact_name }}.zip
         
       - name: Test
         env:
