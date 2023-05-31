@@ -4,5 +4,6 @@ public enum SecretsClient
 {
     Local,
     Jenkins,
-    Azure
+    Azure,
+    Github
 }

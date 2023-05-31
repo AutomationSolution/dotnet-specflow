@@ -5,9 +5,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "main" ]
+#    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+#    branches: [ "main" ]
 
 jobs:
   build:
@@ -44,4 +44,6 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test
+        env:
+          Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
         run: dotnet test "${{ matrix.project }}" --no-build --verbosity normal
