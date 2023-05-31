@@ -31,13 +31,13 @@ jobs:
       run: dotnet build --no-restore
       
     - name: Zip build artifact
-      run: zip ${{ artifact_name }}.zip
+      run: zip $artifact_name.zip
       
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ artifact_name }}
-        path: ${{ artifact_name }}.zip
+        name: $artifact_name
+        path: $artifact_name.zip
       
   run-tests:
     needs: [build]
@@ -61,10 +61,10 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ artifact_name }}
+          name: $artifact_name
           
       - name: Unzip build artifact
-        run: unzip ${{ artifact_name }}.zip
+        run: unzip $artifact_name.zip
         
       - name: Test
         env:
