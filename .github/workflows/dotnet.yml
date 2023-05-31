@@ -5,7 +5,7 @@ name: .NET
 
 env:
   artifact_name: dotnet-specflow-build
-  default_output_target_path: bin/Debug/net6.0
+  default_output_target_path: bin/Debug/net6.0/
 
 on:
   push:
