@@ -13,10 +13,12 @@ public static class SecretsSetUp
 {
     public static void Setup(SecretsClient secretsClient, ConfigurationManager configurationManager)
     {
+        var callingAssembly = Assembly.GetCallingAssembly();
+
         switch (secretsClient)
         {
             case SecretsClient.Local:
-                LocalSecretsSetup(configurationManager);
+                LocalSecretsSetup(callingAssembly, configurationManager);
                 break;
             case SecretsClient.Jenkins:
                 JenkinsSecretsSetup(configurationManager);
@@ -29,9 +31,9 @@ public static class SecretsSetUp
         }
     }
 
-    private static void LocalSecretsSetup(ConfigurationManager configurationManager)
+    private static void LocalSecretsSetup(Assembly assembly, ConfigurationManager configurationManager)
     {
-        configurationManager.AddUserSecrets(Assembly.GetCallingAssembly(), optional: false);
+        configurationManager.AddUserSecrets(assembly, optional: false);
     }
 
     private static void JenkinsSecretsSetup(ConfigurationManager configurationManager)
