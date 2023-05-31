@@ -3,6 +3,9 @@
 
 name: .NET
 
+env:
+  artifact-name: dotnet-specflow-build
+
 on:
   push:
 #    branches: [ "main" ]
@@ -20,10 +23,21 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+        
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build --no-restore
+      
+    - name: Zip build artifact
+      run: zip ${{ artifact-name }}.zip
+      
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ artifact-name }}
+        path: ${{ artifact-name }}.zip
       
   run-tests:
     needs: [build]
@@ -39,10 +53,19 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
+#      - name: Restore dependencies
+#        run: dotnet restore
+#      - name: Build
+#        run: dotnet build --no-restore
+      
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ artifact-name }}
+          
+      - name: Unzip build artifact
+        run: unzip ${{ artifact-name }}.zip
+        
       - name: Test
         env:
           Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
