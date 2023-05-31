@@ -59,4 +59,22 @@ public class ConfigurationFeatureStepDefinitions
         AutomationWebConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe(string.Empty);
         AutomationWebConfiguration.ProjectProperties.RuntimePropertyExample.Should().NotBe("\"\"");
     }
+
+    [Then(@"I assert that '(.*)' secret is accessible in runtime and its value is '(.*)'")]
+    public void ThenIAssertThatSecretIsAccessibleInRuntimeAndItsValueIs(string secretName, string secretValue)
+    {
+        string result;
+
+        try
+        {
+            result = AutomationWebConfiguration.SecretsModel.GetType().GetProperty(secretName).GetValue(AutomationWebConfiguration.SecretsModel, null) as string;
+            
+        }
+        catch (NullReferenceException e)
+        {
+            throw new ArgumentOutOfRangeException(secretName, $"Can't find a specified property in {nameof(AutomationWebConfiguration.SecretsModel)} object");
+        }
+
+        result.Should().Be(secretValue);
+    }
 }

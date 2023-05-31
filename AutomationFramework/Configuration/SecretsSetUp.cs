@@ -25,6 +25,9 @@ public static class SecretsSetUp
                 break;
             case SecretsClient.Azure:
                 AzureSecretsSetup(configurationManager);
+                break;            
+            case SecretsClient.Github:
+                GithubSecretsSetup(configurationManager);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(secretsClient), secretsClient, $"There are no secrets handling implementations found for {nameof(secretsClient)}");
@@ -39,6 +42,13 @@ public static class SecretsSetUp
     private static void JenkinsSecretsSetup(ConfigurationManager configurationManager)
     {
         // In Jenkins we should use credentials feature and pass defined credentials in environment variables.
+        // So we're just making sure that they are added
+        configurationManager.AddEnvironmentVariables();
+    }
+
+    private static void GithubSecretsSetup(ConfigurationManager configurationManager)
+    {
+        // In Github we should use secrets feature and pass defined secrets in environment variables.
         // So we're just making sure that they are added
         configurationManager.AddEnvironmentVariables();
     }

@@ -28,3 +28,13 @@ Scenario: GUID in Configuration is set at scenario level and thread safe
 @ConfigurationFeature
 Scenario: Properties defined in .csproj file are accessible in runtime
   Then I assert that RuntimeProperty from .csproj file is accessible in runtime
+
+@SolutionTesting
+@ConfigurationFeature
+Scenario: Secrets are accessible in runtime
+  Then I assert that '<SecretName>' secret is accessible in runtime and its value is '<SecretValue>'
+  
+  Examples: 
+    | SecretName         | SecretValue    |
+    | BackOfficeUsername | SecretUsername |
+    | BackOfficePassword | SecretPassword |
