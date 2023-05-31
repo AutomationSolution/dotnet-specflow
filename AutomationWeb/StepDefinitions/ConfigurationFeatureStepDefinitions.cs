@@ -35,7 +35,7 @@ public class ConfigurationFeatureStepDefinitions
     public void GivenTheGuidIsSetInConfigurationForSpecificScenario()
     {
         var guid = Guid.NewGuid();
-        AutomationWebConfiguration.TestThreadScopedModel.guid = guid;
+        AutomationWebConfiguration.ScenarioMetaData.guid = guid;
         scenarioContext.Set(guid);
     }
 
@@ -49,7 +49,7 @@ public class ConfigurationFeatureStepDefinitions
     public void ThenIAssertThatGuidSetInConfigurationIsTheSame()
     {
         var expectedGuid = scenarioContext.Get<Guid>();
-        AutomationWebConfiguration.TestThreadScopedModel.guid.Should().Be(expectedGuid);
+        AutomationWebConfiguration.ScenarioMetaData.guid.Should().Be(expectedGuid);
     }
 
     [Then(@"I assert that RuntimeProperty from \.csproj file is accessible in runtime")]

@@ -13,8 +13,10 @@ public class AutomationWebConfiguration : IAutomationConfiguration
     public static SecretsModel SecretsModel { get; private set; }
     public static ProjectPropertiesAttribute ProjectProperties { get; private set; }
 
-    [field: ThreadStatic] public static TestThreadScopedModel TestThreadScopedModel { get; private set; }
+    [field: ThreadStatic] public static ScenarioMetaData ScenarioMetaData { get; private set; }
     [field: ThreadStatic] public static UsersDataModel UsersDataModel { get; private set; }
+
+    private readonly Action<BinderOptions> binderOptionsThrowOnError = options => options.ErrorOnUnknownConfiguration = true;
 
     public void AddStaticSources(ConfigurationManager configurationManager)
     {
@@ -37,24 +39,19 @@ public class AutomationWebConfiguration : IAutomationConfiguration
     public void InitStaticConfiguration(ConfigurationManager configurationManager)
     {
         // Bind necessary static objects
-        EnvironmentModel = configurationManager.GetRequiredSection("Environment").Get<EnvironmentModel>();
-        SecretsModel = configurationManager.GetRequiredSection("Secrets").Get<SecretsModel>();
+        EnvironmentModel = configurationManager.GetRequiredSection("Environment").Get<EnvironmentModel>(binderOptionsThrowOnError);
+        SecretsModel = configurationManager.GetRequiredSection("Secrets").Get<SecretsModel>(binderOptionsThrowOnError);
         ProjectProperties = Assembly.GetExecutingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();
     }
 
     public void AddThreadStaticSources(ConfigurationManager configurationManager)
     {
         configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserDataFileName));
-        
-        Environment.SetEnvironmentVariable("template:time", "now");    // TODO delete or refactor
-        Environment.SetEnvironmentVariable("template:guid", "00000000-0000-0000-0000-000000000000");    // TODO delete or refactor
-        configurationManager.AddEnvironmentVariables();    // TODO delete or refactor
     }
 
     public void InitThreadStaticConfiguration(ConfigurationManager configurationManager)
     {
-        // Bind necessary thread static objects
-        TestThreadScopedModel = configurationManager.GetSection("template").Get<TestThreadScopedModel>();
+        ScenarioMetaData = configurationManager.GetSection("ScenarioMetaData").Get<ScenarioMetaData>(binderOptionsThrowOnError) ?? new ScenarioMetaData();
         UsersDataModel = configurationManager.GetSection("UserData").Get<UsersDataModel>();
     }
 }
