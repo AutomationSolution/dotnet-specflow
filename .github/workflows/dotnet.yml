@@ -18,7 +18,7 @@ jobs:
   build:
     strategy:
       matrix:
-        project: ${{ fromJSON(env.project_assemblies_to_build) }}
+        project: ${{ fromJSON(vars.project_assemblies_to_build) }}
 
     runs-on: ubuntu-latest
 
