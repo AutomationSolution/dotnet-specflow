@@ -35,14 +35,7 @@ jobs:
       run: dotnet build "${{ matrix.project }}" --no-restore
       
     - name: Zip build artifact
-      run: |
-        ls
-        ls AutomationFramework
-        ls AutomationWeb
-        ls AutomationMobile
-        ls AutomationAPI
-        echo zip ${{ matrix.project }}.zip ./${{ matrix.project }}/$default_output_target_path -r
-        zip ${{ matrix.project }}.zip ./${{ matrix.project }}/$default_output_target_path -r
+      run: zip ${{ matrix.project }}.zip ./${{ matrix.project }}/$default_output_target_path -r
       
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
@@ -64,10 +57,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
-#      - name: Restore dependencies
-#        run: dotnet restore
-#      - name: Build
-#        run: dotnet build --no-restore
       
       - name: Download build artifact
         uses: actions/download-artifact@v3
