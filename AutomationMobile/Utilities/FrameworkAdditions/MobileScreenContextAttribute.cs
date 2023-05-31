@@ -11,9 +11,9 @@ namespace AutomationMobile.Utilities.FrameworkAdditions;
 ///     Attribute that identifies needed context and switches to it.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public sealed class ScreenContextAttribute : Attribute, IMethodDecorator
+public sealed class MobileScreenContextAttribute : Attribute, IMethodDecorator
 {
-    public ScreenContextAttribute(MobileScreenContext screenType, params ApplicationName[] applicationNameList)
+    public MobileScreenContextAttribute(MobileScreenContext screenType, params ApplicationName[] applicationNameList)
     {
         ScreenContext = screenType;
         ContextCount = 0;
