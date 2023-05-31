@@ -6,8 +6,6 @@ name: .NET
 env:
   artifact_name: dotnet-specflow-build
   default_output_target_path: bin/Debug/net6.0/
-#  project_assemblies_to_build: "['AutomationWeb', 'AutomationMobile', 'AutomationAPI']"
-  project_assemblies_to_build: "{\"include\":[{\"project\":\"AutomationWeb\"},{\"project\":AutomationMobile\"}]}"
 
 on:
   push:
@@ -18,8 +16,8 @@ on:
 jobs:
   build:
     strategy:
-      matrix: ${{ fromJSON(vars.project_assemblies_to_build) }}
-#        project:
+      matrix:
+        project: [AutomationWeb, AutomationMobile, AutomationAPI]
 
     runs-on: ubuntu-latest
 
