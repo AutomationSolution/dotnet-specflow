@@ -31,7 +31,9 @@ jobs:
       run: dotnet build --no-restore
       
     - name: Zip build artifact
-      run: zip $artifact_name.zip
+      run: |
+        echo ls
+#        zip $artifact_name.zip  ./* -r
       
     - name: Upload build artifact
       uses: actions/upload-artifact@v3
