@@ -1,0 +1,20 @@
+{
+  "$schema": "https://specflow.org/specflow-config.json",
+  "language": {
+    "feature": "en-US",
+    "tool": "en-US"
+  },
+  "bindingCulture": {
+    "name": "en-US"
+  },
+  "runtime":{
+    "missingOrPendingStepsOutcome": "Error",
+    "obsoleteBehavior": "Warn",
+    "stopAtFirstError": true
+  },
+    "stepAssemblies": [
+        {
+            "assembly": "AutomationFramework"
+        }
+    ]
+}
