@@ -18,8 +18,8 @@ on:
 jobs:
   build:
     strategy:
-      matrix:
-        project: ${{ fromJSON(vars.project_assemblies_to_build) }}
+      matrix: ${{ fromJSON(vars.project_assemblies_to_build) }}
+#        project:
 
     runs-on: ubuntu-latest
 
