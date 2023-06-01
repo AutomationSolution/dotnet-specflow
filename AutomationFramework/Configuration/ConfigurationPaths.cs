@@ -7,7 +7,11 @@ public static class ConfigurationPaths
     public const string UserDataFileName = "UserData.json";
     public const string AppSettingsFileName = "appsettings.json";
     public const string AzureKeyVaultSettingsFileName = "azureKeyVaultSettings.json";
+    public const string BrowserStackSettingsFileName = "browserStackSettings.json";
+    public const string MobileEnvironmentFileName = "mobileEnvironment.json";
+
     public const string ResourcesDirectoryName = "Resources";
     public const string ConfigurationDirectoryName = "Configuration";
     public const string TestDataDirectoryName = "TestData";
+    public const string BrowserStackDirectoryName = "BrowserStack";
 }
