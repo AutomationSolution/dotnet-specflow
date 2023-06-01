@@ -17,7 +17,7 @@ public class AutomationWebConfiguration : IAutomationConfiguration
     [field: ThreadStatic] public static ScenarioMetaData ScenarioMetaData { get; private set; }
     [field: ThreadStatic] public static UsersDataModel UsersDataModel { get; private set; }
 
-    private readonly Action<BinderOptions> binderOptionsThrowOnError = options => options.ErrorOnUnknownConfiguration = true;
+    private readonly Action<BinderOptions> binderOptionsThrowOnError = options => options.ErrorOnUnknownConfiguration = false;
 
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
