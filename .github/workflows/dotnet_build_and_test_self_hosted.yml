@@ -1,50 +1,21 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET build and test
-
-env:
-  artifact_name: dotnet-specflow-build
-  default_output_target_path: bin/Debug/net6.0/
+name: .NET build and test self-hosted
 
 on:
   push:
 
 jobs:
-  build:
+  build-and-test:
     strategy:
       matrix:
         project: [ AutomationWeb, AutomationMobile, AutomationAPI ]
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build "${{ matrix.project }}" --no-restore
-
-  run-tests:
-    needs: [ build ]
-    strategy:
-      matrix:
-        project: [ AutomationWeb, AutomationMobile, AutomationAPI ]
-    
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
 
       - name: Restore dependencies
         run: dotnet restore
