@@ -10,21 +10,21 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        project: [AutomationWeb, AutomationMobile, AutomationAPI]
+        project: [ AutomationWeb, AutomationMobile, AutomationAPI ]
 
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v3
-        
-    - name: Restore dependencies
-      run: dotnet restore
-      
-    - name: Build
-      run: dotnet build "${{ matrix.project }}" --no-restore
+      - uses: actions/checkout@v3
 
-    - name: Test
-      env:
-        Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
-        Secrets__BackOfficePassword: ${{ secrets.SECRETS__BACKOFFICEPASSWORD }}
-      run: dotnet test "${{ matrix.project }}" --no-build --verbosity normal
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build "${{ matrix.project }}" --no-restore
+
+      - name: Test
+        env:
+          Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
+          Secrets__BackOfficePassword: ${{ secrets.SECRETS__BACKOFFICEPASSWORD }}
+        run: dotnet test "${{ matrix.project }}" --no-build --verbosity normal
