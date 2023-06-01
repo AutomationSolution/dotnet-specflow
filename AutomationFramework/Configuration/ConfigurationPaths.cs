@@ -14,4 +14,5 @@ public static class ConfigurationPaths
     public const string ConfigurationDirectoryName = "Configuration";
     public const string TestDataDirectoryName = "TestData";
     public const string BrowserStackDirectoryName = "BrowserStack";
+    public const string BrowserStackScriptsDirectoryName = "Scripts";
 }
