@@ -1,0 +1,25 @@
+{
+  "BrowserStackSettings": {
+    "BrowserStackHubUrl": "https://hub-cloud.browserstack.com/wd/hub/",
+    "BrowserStackRealMobile": true,
+    "BrowserStackLocalTesting": false,
+    "BrowserStackLocalTestingAcceptSslCerts": true,
+    "BrowserStackProject": "Automation Solution",
+    "BrowserStackBuildPrefix": "Mobile",
+    "BrowserStackGetAppFromConfig": true,
+    "BrowserStackCloudUrl": "https://api-cloud.browserstack.com",
+    "BrowserStackCloudUploadPath": "/app-automate/upload",
+    "BrowserStackCloudUploadedAppsPath": "/app-automate/recent_apps",
+    "BrowserStackDefaultLocation": "0.000000, 0.000000",
+    "BrowserStackEnableNetworkLogs": true,
+    "BrowserStackIdleTimeoutSeconds": "300",
+    "BrowserStackVideoRecording": true,
+    "BrowserStackInteractiveDebugging": true,
+    "BrowserStackAppAddresses": {
+      "iOSBusiness": "bs://iOSBusiness",
+      "iOSCustomer": "bs://iOSCustomer",
+      "AndroidBusiness": "bs://AndroidBusiness",
+      "AndroidCustomer": "bs://AndroidCustomer"
+    }
+  }
+}
