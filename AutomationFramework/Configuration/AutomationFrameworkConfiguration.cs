@@ -14,6 +14,7 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
         configurationManagerInstance.AddJsonFile(AppSettingsFileName);
+        configurationManagerInstance.AddEnvironmentVariables();
     }
 
     public void AddThreadStaticSources(ConfigurationManager configurationManagerInstance)
