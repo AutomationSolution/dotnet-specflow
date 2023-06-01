@@ -2,7 +2,7 @@
 
 public class BrowserStackMobileSettingsModel
 {
-    public string BrowserStackHubUrl { get; set; }
+    public Uri BrowserStackHubUrl { get; set; }
     public bool BrowserStackRealMobile { get; set; }
     public bool BrowserStackLocalTesting { get; set; }
     public bool BrowserStackLocalTestingAcceptSslCerts { get; set; }

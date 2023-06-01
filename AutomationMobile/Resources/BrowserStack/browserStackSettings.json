@@ -16,10 +16,10 @@
     "BrowserStackVideoRecording": true,
     "BrowserStackInteractiveDebugging": true,
     "BrowserStackAppAddresses": {
-      "iOSBusiness": "bs://iOSBusiness",
-      "iOSCustomer": "bs://iOSCustomer",
-      "AndroidBusiness": "bs://AndroidBusiness",
-      "AndroidCustomer": "bs://AndroidCustomer"
+      "iOSBusiness": "bs://0b91352711030e632091aa0bf0b8c3cf17493511",
+      "iOSCustomer": "bs://0b91352711030e632091aa0bf0b8c3cf17493511",
+      "AndroidBusiness": "bs://d73fa3a6aebea4198d4c3e26782143b4f80afaa0",
+      "AndroidCustomer": "bs://d73fa3a6aebea4198d4c3e26782143b4f80afaa0"
     }
   }
 }

@@ -45,7 +45,7 @@ public class AutomationMobileConfiguration : IAutomationConfiguration
 
     public void InitThreadStaticConfiguration(ConfigurationManager configurationManagerInstance, ScenarioContext scenarioContext)
     {
-        DeviceConfigModel = new DeviceConfigModel(TagsUtilities.GetApplicationName(scenarioContext));
+        DeviceConfigModel = new DeviceConfigModel(TagsUtilities.GetApplicationName(scenarioContext), TagsUtilities.GetDeviceType(scenarioContext));
         BrowserStackMobileSettingsModel = configurationManagerInstance.GetRequiredSection("BrowserStackSettings").Get<BrowserStackMobileSettingsModel>();
         ScenarioDataModel = new ScenarioDataModel(scenarioContext);
         BrowserStackMobileData = new BrowserStackMobileData();
