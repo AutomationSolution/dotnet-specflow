@@ -15,7 +15,7 @@ optional plugin for Rider to manage local secrets: https://plugins.jetbrains.com
 | Code                | C# with .NET Core 6 |           |                     |                 |
 | Logger              | NLog 5              |           |                     |                 |
 | Test Runner         | NUnit 3             |           |                     |                 |
-| CI/CD               | GitHub Actions      | Jenkins   | Azure               | CloudCI         |
+| CI/CD               | GitHub Actions      | Jenkins   | Azure               | CircleCI        |
 | Secrets management  | Local               | Jenkins   | Azure               | Github          |
 | Assertions          | FluentAssertions    |           |                     |                 |
 | Visual Testing      | OpenCV              | Tesseract | Applitools Eyes     |                 |
