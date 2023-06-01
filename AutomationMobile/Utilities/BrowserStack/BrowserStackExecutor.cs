@@ -1,5 +1,4 @@
 ﻿using Aquality.Appium.Mobile.Applications;
-using Microsoft.CodeAnalysis.CSharp;
 using TechTalk.SpecFlow;
 using static AutomationFramework.Configuration.ConfigurationPaths;
 
@@ -38,8 +37,7 @@ public class BrowserStackExecutor
     {
         var browserstackExecutorScript = $"browserstack_executor: {script}";
 
-        var scriptToLiteral = SymbolDisplay.FormatLiteral(browserstackExecutorScript, false);
-        return AqualityServices.Application.Driver.ExecuteScript(scriptToLiteral);
+        return AqualityServices.Application.Driver.ExecuteScript(browserstackExecutorScript);
     }
 
     private string GetScriptBase(string scriptFileName)
