@@ -41,5 +41,23 @@ public static class TagsUtilities
     public static bool GetBiometricAuthFlag(ScenarioContext scenarioContext)
     {
         return scenarioContext.ScenarioInfo.Tags.Contains("BiometricAuthEnabled");
+    }
+
+    public static ScenarioType GetScenarioType(ScenarioContext scenarioContext)
+    {
+        foreach (ScenarioType scenarioType in Enum.GetValues(typeof(ScenarioType)))
+        {
+            try
+            {
+                var x = scenarioContext.ScenarioInfo.Tags.Single(x => x.Equals(scenarioType.ToString()));
+                return scenarioType;
+            }
+            catch (InvalidOperationException)
+            {
+                // Continue to next scenario type
+            }
+        }
+
+        throw new InvalidOperationException($"Unable to parse scenario type. Make sure you've specified it in scenario tags. Reference: {nameof(ScenarioType)}");
     }    
 }
