@@ -23,6 +23,8 @@ jobs:
       RuntimeConfiguration__SecretsClient: Github # Always use Github within this workflow
       Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
       Secrets__BackOfficePassword: ${{ secrets.SECRETS__BACKOFFICEPASSWORD }}
+      Secrets__BrowserStackUser: ${{ secrets.SECRETS__BROWSERSTACKUSER }}
+      Secrets__BrowserStackKey: ${{ secrets.SECRETS__BROWSERSTACKKEY }}
 
     strategy:
       matrix:

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using AutomationMobile.Configuration;
 using AutomationMobile.Enums.FrameworkAdditions;
 using MethodDecorator.Fody.Interfaces;
@@ -65,5 +63,5 @@ public sealed class MobileScreenContextAttribute : Attribute, IMethodDecorator
     public void OnException(Exception exception)
     {
         // Not needed to perform actions on exception caught
-    } 
+    }
 }

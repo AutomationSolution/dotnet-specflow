@@ -1,0 +1,62 @@
+﻿{
+  "platformName": "android",
+  "isRemote": true,
+  "remoteConnectionUrl": "https://localhost:4444/wd/hub/",
+  "screensLocation": "AutomationMobile",
+  "driverSettings": {
+    "android": {
+      "applicationPath": null,
+      "deviceKey": "AndroidPhone",
+      "capabilities": {
+        "platformName": "Android",
+        "automationName": "UiAutomator2",
+        "adbExecTimeout": 10000,
+        "newCommandTimeout": 180,
+        "deviceOrientation": "portrait"
+      }
+    },
+    "ios": {
+      "applicationPath": null,
+      "deviceKey": "Iphone",
+      "capabilities": {
+        "platformName": "iOS",
+        "automationName": "XCUITest",
+        "bundleId": "ios",
+        "deviceOrientation": "portrait"
+      }
+    }
+  },
+  "localServiceSettings": {
+    "arguments": {
+      "--allow-insecure": "chromedriver_autodownload"
+    },
+    "capabilities": {
+    }
+  },
+  "timeouts": {
+    "timeoutImplicit": 0,
+    "timeoutCondition": 30,
+    "timeoutPollingInterval": 300,
+    "timeoutCommand": 300,
+    "timeoutScript": 10,
+    "timeoutPageLoad": 60
+  },
+  "retry": {
+    "number": 2,
+    "pollingInterval": 300
+  },
+  "logger": {
+    "language": "en"
+  },
+  "elementCache": {
+    "isEnabled": true
+  },
+  "touchActions": {
+    "swipe": {
+      "duration": 1,
+      "retries": 5,
+      "verticalOffset": 0.2,
+      "horizontalOffset": 0.5
+    }
+  }
+}
