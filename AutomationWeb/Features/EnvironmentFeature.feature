@@ -19,3 +19,8 @@
       | VariableSection | VariableName | VariableValue     |
       | Priority        | Name         | NameValueStep     |
       | Priority        | Password     | PasswordValueStep |
+      
+  @SolutionTesting
+  @ConfigurationFeature
+  Scenario: Output EnvironmentModel values
+    When I output EnvironmentModel values
