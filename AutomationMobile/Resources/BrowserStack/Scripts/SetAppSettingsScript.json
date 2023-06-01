@@ -1,0 +1,8 @@
+﻿{
+  "action": "updateAppSettings",
+  "arguments": {
+    "Custom App Setting 1": "{0}",
+    "Custom App Setting 2": "{1}",
+    "Custom App Setting 3": "{2}"
+  }
+}

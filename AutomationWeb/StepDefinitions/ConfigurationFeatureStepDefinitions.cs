@@ -67,12 +67,12 @@ public class ConfigurationFeatureStepDefinitions
 
         try
         {
-            result = AutomationWebConfiguration.SecretsModel.GetType().GetProperty(secretName).GetValue(AutomationWebConfiguration.SecretsModel, null) as string;
+            result = AutomationWebConfiguration.SecretsWebModel.GetType().GetProperty(secretName).GetValue(AutomationWebConfiguration.SecretsWebModel, null) as string;
             
         }
         catch (NullReferenceException e)
         {
-            throw new ArgumentOutOfRangeException(secretName, $"Can't find a specified property in {nameof(AutomationWebConfiguration.SecretsModel)} object");
+            throw new ArgumentOutOfRangeException(secretName, $"Can't find a specified property in {nameof(AutomationWebConfiguration.SecretsWebModel)} object");
         }
 
         result.Should().Be(secretValue);
