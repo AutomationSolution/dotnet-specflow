@@ -1,4 +1,5 @@
-﻿using AutomationMobile.Screens;
+﻿using Aquality.Appium.Mobile.Applications;
+using AutomationMobile.Screens;
 using BoDi;
 using TechTalk.SpecFlow;
 
@@ -7,13 +8,8 @@ namespace AutomationMobile.StepDefinitions;
 [Binding]
 public class DriverStepDefinitions
 {
-    private readonly MainScreen mainScreen;
+    private readonly MainScreen mainScreen = AqualityServices.ScreenFactory.GetScreen<MainScreen>();
 
-    public DriverStepDefinitions(IObjectContainer objectContainer)
-    {
-        mainScreen = objectContainer.Resolve<MainScreen>();
-    }
-    
     [Given(@"I run a test with webdriver set up")]
     public void GivenIRunATestWithWebdriverSetUp()
     {
