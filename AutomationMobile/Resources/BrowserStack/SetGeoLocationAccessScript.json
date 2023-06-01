@@ -1,0 +1,10 @@
+﻿{
+  "action": "updateAppSettings",
+  "arguments": {
+    "Permission Settings": {
+      "Location": {
+        "ALLOW LOCATION ACCESS": "{0}"
+      }
+    }
+  }
+}

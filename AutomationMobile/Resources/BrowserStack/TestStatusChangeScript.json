@@ -1,0 +1,7 @@
+﻿{
+  "action": "setSessionStatus",
+  "arguments": {
+    "status": "{0}",
+    "reason": "{1}"
+  }
+}
