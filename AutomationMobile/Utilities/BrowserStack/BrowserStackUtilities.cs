@@ -1,7 +1,4 @@
-﻿using AutomationMobile.Configuration;
-using AutomationMobile.Enums.FrameworkAdditions;
-
-namespace AutomationMobile.Utilities.BrowserStack;
+﻿namespace AutomationMobile.Utilities.BrowserStack;
 
 public class BrowserStackUtilities
 {

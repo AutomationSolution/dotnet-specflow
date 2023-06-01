@@ -13,11 +13,12 @@ public class AqualityHooks
     {
         AqualityServices.SetStartup(new CustomStartup());
     }
-    
+
     [AfterScenario("UI")]
     public static void CloseDriver()
     {
-        LogManager.GetCurrentClassLogger().Debug($"{nameof(AqualityServices.IsApplicationStarted)} is {AqualityServices.IsApplicationStarted}");
+        LogManager.GetCurrentClassLogger()
+            .Debug($"{nameof(AqualityServices.IsApplicationStarted)} is {AqualityServices.IsApplicationStarted}");
 
         if (AqualityServices.IsApplicationStarted)
         {

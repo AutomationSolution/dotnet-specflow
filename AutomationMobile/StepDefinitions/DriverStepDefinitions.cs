@@ -1,6 +1,5 @@
 ﻿using Aquality.Appium.Mobile.Applications;
 using AutomationMobile.Screens;
-using BoDi;
 using TechTalk.SpecFlow;
 
 namespace AutomationMobile.StepDefinitions;
