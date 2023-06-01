@@ -7,20 +7,20 @@ namespace AutomationMobile.Hooks;
 public class BrowserStackHooks
 {
     private readonly BrowserStackExecutor browserStackExecutor = new();
-    
-    [BeforeStep(Order = 1)]
+
+    [BeforeStep("UI", Order = 10)]
     public void LogBrowserStackBeforeStep(ScenarioContext scenarioContext)
     {
         browserStackExecutor.AddAnnotation($"Specflow step started: {scenarioContext.StepContext.StepInfo.Text}");
     }
-    
-    [AfterStep(Order = 1)]
+
+    [AfterStep("UI", Order = 10)]
     public void LogBrowserStackAfterStep(ScenarioContext scenarioContext)
     {
         browserStackExecutor.AddAnnotation($"Specflow step finished: {scenarioContext.StepContext.StepInfo.Text}");
     }
-    
-    [AfterScenario(Order = 1)]
+
+    [AfterScenario("UI", Order = 10)]
     public void SetBrowserStackTestStatus(ScenarioContext scenarioContext)
     {
         browserStackExecutor.ChangeTestStatus(scenarioContext.ScenarioExecutionStatus, scenarioContext.TestError?.Message + scenarioContext.TestError?.StackTrace);
