@@ -13,7 +13,7 @@ public static class TagsUtilities
         Enum.TryParse(applicationNameTag, out applicationName); // Duplicate code to remove compiler error
         return applicationName;
     }
-    
+
     public static DeviceType GetDeviceType(ScenarioContext scenarioContext)
     {
         if (scenarioContext.ScenarioInfo.Tags.Contains("tablet")) return DeviceType.Tablet;
@@ -38,6 +38,7 @@ public static class TagsUtilities
         {
             return string.Empty;
         }
+
         return teamName;
     }
 
@@ -66,6 +67,7 @@ public static class TagsUtilities
             }
         }
 
-        throw new InvalidOperationException($"Unable to parse scenario type. Make sure you've specified it in scenario tags. Reference: {nameof(ScenarioType)}");
-    }    
+        throw new InvalidOperationException(
+            $"Unable to parse scenario type. Make sure you've specified it in scenario tags. Reference: {nameof(ScenarioType)}");
+    }
 }
