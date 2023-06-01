@@ -1,16 +1,13 @@
-﻿using Aquality.Appium.Mobile.Elements.Interfaces;
-using Aquality.Appium.Mobile.Screens;
-using OpenQA.Selenium.Appium;
+﻿using Aquality.Appium.Mobile.Screens;
+using OpenQA.Selenium;
 
 namespace AutomationMobile.Screens;
 
-public class MainScreen : Screen
+public abstract class MainScreen : Screen
 {
-    public MainScreen() : base(MobileBy.Id("main"), "Main app screen")
+    protected MainScreen(By locator) : base(locator, "Main app screen")
     {
     }
 
-    private IButton HelloWorldButton => ElementFactory.GetButton(MobileBy.Id("helloWorld"), "Hello world");
-
-    public void ClickHelloWorldLabel() => HelloWorldButton.Click();
+    public abstract void ClickHelloWorldLabel();
 }
