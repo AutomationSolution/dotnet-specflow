@@ -17,6 +17,8 @@ public static class PageObjectGenerator
         {
             if (type.FullName != null && type.FullName.StartsWith(basePagesDirectory) && type.Name == pageObjectName.RemoveSpaces())
             {
+                // TODO add exception when 2 or more types are matching the criteria
+
                 var result = Activator.CreateInstance(type);
                 if (result != null)
                 {
