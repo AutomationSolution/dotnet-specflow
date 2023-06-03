@@ -1,0 +1,118 @@
+#!/usr/bin/groovy
+
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'Assembly', choices: ['AutomationAPI', 'AutomationMobile', 'AutomationWeb'], description: 'Assembly to build and test')
+    }
+    environment {
+        BACKOFFICE_CREDENTIALS = credentials('backOffice')
+        BROWSERSTACK_CREDENTIALS = credentials('browserStack')
+        textReport = './TestResults'
+        reportFolder = './Report'
+        slackChannelName = 'automation-build-results'
+        nexusEndpoint = 'nexus.automation.com'
+        nexusRepo = 'NexusAutomationRepo'
+        archiveName = "${Assembly}.zip"
+    }
+    options {
+        timeout(time: 10, unit: 'MINUTES')
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        ansiColor('xterm-256color')
+    }
+    stages {
+        stage('Init') {
+            steps {
+                script {
+                    currentBuild.displayName = "${env.jenkinsDisplayName}"
+                }
+            }
+        }
+        stage('Restore dependencies') {
+            steps {
+                sh "dotnet restore"
+            }
+        }
+        stage('Build') {
+            steps {
+                sh "dotnet build ${params.Assembly} --no-restore"
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    def environmentVars = [
+                        "Secrets__BackOfficeUsername=${env.BACKOFFICE_CREDENTIALS_USR}",
+                        "Secrets__BackOfficePassword=${env.BACKOFFICE_CREDENTIALS_PSW}",
+                        "Secrets__BrowserStackUser=${env.BROWSERSTACK_CREDENTIALS_USR}",
+                        "Secrets__BrowserStackPassword=${env.BROWSERSTACK_CREDENTIALS_PSW}",
+                    ]
+
+                    echoColour "env vars: ${environmentVars}", 'green'
+
+                    withEnv(environmentVars) {
+                        statuscode1 = sh returnStatus:true, script: "dotnet test ${params.Assembly} --no-build --verbosity normal"
+                    }
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                zip dir: "./${assemblyName}/bin/Debug/net6.0", zipFile: archiveName
+            }
+        }
+        stage('Publish') {
+            steps {
+                nexusPush(
+                    source: [
+                        [ archiveName, 'application/zip' ]
+                    ],
+                    path: env.BRANCH_NAME,
+                    repo: nexusRepo
+                )
+            }
+        }
+        stage('Get Test Pack') {
+            steps {
+                httpRequest url: "https://${nexusEndpoint}/repository/${nexusRepo}/${env.BRANCH_NAME}/${archiveName}", responseHandle: 'NONE', outputFile: archiveName
+                unzip zipFile: archiveName
+            }
+        }
+        stage('Test results') {
+            steps {
+                script {
+                    string getTestrailIdScript = "grep -Po '(?<=Testrail run id=).{5}' log.log"
+
+                    string testrailrunId1 = sh(returnStdout:true, script: getTestrailIdScript).trim()
+
+                    string testRailRunLink = testRailBaseURL + '/' + testrailrunId1
+
+                    publishHTML target : [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: reportFolder,
+                        reportFiles: 'index.html',
+                        reportName: 'TestResults'
+                    ]
+
+                    slackSend(
+                        failOnError: false,
+                        channel: slackChannelName,
+                        color: statuscode1 == 0 ? '#00FF00' : '#FF0000',
+                        message: "Mobile Automation Tests ${statuscode1 == 0 ? 'Passed' : 'Failed'} - JenkinsJobURL: ${env.BUILD_URL}) TestRailURL: ${testrailrunId1 == null ? 'Not Specified' : testRailRunLink}"
+                    )
+                }
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: '**/*.log'
+
+            cleanWs deleteDirs: true
+        }
+    }
+}
