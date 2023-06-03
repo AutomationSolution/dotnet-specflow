@@ -16,6 +16,7 @@ public class AutomationWebConfiguration : IAutomationConfiguration
 
     [field: ThreadStatic] public static ScenarioMetaData ScenarioMetaData { get; private set; }
     [field: ThreadStatic] public static UsersDataModel UsersDataModel { get; private set; }
+    [field: ThreadStatic] public static UsersCredentialsModel UsersCredentialsModel { get; private set; }
 
     private readonly Action<BinderOptions> binderOptionsThrowOnError = options => options.ErrorOnUnknownConfiguration = false;
 
@@ -48,11 +49,13 @@ public class AutomationWebConfiguration : IAutomationConfiguration
     public void AddThreadStaticSources(ConfigurationManager configurationManagerInstance)
     {
         configurationManagerInstance.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserDataFileName));
+        configurationManagerInstance.AddJsonFile(Path.Combine(ResourcesDirectoryName, TestDataDirectoryName, UserCredentialsFileName));
     }
 
     public void InitThreadStaticConfiguration(ConfigurationManager configurationManagerInstance, ScenarioContext scenarioContext)
     {
         ScenarioMetaData = configurationManagerInstance.GetSection("ScenarioMetaData").Get<ScenarioMetaData>(binderOptionsThrowOnError) ?? new ScenarioMetaData();
         UsersDataModel = configurationManagerInstance.GetSection("UserData").Get<UsersDataModel>();
+        UsersCredentialsModel = configurationManagerInstance.GetSection("UsersCredentials").Get<UsersCredentialsModel>();
     }
 }
