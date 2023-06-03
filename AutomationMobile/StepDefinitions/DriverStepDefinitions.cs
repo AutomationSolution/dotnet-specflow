@@ -12,6 +12,6 @@ public class DriverStepDefinitions
     [Given(@"I run a test with webdriver set up")]
     public void GivenIRunATestWithWebdriverSetUp()
     {
-        mainScreen.ClickHelloWorldLabel();
+        mainScreen.ClickCartButton();
     }
 }

@@ -12,7 +12,7 @@ public class IosMainScreen : MainScreen
     {
     }
     
-    private IButton HelloWorldButton => ElementFactory.GetButton(MobileBy.Name("tab bar option cart"), "Hello world");
+    private IButton CartButton => ElementFactory.GetButton(MobileBy.Name("tab bar option cart"), "Hello world");
 
-    public override void ClickHelloWorldLabel() => HelloWorldButton.Click();
+    public override void ClickCartButton() => CartButton.Click();
 }
