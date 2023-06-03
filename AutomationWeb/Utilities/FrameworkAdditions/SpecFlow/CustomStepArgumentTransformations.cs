@@ -18,4 +18,19 @@ public class CustomStepArgumentTransformations
             throw new ArgumentOutOfRangeException(userAlias, $"Can't find a specified property in {nameof(AutomationWebConfiguration.UsersDataModel)} object");
         }
     }
+
+    [StepArgumentTransformation(@"(.*)")]
+    public SimpleUserModel SimpleUserModelFromUserAliasTransform(string userAlias)
+    {
+        var userAliasFormatted = userAlias.Replace(" ", string.Empty);
+
+        try
+        {
+            return AutomationWebConfiguration.UsersCredentialsModel.GetType().GetProperty(userAliasFormatted).GetValue(AutomationWebConfiguration.UsersCredentialsModel, null) as SimpleUserModel;
+        }
+        catch (NullReferenceException e)
+        {
+            throw new ArgumentOutOfRangeException(userAliasFormatted, $"Can't find a specified property in {nameof(AutomationWebConfiguration.UsersCredentialsModel)} object");
+        }
+    }
 }
