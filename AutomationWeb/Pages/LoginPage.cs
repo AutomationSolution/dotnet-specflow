@@ -6,7 +6,7 @@ namespace AutomationWeb.Pages;
 
 public class LoginPage : Form
 {
-    public LoginPage() : base(By.Id("login-button"), "Login page")
+    public LoginPage() : base(By.Id("login-button"), "Login Page")
     {
     }
 
