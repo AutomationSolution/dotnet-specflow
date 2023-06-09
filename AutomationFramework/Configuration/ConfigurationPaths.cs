@@ -10,6 +10,7 @@ public static class ConfigurationPaths
     public const string AzureKeyVaultSettingsFileName = "azureKeyVaultSettings.json";
     public const string BrowserStackSettingsFileName = "browserStackSettings.json";
     public const string MobileEnvironmentFileName = "mobileEnvironment.json";
+    public const string SignalRSettingsFileName = "signalrSettings.json";
 
     public const string ResourcesDirectoryName = "Resources";
     public const string ConfigurationDirectoryName = "Configuration";
