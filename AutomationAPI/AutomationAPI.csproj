@@ -23,4 +23,13 @@
     <ProjectReference Include="..\AutomationFramework\AutomationFramework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\Configuration\signalrSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
