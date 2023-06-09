@@ -1,0 +1,6 @@
+{
+  "SignalR":{
+    "SignalRUrl": "https://{0}-{2}automationsolution.{3}/ActivityHub",
+    "SignalRWebSocketUrl": "https://{0}-chat-hub{1}automationsolution.{2}/hub"
+  }
+}
