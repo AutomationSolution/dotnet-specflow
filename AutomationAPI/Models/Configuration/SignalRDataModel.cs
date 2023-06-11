@@ -2,6 +2,6 @@
 
 public class SignalRDataModel
 {
-    public string SignalREndpoint { get; set; }
+    public Uri SignalREndpoint { get; set; }
     public string SignalRHubPath { get; set; }
 }
