@@ -1,0 +1,6 @@
+{
+  "SignalR":{
+    "SignalREndpoint": "https://localhost:7153",
+    "SignalRHubPath": "/chatHub"
+  }
+}

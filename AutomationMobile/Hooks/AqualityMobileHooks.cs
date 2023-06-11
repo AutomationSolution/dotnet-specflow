@@ -6,7 +6,7 @@ using TechTalk.SpecFlow;
 namespace AutomationMobile.Hooks;
 
 [Binding]
-public class AqualityHooks
+public class AqualityMobileHooks
 {
     [BeforeScenario("UI")]
     public static void SetAqualityStartup(ScenarioContext scenarioContext)
