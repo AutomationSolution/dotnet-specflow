@@ -1,6 +1,6 @@
 ﻿{
   "Environment": {
-    "Endpoint": "https://{0}endpoint.com",
+    "Endpoint": "https://www.{0}saucedemo.com",
     "EnvironmentType": ""
   }
 }

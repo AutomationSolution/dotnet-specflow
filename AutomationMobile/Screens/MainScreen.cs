@@ -9,5 +9,5 @@ public abstract class MainScreen : Screen
     {
     }
 
-    public abstract void ClickHelloWorldLabel();
+    public abstract void ClickCartButton();
 }

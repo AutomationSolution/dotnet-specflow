@@ -12,7 +12,7 @@ public class AndroidMainScreen : MainScreen
     {
     }
     
-    private IButton HelloWorldButton => ElementFactory.GetButton(MobileBy.XPath("//*[@content-desc='cart badge']"), "Hello world");
+    private IButton CartButton => ElementFactory.GetButton(MobileBy.XPath("//*[@content-desc='cart badge']"), "Cart");
 
-    public override void ClickHelloWorldLabel() => HelloWorldButton.Click();
+    public override void ClickCartButton() => CartButton.Click();
 }
