@@ -9,7 +9,7 @@ optional plugin for Rider to manage local secrets: https://plugins.jetbrains.com
 |-------------------------|-------------------------------|-----------------------------|--------------------|-------------|
 | High level testing tool | ✅ BrowserStack Automate (Web) | ⬜ BrowserStack App Automate |                    |             |
 | UI testing              | ✅ Selenium (Aquality)         | ✅ Appium (Aquality)         |                    |             |
-| non-UI testing          | ⬜ REST                        | ✅ WCF, ⬜ gRPC, ⬜ LINQ2DB    | ✅ SignalR          |             |
+| non-UI testing          | ⬜ REST                        | ✅ SignalR                   | ✅ WCF, ⬜ gRPC      | ⬜ OpenAPI   |
 | BDD tool                | ✅ Specflow                    |                             |                    |             |
 | Report tool             | ⬜ Aquality Tracking           | ⬜ Allure                    | ⬜ ExtentReports    |             |
 | Code                    | ✅ C# with .NET 6.0            |                             |                    |             |
@@ -24,7 +24,7 @@ optional plugin for Rider to manage local secrets: https://plugins.jetbrains.com
 | Data Generator          | ⬜ Faker                       | ⬜ AutoFixture               |                    |             |
 | Code Scanner            | ⬜ SonarQube                   |                             |                    |             |
 | Infrastructure          | ✅ Thread-safe configuration   | ✅ .json files               |                    |             |
-| Database                | ⬜ SQL                         |                             |                    |             |
+| Database                | ⬜ SQL                         | ⬜ LINQ2DB                   |                    |             |
 | Other                   | ✅ Fody, ⬜ AspectInjector      | ⬜ Conditional wait          | ⬜ BrowserStack API | ✅ Humanizer |
 
 ## Limitations
