@@ -11,6 +11,7 @@ public static class ConfigurationPaths
     public const string BrowserStackSettingsFileName = "browserStackSettings.json";
     public const string MobileEnvironmentFileName = "mobileEnvironment.json";
     public const string SignalRSettingsFileName = "signalrSettings.json";
+    public const string GrpcSettingsFileName = "grpcSettings.json";
 
     public const string ResourcesDirectoryName = "Resources";
     public const string ConfigurationDirectoryName = "Configuration";
