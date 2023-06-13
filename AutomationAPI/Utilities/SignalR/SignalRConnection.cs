@@ -6,7 +6,7 @@ using NLog;
 
 namespace AutomationAPI.Utilities.SignalR;
 
-public class SignalRConnection
+public sealed class SignalRConnection : IDisposable
 {
     private bool isConnected;
     private readonly List<Tuple<string, string>> receivedMessages = new();
@@ -52,5 +52,10 @@ public class SignalRConnection
     public List<Tuple<string, string>> GetReceivedMessages()
     {
         return receivedMessages;
+    }
+
+    public void Dispose()
+    {
+        hubConnection?.DisposeAsync().AsTask().Wait();
     }
 }
