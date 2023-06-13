@@ -27,6 +27,8 @@ public class SignalRStepDefinitions
     {
         var signalRConnection = scenarioContext.Get<SignalRConnection>();
         // TODO implement conditional wait for established connection, as it is connecting asynchronously, or make connection establishing synchronous
+        Thread.Sleep(TimeSpan.FromSeconds(3));
+
         signalRConnection.IsConnectionEstablished().Should().BeTrue("Connection should be established");
         signalRConnection.SendMessage(messageName, messageValue).Wait();
     }
@@ -35,7 +37,9 @@ public class SignalRStepDefinitions
     public void ThenIAssertThatSignalRMessageWithNameAndValueIsReceived(string messageName, string messageValue)
     {
         var signalRConnection = scenarioContext.Get<SignalRConnection>();
-        // TODO implement conditional wait for established connection, as it is connecting asynchronously, or make connection establishing synchronous
+        // TODO implement conditional wait for established connection and for new messages received
+        Thread.Sleep(TimeSpan.FromSeconds(3));
+
         signalRConnection.IsConnectionEstablished().Should().BeTrue("Connection should be established");
         signalRConnection.GetReceivedMessages().Count.Should().BeGreaterThan(0, "Received messages should not be empty");
         signalRConnection.GetReceivedMessages().Any(tuple => tuple.Item1.Equals(messageName) && tuple.Item2.Equals(messageValue)).Should()
