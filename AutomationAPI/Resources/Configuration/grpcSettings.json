@@ -1,0 +1,5 @@
+{
+  "gRPC": {
+    "gRPCEndpoint": "https://localhost:7278"
+  }
+}

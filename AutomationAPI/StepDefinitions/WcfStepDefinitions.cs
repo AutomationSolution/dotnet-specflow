@@ -11,16 +11,22 @@ public class WcfStepDefinitions
 {
     private readonly ScenarioContext scenarioContext;
     private readonly string wcfResponseAlias = "WCFResponse";
-    private readonly WcfClient wcfClient = new();
 
     public WcfStepDefinitions(ScenarioContext scenarioContext)
     {
         this.scenarioContext = scenarioContext;
     }
+    
+    [Given(@"WCF connection is established")]
+    public void GivenWcfConnectionIsEstablished()
+    {
+        scenarioContext.Set(new WcfClient());
+    }
 
     [When(@"I send '(\d+)' number to WCF service")]
     public void WhenISendNumberToWcfService(int input)
     {
+        var wcfClient = scenarioContext.Get<WcfClient>();
         var response = wcfClient.ClientInstance.GetDataAsync(input).Result;
         scenarioContext.Set(response, wcfResponseAlias);
     }
@@ -35,6 +41,7 @@ public class WcfStepDefinitions
     [When(@"I send the following object to WCF service contract")]
     public void WhenISendTheFollowingObjectToWcfServiceContract(Table table)
     {
+        var wcfClient = scenarioContext.Get<WcfClient>();
         var compositeObject = table.CreateInstance<CompositeType>();
         var response = wcfClient.ClientInstance.GetDataUsingDataContractAsync(compositeObject).Result;
         scenarioContext.Set(response, wcfResponseAlias);

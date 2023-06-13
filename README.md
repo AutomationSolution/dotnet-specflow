@@ -9,7 +9,7 @@ optional plugin for Rider to manage local secrets: https://plugins.jetbrains.com
 |-------------------------|-------------------------------|-----------------------------|--------------------|-------------|
 | High level testing tool | ✅ BrowserStack Automate (Web) | ⬜ BrowserStack App Automate |                    |             |
 | UI testing              | ✅ Selenium (Aquality)         | ✅ Appium (Aquality)         |                    |             |
-| non-UI testing          | ⬜ REST                        | ✅ SignalR                   | ✅ WCF, ⬜ gRPC      | ⬜ OpenAPI   |
+| non-UI testing          | ⬜ REST, ⬜ OpenAPI             | ✅ SignalR                   | ✅ WCF              | ✅ gRPC      |
 | BDD tool                | ✅ Specflow                    |                             |                    |             |
 | Report tool             | ⬜ Aquality Tracking           | ⬜ Allure                    | ⬜ ExtentReports    |             |
 | Code                    | ✅ C# with .NET 6.0            |                             |                    |             |
@@ -25,7 +25,7 @@ optional plugin for Rider to manage local secrets: https://plugins.jetbrains.com
 | Code Scanner            | ⬜ SonarQube                   |                             |                    |             |
 | Infrastructure          | ✅ Thread-safe configuration   | ✅ .json files               |                    |             |
 | Database                | ⬜ SQL                         | ⬜ LINQ2DB                   |                    |             |
-| Other                   | ✅ Fody                        | ⬜ AspectInjector            | ⬜ BrowserStack API | ✅ Humanizer |
+| Other                   | ✅ Fody, ⬜ AspectInjector      | ⬜ Conditional wait          | ⬜ BrowserStack API | ✅ Humanizer |
 
 ## Limitations
 SpecFlow+ Runner is deprecated, so we're using NUnit test runner. NUnit test runner limits our SpecFlow features to have per-feature parallel execution.
