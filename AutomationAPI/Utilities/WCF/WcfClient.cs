@@ -2,7 +2,7 @@
 
 namespace AutomationAPI.Utilities.WCF;
 
-public class WcfClient : IDisposable
+public sealed class WcfClient : IDisposable
 {
     private ServiceClient? client;
 
