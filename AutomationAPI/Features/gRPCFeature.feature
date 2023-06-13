@@ -10,5 +10,5 @@
 	  Then I assert that SayHello gRPC response contains 'Hello <Message>'
 	  
 	  Examples: 
-	    | Message |
+      | Message |
       | Dmitry  |

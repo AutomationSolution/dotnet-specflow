@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using AutomationAPI.Configuration;
+using FluentAssertions;
 using Grpc.Net.Client;
 using TechTalk.SpecFlow;
 
@@ -17,7 +18,7 @@ public class GrpcStepDefinitions
     [Given(@"gRPC connection is established")]
     public void GivenGrpcConnectionIsEstablished()
     {
-        var grpcChannel = GrpcChannel.ForAddress("https://localhost:7278");
+        var grpcChannel = GrpcChannel.ForAddress(AutomationAPIConfiguration.GrpcData.gRPCEndpoint);
         scenarioContext.Set(grpcChannel);
     }
 
