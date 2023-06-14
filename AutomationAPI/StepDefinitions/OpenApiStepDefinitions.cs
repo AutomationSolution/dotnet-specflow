@@ -16,14 +16,6 @@ public class OpenApiStepDefinitions
         this.scenarioContext = scenarioContext;
     }
 
-    [Given(@"HTTP connection is opened")]
-    public void GivenHttpConnectionIsOpened()
-    {
-        var httpclient = new HttpClient();
-
-        scenarioContext.Set(httpclient);
-    }
-    
     [Given(@"WeatherForecastService is initialized")]
     public void GivenWeatherForecastServiceIsInitialized()
     {
