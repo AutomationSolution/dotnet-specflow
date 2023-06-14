@@ -61,7 +61,7 @@ public class DisposeHooks
         }
         catch (KeyNotFoundException)
         {
-            LogManager.GetCurrentClassLogger().Warn("Tried to dispose HTTP connection, but it wasn't found in scenario conext. Make sure you're using OpenAPIFeature tag correctly");
+            LogManager.GetCurrentClassLogger().Warn("Tried to dispose Open API HTTP connection, but it wasn't found in scenario conext. Make sure you're using OpenAPIFeature tag correctly");
         }
     }
 
@@ -75,7 +75,7 @@ public class DisposeHooks
         }
         catch (KeyNotFoundException)
         {
-            LogManager.GetCurrentClassLogger().Warn("Tried to dispose Open API HTTP connection, but it wasn't found in scenario conext. Make sure you're using HTTPFeature tag correctly");
+            LogManager.GetCurrentClassLogger().Warn("Tried to dispose HTTP connection, but it wasn't found in scenario conext. Make sure you're using HTTPFeature tag correctly");
         }
     }
 }
