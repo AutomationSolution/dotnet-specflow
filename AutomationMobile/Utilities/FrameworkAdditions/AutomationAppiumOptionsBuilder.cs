@@ -30,10 +30,10 @@ public static class AutomationAppiumOptionsBuilder
                     {"idleTimeout", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackIdleTimeoutSeconds},
                     {"acceptInsecureCerts", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackLocalTestingAcceptSslCerts},
                     {"realMobile", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackRealMobile},
-                    {"sessionName", AutomationMobileConfiguration.ScenarioDataModel.InformativeScenarioName},
+                    {"sessionName", AutomationMobileConfiguration.ScenarioMobileDataModel.InformativeScenarioName},
                     {"buildName", AutomationMobileConfiguration.BrowserStackModel.Data.BrowserStackBuild},
                     {"projectName", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackProject},
-                    {"enableBiometric", AutomationMobileConfiguration.ScenarioDataModel.BiometricAuthEnabled},
+                    {"enableBiometric", AutomationMobileConfiguration.ScenarioMobileDataModel.BiometricAuthEnabled},
                     {"video", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackVideoRecording},
                     {"interactiveDebugging", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackInteractiveDebugging}
                 };
