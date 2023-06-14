@@ -20,7 +20,7 @@ public class BrowserStackApplicationProfile : IApplicationProfile
 
     public PlatformName PlatformName => AutomationMobileConfiguration.DeviceConfigModel.PlatformName;
 
-    public Uri RemoteConnectionUrl => AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackHubUrl;
+    public Uri RemoteConnectionUrl => AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackHubUrl;
 
     public string ScreensLocation => settingsFile.GetValue<string>(".screensLocation");
 }

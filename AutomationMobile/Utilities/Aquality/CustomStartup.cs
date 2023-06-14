@@ -22,19 +22,19 @@ internal class CustomStartup : MobileStartup
 
     private static void SetApplicationProfile(IServiceCollection services)
     {
-        switch (AutomationMobileConfiguration.MobileEnvironment.MobileEnvironmentType)
+        switch (AutomationMobileConfiguration.MobileEnvironment.MobileExecutionPlatform)
         {
-            case MobileEnvironmentType.BrowserStack:
+            case MobileExecutionPlatform.BrowserStack:
                 services.AddSingleton<IApplicationProfile, BrowserStackApplicationProfile>();
                 break;
-            case MobileEnvironmentType.LambdaTest:
-                throw new ArgumentOutOfRangeException($"{AutomationMobileConfiguration.MobileEnvironment.MobileEnvironmentType} is not supported");
-            case MobileEnvironmentType.Local:
-            case MobileEnvironmentType.LocalFromExternalNetwork:
+            case MobileExecutionPlatform.LambdaTest:
+                throw new ArgumentOutOfRangeException($"{AutomationMobileConfiguration.MobileEnvironment.MobileExecutionPlatform} is not supported");
+            case MobileExecutionPlatform.Local:
+            case MobileExecutionPlatform.LocalFromExternalNetwork:
                 services.AddSingleton<IApplicationProfile, LocalApplicationProfile>();
                 break;  // do nothing and use settings.json by default
             default:
-                throw new ArgumentOutOfRangeException($"{AutomationMobileConfiguration.MobileEnvironment.MobileEnvironmentType} is not supported");
+                throw new ArgumentOutOfRangeException($"{AutomationMobileConfiguration.MobileEnvironment.MobileExecutionPlatform} is not supported");
         }
     }
 }

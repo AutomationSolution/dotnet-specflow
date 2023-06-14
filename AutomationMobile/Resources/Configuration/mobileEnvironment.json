@@ -1,5 +1,5 @@
 {
   "MobileEnvironment": {
-    "MobileEnvironmentType": "BrowserStack"
+    "MobileExecutionPlatform": "BrowserStack"
   }
 }
