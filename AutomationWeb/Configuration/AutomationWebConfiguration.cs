@@ -72,7 +72,5 @@ public class AutomationWebConfiguration : IAutomationConfiguration
             Settings = configurationManagerInstance.GetRequiredSection("BrowserStackSettings").Get<BrowserStackWebSettingsModel>(),
             Data = new BrowserStackWebData()
         };
-
-        // DriverOptions = AutomationDriverOptionsBuilder.AddDriverOptions();
     }
 }
