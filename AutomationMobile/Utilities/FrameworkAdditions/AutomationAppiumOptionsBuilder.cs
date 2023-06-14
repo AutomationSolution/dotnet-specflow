@@ -8,7 +8,7 @@ using SpecFlow.Internal.Json;
 
 namespace AutomationMobile.Utilities.FrameworkAdditions;
 
-public class AutomationAppiumOptionsBuilder
+public static class AutomationAppiumOptionsBuilder
 {
     public static AppiumOptions BuildAppiumOptions()
     {
