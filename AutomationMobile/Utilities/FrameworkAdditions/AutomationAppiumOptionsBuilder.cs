@@ -8,37 +8,37 @@ using SpecFlow.Internal.Json;
 
 namespace AutomationMobile.Utilities.FrameworkAdditions;
 
-public class AutomationAppiumOptionsBuilder
+public static class AutomationAppiumOptionsBuilder
 {
     public static AppiumOptions BuildAppiumOptions()
     {
-        var environmentType = AutomationMobileConfiguration.MobileEnvironment.MobileEnvironmentType;
-        LogManager.GetCurrentClassLogger().Info("STARTED building Appium Options for Environment Type: " + environmentType);
+        var executionPlatform = AutomationMobileConfiguration.MobileEnvironment.MobileExecutionPlatform;
+        LogManager.GetCurrentClassLogger().Info("STARTED building Appium Options for Environment Type: " + executionPlatform);
 
         var appiumOptions = new AppiumOptions();
 
-        switch (environmentType)
+        switch (executionPlatform)
         {
-            case MobileEnvironmentType.BrowserStack:
+            case MobileExecutionPlatform.BrowserStack:
                 var browserstackOptions = new Dictionary<string, object>
                 {
                     {"userName", AutomationMobileConfiguration.SecretsMobileModel.BrowserStackUser},
                     {"accessKey", AutomationMobileConfiguration.SecretsMobileModel.BrowserStackKey},
-                    {"local", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackLocalTesting},
-                    {"gpsLocation", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackDefaultLocation},
-                    {"networkLogs", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackEnableNetworkLogs},
-                    {"idleTimeout", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackIdleTimeoutSeconds},
-                    {"acceptInsecureCerts", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackLocalTestingAcceptSslCerts},
-                    {"realMobile", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackRealMobile},
-                    {"sessionName", AutomationMobileConfiguration.ScenarioDataModel.InformativeScenarioName},
-                    {"buildName", AutomationMobileConfiguration.BrowserStackMobileData.BrowserStackBuild},
-                    {"projectName", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackProject},
-                    {"enableBiometric", AutomationMobileConfiguration.ScenarioDataModel.BiometricAuthEnabled},
-                    {"video", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackVideoRecording},
-                    {"interactiveDebugging", AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackInteractiveDebugging}
+                    {"local", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackLocalTesting},
+                    {"gpsLocation", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackDefaultLocation},
+                    {"networkLogs", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackEnableNetworkLogs},
+                    {"idleTimeout", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackIdleTimeoutSeconds},
+                    {"acceptInsecureCerts", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackLocalTestingAcceptSslCerts},
+                    {"realMobile", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackRealMobile},
+                    {"sessionName", AutomationMobileConfiguration.ScenarioMobileDataModel.InformativeScenarioName},
+                    {"buildName", AutomationMobileConfiguration.BrowserStackModel.Data.BrowserStackBuild},
+                    {"projectName", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackProject},
+                    {"enableBiometric", AutomationMobileConfiguration.ScenarioMobileDataModel.BiometricAuthEnabled},
+                    {"video", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackVideoRecording},
+                    {"interactiveDebugging", AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackInteractiveDebugging}
                 };
                 appiumOptions.AddAdditionalAppiumOption("bstack:options", browserstackOptions);
-                appiumOptions.App = AutomationMobileConfiguration.BrowserStackMobileData.BrowserStackAppAddress;
+                appiumOptions.App = AutomationMobileConfiguration.BrowserStackModel.Data.BrowserStackAppAddress;
 
                 // Arguments and Environment for iOS Application
                 SetPlatformSpecificOptions(appiumOptions);
@@ -49,16 +49,16 @@ public class AutomationAppiumOptionsBuilder
                 appiumOptions.AddAdditionalAppiumOption("secretsClient",
                     AutomationFrameworkConfiguration.RuntimeConfigurationModel.SecretsClient);
                 break;
-            case MobileEnvironmentType.Local:
-            case MobileEnvironmentType.LocalFromExternalNetwork:
+            case MobileExecutionPlatform.Local:
+            case MobileExecutionPlatform.LocalFromExternalNetwork:
                 appiumOptions.AddAdditionalAppiumOption("appPackage", "com.android.chrome");
                 appiumOptions.AddAdditionalAppiumOption("appActivity", "com.google.android.apps.chrome.Main");
                 break;
             default:
-                throw new InvalidOperationException($"Unsupported Environment: {environmentType}");
+                throw new InvalidOperationException($"Unsupported Environment: {executionPlatform}");
         }
 
-        LogManager.GetCurrentClassLogger().Info("FINISHED building Appium Options for Environment Type: " + environmentType);
+        LogManager.GetCurrentClassLogger().Info("FINISHED building Appium Options for Environment Type: " + executionPlatform);
 
         return appiumOptions;
     }

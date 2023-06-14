@@ -1,10 +1,11 @@
-﻿using AutomationMobile.Enums.FrameworkAdditions;
+﻿using AutomationFramework.Enums.SpecFlow;
+using AutomationFramework.Utilities.SpecFlow;
 using AutomationMobile.Utilities.SpecFlow;
 using TechTalk.SpecFlow;
 
 namespace AutomationMobile.Models.Configuration;
 
-public class ScenarioDataModel
+public class ScenarioMobileDataModel
 {
     private ScenarioType ScenarioType { get; set; }
     private string ScenarioName { get; set; }
@@ -14,13 +15,13 @@ public class ScenarioDataModel
     public bool BiometricAuthEnabled { get; set; }
     public string InformativeScenarioName => $"[{TestFeatureName}] {ScenarioName}";
     
-    public ScenarioDataModel(ScenarioContext scenarioContext)
+    public ScenarioMobileDataModel(ScenarioContext scenarioContext)
     {
         ScenarioType = TagsUtilities.GetScenarioType(scenarioContext);
         ScenarioName = ScenarioContextUtilities.GetScenarioTitle(scenarioContext);
         TestRailId = TagsUtilities.GetTestRailId(scenarioContext);
         TestFeatureName = TagsUtilities.GetTestFeatureName(scenarioContext);
-        InstallFromAppCenter = TagsUtilities.GetInstallFromAppCenterFlag(scenarioContext);
-        BiometricAuthEnabled = TagsUtilities.GetBiometricAuthFlag(scenarioContext);
+        InstallFromAppCenter = MobileTagsUtilities.GetInstallFromAppCenterFlag(scenarioContext);
+        BiometricAuthEnabled = MobileTagsUtilities.GetBiometricAuthFlag(scenarioContext);
     }
 }

@@ -5,11 +5,11 @@ using AutomationMobile.Configuration;
 
 namespace AutomationMobile.Utilities.Aquality;
 
-public class CustomApplicationProfile : IApplicationProfile
+public class BrowserStackApplicationProfile : IApplicationProfile
 {
     private readonly ISettingsFile settingsFile;
 
-    public CustomApplicationProfile(ISettingsFile settingsFile)
+    public BrowserStackApplicationProfile(ISettingsFile settingsFile)
     {
         this.settingsFile = settingsFile;
     }
@@ -20,7 +20,7 @@ public class CustomApplicationProfile : IApplicationProfile
 
     public PlatformName PlatformName => AutomationMobileConfiguration.DeviceConfigModel.PlatformName;
 
-    public Uri RemoteConnectionUrl => AutomationMobileConfiguration.BrowserStackMobileSettingsModel.BrowserStackHubUrl;
+    public Uri RemoteConnectionUrl => AutomationMobileConfiguration.BrowserStackModel.Settings.BrowserStackHubUrl;
 
     public string ScreensLocation => settingsFile.GetValue<string>(".screensLocation");
 }

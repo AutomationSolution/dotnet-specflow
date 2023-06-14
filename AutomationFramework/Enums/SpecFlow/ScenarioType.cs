@@ -1,4 +1,4 @@
-﻿namespace AutomationMobile.Enums.FrameworkAdditions;
+﻿namespace AutomationFramework.Enums.SpecFlow;
 
 public enum ScenarioType
 {

@@ -4,5 +4,5 @@ namespace AutomationMobile.Models.Configuration;
 
 public class MobileEnvironment
 {
-    public MobileEnvironmentType MobileEnvironmentType { get; set; }
+    public MobileExecutionPlatform MobileExecutionPlatform { get; set; }
 }

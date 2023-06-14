@@ -1,6 +1,7 @@
 ﻿using AutomationFramework.Configuration;
 using AutomationMobile.Models;
 using AutomationMobile.Models.Configuration;
+using AutomationMobile.Models.Configuration.BrowserStack;
 using AutomationMobile.Utilities.FrameworkAdditions;
 using AutomationMobile.Utilities.SpecFlow;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +18,8 @@ public class AutomationMobileConfiguration : IAutomationConfiguration
 
     [field: ThreadStatic] public static DeviceConfigModel DeviceConfigModel { get; set; }
     [field: ThreadStatic] public static AppiumOptions AppiumOptions { get; set; }
-    [field: ThreadStatic] public static BrowserStackMobileSettingsModel BrowserStackMobileSettingsModel { get; set; }
-    [field: ThreadStatic] public static ScenarioDataModel ScenarioDataModel { get; private set; }
-    [field: ThreadStatic] public static BrowserStackMobileData BrowserStackMobileData { get; private set; }
-
+    [field: ThreadStatic] public static ScenarioMobileDataModel ScenarioMobileDataModel { get; private set; }
+    [field: ThreadStatic] public static BrowserStackModel BrowserStackModel { get; private set; }
 
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
@@ -45,10 +44,13 @@ public class AutomationMobileConfiguration : IAutomationConfiguration
 
     public void InitThreadStaticConfiguration(ConfigurationManager configurationManagerInstance, ScenarioContext scenarioContext)
     {
-        DeviceConfigModel = new DeviceConfigModel(TagsUtilities.GetApplicationName(scenarioContext), TagsUtilities.GetDeviceType(scenarioContext));
-        BrowserStackMobileSettingsModel = configurationManagerInstance.GetRequiredSection("BrowserStackSettings").Get<BrowserStackMobileSettingsModel>();
-        ScenarioDataModel = new ScenarioDataModel(scenarioContext);
-        BrowserStackMobileData = new BrowserStackMobileData();
+        DeviceConfigModel = new DeviceConfigModel(MobileTagsUtilities.GetApplicationName(scenarioContext), MobileTagsUtilities.GetDeviceType(scenarioContext));
+        ScenarioMobileDataModel = new ScenarioMobileDataModel(scenarioContext);
+        BrowserStackModel = new BrowserStackModel
+        {
+            Settings = configurationManagerInstance.GetRequiredSection("BrowserStackSettings").Get<BrowserStackMobileSettingsModel>(),
+            Data = new BrowserStackMobileData()
+        };
 
         AppiumOptions = AutomationAppiumOptionsBuilder.BuildAppiumOptions();
     }

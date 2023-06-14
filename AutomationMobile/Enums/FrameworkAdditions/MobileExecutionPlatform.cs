@@ -1,8 +1,9 @@
 ﻿namespace AutomationMobile.Enums.FrameworkAdditions;
 
-public enum MobileEnvironmentType
+public enum MobileExecutionPlatform
 {
     BrowserStack,
+    LambdaTest,
     Local,
     LocalFromExternalNetwork
 }

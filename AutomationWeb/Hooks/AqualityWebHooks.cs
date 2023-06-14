@@ -1,5 +1,7 @@
 ﻿using Aquality.Selenium.Browsers;
 using AutomationWeb.Configuration;
+using AutomationWeb.Enums.FrameworkAdditions;
+using AutomationWeb.Utilities.Aquality;
 using NLog;
 using TechTalk.SpecFlow;
 
@@ -11,8 +13,21 @@ public class AqualityWebHooks
     [BeforeScenario("UI", Order = 40)]
     public static void SetAqualityStartup(ScenarioContext scenarioContext)
     {
-        // AqualityServices.SetStartup(new CustomStartup());
-    }    
+        switch (AutomationWebConfiguration.WebEnvironment.WebExecutionPlatform)
+        {
+            case WebExecutionPlatform.BrowserStack:
+                AqualityServices.BrowserFactory = new BrowserStackBrowserFactory();
+                break;
+            case WebExecutionPlatform.LambdaTest:
+                throw new ArgumentOutOfRangeException($"{AutomationWebConfiguration.WebEnvironment.WebExecutionPlatform} execution platform is not supported");
+            case WebExecutionPlatform.Local:
+            case WebExecutionPlatform.LocalFromExternalNetwork:
+                AqualityServices.SetDefaultFactory();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException($"{AutomationWebConfiguration.WebEnvironment.WebExecutionPlatform} execution platform is not supported");
+        }
+    }
 
     [BeforeScenario("UI", Order = 50)]
     public static void OpenBaseUrl(ScenarioContext scenarioContext)

@@ -1,6 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 
-namespace AutomationMobile.Utilities.SpecFlow;
+namespace AutomationFramework.Utilities.SpecFlow;
 
 public static class ScenarioContextUtilities
 {
