@@ -4,4 +4,6 @@ public class SecretsWebModel
 {
     public string BackOfficeUsername { get; set; }
     public string BackOfficePassword { get; set; }
+    public string BrowserStackUser { get; set; }
+    public string BrowserStackKey { get; set; }
 }
