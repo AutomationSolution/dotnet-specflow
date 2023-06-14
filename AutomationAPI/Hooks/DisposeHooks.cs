@@ -52,7 +52,7 @@ public class DisposeHooks
     }    
 
     [AfterScenario("OpenAPIFeature")]
-    public static void DisposeHTTPConnection(ScenarioContext scenarioContext)
+    public static void DisposeOpenApiHttpConnection(ScenarioContext scenarioContext)
     {
         try
         {
@@ -62,6 +62,20 @@ public class DisposeHooks
         catch (KeyNotFoundException)
         {
             LogManager.GetCurrentClassLogger().Warn("Tried to dispose HTTP connection, but it wasn't found in scenario conext. Make sure you're using OpenAPIFeature tag correctly");
+        }
+    }
+
+    [AfterScenario("HTTPFeature")]
+    public static void DisposeHttpConnection(ScenarioContext scenarioContext)
+    {
+        try
+        {
+            var httpClient = scenarioContext.Get<HttpClient>();
+            httpClient.Dispose();
+        }
+        catch (KeyNotFoundException)
+        {
+            LogManager.GetCurrentClassLogger().Warn("Tried to dispose Open API HTTP connection, but it wasn't found in scenario conext. Make sure you're using HTTPFeature tag correctly");
         }
     }
 }
