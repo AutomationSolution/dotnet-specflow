@@ -20,9 +20,17 @@ public class OpenApiStepDefinitions
     public void GivenHttpConnectionIsOpened()
     {
         var httpclient = new HttpClient();
-        var weatherForecastService = new WeatherForecastService(AutomationAPIConfiguration.OpenApiData.OpenAPIEndpoint.ToString(), httpclient);
 
         scenarioContext.Set(httpclient);
+    }
+    
+    [Given(@"WeatherForecastService is initialized")]
+    public void GivenWeatherForecastServiceIsInitialized()
+    {
+        var httpclient = scenarioContext.Get<HttpClient>();
+
+        var weatherForecastService = new WeatherForecastService(AutomationAPIConfiguration.OpenApiData.OpenAPIEndpoint.ToString(), httpclient);
+
         scenarioContext.Set(weatherForecastService);
     }
 
