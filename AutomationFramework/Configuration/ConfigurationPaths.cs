@@ -13,6 +13,7 @@ public static class ConfigurationPaths
     public const string WebEnvironmentFileName = "webEnvironment.json";
     public const string SignalRSettingsFileName = "signalrSettings.json";
     public const string GrpcSettingsFileName = "grpcSettings.json";
+    public const string OpenApiSettingsFileName = "openApiSettings.json";
 
     public const string ResourcesDirectoryName = "Resources";
     public const string ConfigurationDirectoryName = "Configuration";

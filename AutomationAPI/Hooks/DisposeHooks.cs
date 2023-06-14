@@ -49,5 +49,19 @@ public class DisposeHooks
         {
             LogManager.GetCurrentClassLogger().Warn("Tried to dispose WCF connection, but it wasn't found in scenario conext. Make sure you're using WCFFeature tag correctly");
         }
+    }    
+
+    [AfterScenario("OpenAPIFeature")]
+    public static void DisposeHTTPConnection(ScenarioContext scenarioContext)
+    {
+        try
+        {
+            var httpClient = scenarioContext.Get<HttpClient>();
+            httpClient.Dispose();
+        }
+        catch (KeyNotFoundException)
+        {
+            LogManager.GetCurrentClassLogger().Warn("Tried to dispose HTTP connection, but it wasn't found in scenario conext. Make sure you're using OpenAPIFeature tag correctly");
+        }
     }
 }
