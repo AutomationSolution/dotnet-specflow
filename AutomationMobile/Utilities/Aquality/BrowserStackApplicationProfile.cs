@@ -5,11 +5,11 @@ using AutomationMobile.Configuration;
 
 namespace AutomationMobile.Utilities.Aquality;
 
-public class CustomApplicationProfile : IApplicationProfile
+public class BrowserStackApplicationProfile : IApplicationProfile
 {
     private readonly ISettingsFile settingsFile;
 
-    public CustomApplicationProfile(ISettingsFile settingsFile)
+    public BrowserStackApplicationProfile(ISettingsFile settingsFile)
     {
         this.settingsFile = settingsFile;
     }
