@@ -11,10 +11,12 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     public static RuntimeConfigurationModel RuntimeConfigurationModel { get; private set; }
     public static LoggingModel LoggingModel { get; private set; }
     public static TestRunConfig TestRunConfig { get; private set; }
-    
+    public static ConditionalWaitConfigurationModel DefaultConditionalWaitConfiguration { get; private set; }
+
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
         configurationManagerInstance.AddJsonFile(AppSettingsFileName);
+        configurationManagerInstance.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, ConditionalWaitSettingsFileName));
         configurationManagerInstance.AddEnvironmentVariables();
     }
 
@@ -34,6 +36,7 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
         {
             TestRunStartTime = DateTime.Now
         };
+        DefaultConditionalWaitConfiguration = configurationManagerInstance.GetRequiredSection("ConditionalWait:Default").Get<ConditionalWaitConfigurationModel>();
     }
 
     /// <summary>
