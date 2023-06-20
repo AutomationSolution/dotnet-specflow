@@ -1,5 +1,6 @@
 ﻿using NLog;
 using Polly;
+using Polly.Timeout;
 
 namespace AutomationFramework.Utilities.Polly;
 
@@ -8,20 +9,22 @@ public static class ConditionalWait
     public static T WaitFor<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var waitForNotNullPolicy = PollyAutomationPolicies.ConditionalWaitPolicy(PollyAutomationPolicies.IsNullDelegate<T>());
+        var conditionDelegate = PollyAutomationPolicies.IsNullDelegate<T>();
+        var waitForNotNullPolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate);
 
-        return WaitForWrapper(waitForNotNullPolicy, condition, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
+        return WaitForWrapper(waitForNotNullPolicy, condition, conditionDelegate, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
     }
 
     public static void WaitForTrue(Func<bool> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var waitForTruePolicy = PollyAutomationPolicies.ConditionalWaitPolicy(PollyAutomationPolicies.IsFalseDelegate);
+        var conditionDelegate = PollyAutomationPolicies.IsFalseDelegate;
+        var waitForTruePolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate);
 
-        WaitForWrapper(waitForTruePolicy, condition, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
+        WaitForWrapper(waitForTruePolicy, condition, conditionDelegate, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
     }
 
-    private static T WaitForWrapper<T>(Policy<T> policy, Func<T> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
+    private static T WaitForWrapper<T>(Policy<T> policy, Func<T> codeToExecute, Func<T, bool> conditionDelegate, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string? codePurpose = null)
     {
         // TODO add exceptionsToIgnore handling
@@ -39,14 +42,22 @@ public static class ConditionalWait
         
         // Execute policy
         LogManager.GetCurrentClassLogger().Debug(messageBeforeExecution);
-        var result = policy.Execute(condition);
+        T? executionResult;
+        try
+        {
+            executionResult = policy.Execute(codeToExecute);
+        }
+        catch (TimeoutRejectedException)
+        {
+            executionResult = codeToExecute.Invoke();
+        }
 
         // Assert policy
-        if (result == null)
+        if (conditionDelegate.Invoke(executionResult))
         {
             throw new TimeoutException($"Result is null. {message}");
         }
 
-        return result;
+        return executionResult;
     }
 }

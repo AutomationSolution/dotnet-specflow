@@ -11,15 +11,19 @@ public static class PollyAutomationPolicies
 
     public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate)
     {
-        return Policy<T>
+        var waitAndRetryPolicy = Policy<T>
             .HandleResult(handleResultDelegate)
             .WaitAndRetry(
-            AutomationFrameworkConfiguration.DefaultConditionalWaitConfiguration.RetryCount,
+            AutomationFrameworkConfiguration.DefaultConditionalWaitConfiguration.RetryCount + 1,    // TODO delete +1
             retryAttempt => AutomationFrameworkConfiguration.DefaultConditionalWaitConfiguration.PollingInterval,
             (delegateResult, span, arg3, arg4) =>
             {
                 LogManager.GetCurrentClassLogger()
-                    .Debug($"Didn't get expected result after code execution. Code execution attempt #{arg3 + 1}");
+                    .Debug($"Unexpected code execution result. Retry attempt #{arg3 + 1}");
             });
+
+        var timeoutPolicy = Policy.Timeout(AutomationFrameworkConfiguration.DefaultConditionalWaitConfiguration.Timeout);
+
+        return timeoutPolicy.Wrap(waitAndRetryPolicy);
     }
 }
