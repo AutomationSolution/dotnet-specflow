@@ -9,7 +9,7 @@ public static class ConditionalWait
     public static T WaitFor<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var conditionDelegate = PollyAutomationPolicies.IsNullDelegate<T>();
+        var conditionDelegate = PollyPredicates.IsNullPredicate<T>();
         var waitForNotNullPolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate);
 
         return WaitForWrapper(waitForNotNullPolicy, condition, conditionDelegate, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
@@ -18,7 +18,7 @@ public static class ConditionalWait
     public static void WaitForTrue(Func<bool> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var conditionDelegate = PollyAutomationPolicies.IsFalseDelegate;
+        var conditionDelegate = PollyPredicates.IsFalsePredicate;
         var waitForTruePolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate);
 
         WaitForWrapper(waitForTruePolicy, condition, conditionDelegate, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
@@ -42,7 +42,7 @@ public static class ConditionalWait
         
         // Execute policy
         LogManager.GetCurrentClassLogger().Debug(messageBeforeExecution);
-        T? executionResult;
+        T? executionResult; // TODO replace with callback policy if possible
         try
         {
             executionResult = policy.Execute(codeToExecute);
