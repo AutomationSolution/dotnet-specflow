@@ -6,22 +6,14 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> GetWaitForNotNullPolicy<T>()
-    {
-        return ConditionalWaitPolicy(IsNullDelegate<T>());
-    }
+    public static Func<T, bool> IsNullDelegate<T>() => t => t == null;
+    public static Func<bool, bool> IsFalseDelegate => t => t != true;
 
-    public static Policy<bool> GetWaitForTruePolicy()
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate)
     {
-        return ConditionalWaitPolicy(IsFalseDelegate);
-    }
-
-    private static Func<T, bool> IsNullDelegate<T>() => t => t == null;
-    private static Func<bool, bool> IsFalseDelegate => t => t != true;
-
-    private static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate)
-    {
-        return Policy<T>.HandleResult(handleResultDelegate).WaitAndRetry(
+        return Policy<T>
+            .HandleResult(handleResultDelegate)
+            .WaitAndRetry(
             AutomationFrameworkConfiguration.DefaultConditionalWaitConfiguration.RetryCount,
             retryAttempt => AutomationFrameworkConfiguration.DefaultConditionalWaitConfiguration.PollingInterval,
             (delegateResult, span, arg3, arg4) =>

@@ -8,7 +8,7 @@ public static class ConditionalWait
     public static T WaitFor<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var waitForNotNullPolicy = PollyAutomationPolicies.GetWaitForNotNullPolicy<T>();
+        var waitForNotNullPolicy = PollyAutomationPolicies.ConditionalWaitPolicy(PollyAutomationPolicies.IsNullDelegate<T>());
 
         return WaitForWrapper(waitForNotNullPolicy, condition, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
     }
@@ -16,7 +16,7 @@ public static class ConditionalWait
     public static void WaitForTrue(Func<bool> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var waitForTruePolicy = PollyAutomationPolicies.GetWaitForTruePolicy();
+        var waitForTruePolicy = PollyAutomationPolicies.ConditionalWaitPolicy(PollyAutomationPolicies.IsFalseDelegate);
 
         WaitForWrapper(waitForTruePolicy, condition, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
     }
