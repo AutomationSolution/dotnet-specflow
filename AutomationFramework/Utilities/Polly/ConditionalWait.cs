@@ -7,15 +7,15 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class ConditionalWait
 {
-    public static T WaitFor<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? backoffDelay = null, string? failReason = null,
+    public static T WaitForAndGetResult<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? backoffDelay = null, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
         var configuration = InitConditionalWaitConfigurationModel(timeout, backoffDelay);
 
-        return WaitFor(condition, configuration, failReason, exceptionsToIgnore, codePurpose);
+        return WaitForAndGetResult(condition, configuration, failReason, exceptionsToIgnore, codePurpose);
     }
     
-    public static T WaitFor<T>(Func<T> condition, ConditionalWaitConfigurationModel configuration, string? failReason = null,
+    public static T WaitForAndGetResult<T>(Func<T> condition, ConditionalWaitConfigurationModel configuration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
         var conditionPredicate = PollyPredicates.IsNullPredicate<T>();
