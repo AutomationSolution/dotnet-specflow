@@ -1,5 +1,6 @@
 ﻿Feature: EnvironmentFeature
 
+  @API
   @SolutionTesting
   @ConfigurationFeature
   Scenario: Environment variables are taken into priority over other sources in configuration
@@ -19,3 +20,9 @@
       | VariableSection | VariableName | VariableValue     |
       | Priority        | Name         | NameValueStep     |
       | Priority        | Password     | PasswordValueStep |
+
+  @API
+  @SolutionTesting
+  @ConfigurationFeature
+  Scenario: Output EnvironmentModel values
+    When I output EnvironmentModel values

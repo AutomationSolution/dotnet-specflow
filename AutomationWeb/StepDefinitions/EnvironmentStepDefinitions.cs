@@ -1,6 +1,8 @@
 ﻿using AutomationFramework.Configuration;
+using AutomationWeb.Configuration;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using TechTalk.SpecFlow.Assist.Attributes;
@@ -75,5 +77,12 @@ public class EnvironmentStepDefinitions
     public void GivenFileIsAddedAsASourceToConfigurationManager(string fileName)
     {
         AutomationConfigurationManager.Instance.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, fileName));
+    }
+
+    [When(@"I output EnvironmentModel values")]
+    public void WhenIOutputEnvironmentModelValues()
+    {
+        LogManager.GetCurrentClassLogger().Info(AutomationWebConfiguration.EnvironmentModel.Endpoint);
+        LogManager.GetCurrentClassLogger().Info(AutomationWebConfiguration.EnvironmentModel.EnvironmentType);
     }
 }

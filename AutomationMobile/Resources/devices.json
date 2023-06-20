@@ -1,0 +1,26 @@
+﻿{
+  "AndroidPhone": {
+    "capabilities": {
+      "deviceName": "Samsung Galaxy S22",
+      "platformVersion": "12.0"
+    }
+  },
+  "AndroidTablet": {
+    "capabilities": {
+      "deviceName": "Samsung Galaxy Tab S7",
+      "platformVersion": "10.0"
+    }
+  },
+  "Iphone": {
+    "capabilities": {
+      "deviceName": "iPhone 13",
+      "platformVersion": "15"
+    }
+  },
+  "Ipad": {
+    "capabilities": {
+      "deviceName": "iPad Air 4",
+      "platformVersion": "14"
+    }
+  }
+}

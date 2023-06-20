@@ -10,10 +10,12 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     // If needed, other projects can use it's own objects by binding them from Instance 
     public static RuntimeConfigurationModel RuntimeConfigurationModel { get; private set; }
     public static LoggingModel LoggingModel { get; private set; }
+    public static TestRunConfig TestRunConfig { get; private set; }
     
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
         configurationManagerInstance.AddJsonFile(AppSettingsFileName);
+        configurationManagerInstance.AddEnvironmentVariables();
     }
 
     public void AddThreadStaticSources(ConfigurationManager configurationManagerInstance)
@@ -28,6 +30,10 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     {
         RuntimeConfigurationModel = configurationManagerInstance.GetRequiredSection("RuntimeConfiguration").Get<RuntimeConfigurationModel>();
         LoggingModel = configurationManagerInstance.GetSection("Logging").Get<LoggingModel>();
+        TestRunConfig = new TestRunConfig
+        {
+            TestRunStartTime = DateTime.Now
+        };
     }
 
     /// <summary>

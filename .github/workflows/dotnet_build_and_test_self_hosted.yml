@@ -1,0 +1,32 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET build and test self-hosted
+
+on:
+  push:
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        project: [ AutomationWeb, AutomationMobile, AutomationAPI ]
+
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build "${{ matrix.project }}" --no-restore
+
+      - name: Test
+        env:
+          Secrets__BackOfficeUsername: ${{ secrets.SECRETS__BACKOFFICEUSERNAME }}
+          Secrets__BackOfficePassword: ${{ secrets.SECRETS__BACKOFFICEPASSWORD }}
+          Secrets__BrowserStackUser: ${{ secrets.SECRETS__BROWSERSTACKUSER }}
+          Secrets__BrowserStackKey: ${{ secrets.SECRETS__BROWSERSTACKKEY }}
+        run: dotnet test "${{ matrix.project }}" --no-build --verbosity normal
