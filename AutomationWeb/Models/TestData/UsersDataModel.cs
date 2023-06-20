@@ -4,7 +4,7 @@ namespace AutomationWeb.Models.TestData;
 
 public class UsersDataModel
 {
-    public const string UsersDataJsonSectionName = "UsersDataModel";
+    public const string JsonSectionName = "UserData";
 
     public UserDataModel RegisteredUser { get; set; }
     public UserDataModel RegisteredVerifiedUser { get; set; }

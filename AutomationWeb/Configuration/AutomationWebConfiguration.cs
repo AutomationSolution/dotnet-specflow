@@ -47,10 +47,10 @@ public class AutomationWebConfiguration : IAutomationConfiguration
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
         // Bind necessary static objects
-        EnvironmentModel = configurationManagerInstance.GetRequiredSection(EnvironmentModel.EnvironmentJsonSectionName).Get<EnvironmentModel>(binderOptionsThrowOnError);
-        SecretsWebModel = configurationManagerInstance.GetRequiredSection(SecretsWebModel.SecretsWebJsonSectionName).Get<SecretsWebModel>(binderOptionsThrowOnError);
+        EnvironmentModel = configurationManagerInstance.GetRequiredSection(EnvironmentModel.JsonSectionName).Get<EnvironmentModel>(binderOptionsThrowOnError);
+        SecretsWebModel = configurationManagerInstance.GetRequiredSection(SecretsWebModel.JsonSectionName).Get<SecretsWebModel>(binderOptionsThrowOnError);
         ProjectProperties = Assembly.GetExecutingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();
-        WebEnvironment = configurationManagerInstance.GetRequiredSection(WebEnvironment.WebEnvironmentJsonSectionName).Get<WebEnvironment>();
+        WebEnvironment = configurationManagerInstance.GetRequiredSection(WebEnvironment.JsonSectionName).Get<WebEnvironment>();
     }
 
     public void AddThreadStaticSources(ConfigurationManager configurationManagerInstance)
@@ -62,14 +62,14 @@ public class AutomationWebConfiguration : IAutomationConfiguration
 
     public void InitThreadStaticConfiguration(ConfigurationManager configurationManagerInstance, ScenarioContext scenarioContext)
     {
-        ScenarioMetaData = configurationManagerInstance.GetSection(ScenarioMetaData.ScenarioMetaDataJsonSectionName).Get<ScenarioMetaData>(binderOptionsThrowOnError) ?? new ScenarioMetaData();
-        UsersDataModel = configurationManagerInstance.GetSection(UsersDataModel.UsersDataJsonSectionName).Get<UsersDataModel>();
-        UsersCredentialsModel = configurationManagerInstance.GetSection(UsersCredentialsModel.UsersCredentialsJsonSectionName).Get<UsersCredentialsModel>();
+        ScenarioMetaData = configurationManagerInstance.GetSection(ScenarioMetaData.JsonSectionName).Get<ScenarioMetaData>(binderOptionsThrowOnError) ?? new ScenarioMetaData();
+        UsersDataModel = configurationManagerInstance.GetSection(UsersDataModel.JsonSectionName).Get<UsersDataModel>();
+        UsersCredentialsModel = configurationManagerInstance.GetSection(UsersCredentialsModel.JsonSectionName).Get<UsersCredentialsModel>();
         ScenarioWebDataModel = new ScenarioWebDataModel(scenarioContext);
 
         BrowserStackModel = new BrowserStackModel()
         {
-            Settings = configurationManagerInstance.GetRequiredSection(BrowserStackWebSettingsModel.BrowserStackWebJsonSectionName).Get<BrowserStackWebSettingsModel>(),
+            Settings = configurationManagerInstance.GetRequiredSection(BrowserStackWebSettingsModel.JsonSectionName).Get<BrowserStackWebSettingsModel>(),
             Data = new BrowserStackWebData()
         };
     }

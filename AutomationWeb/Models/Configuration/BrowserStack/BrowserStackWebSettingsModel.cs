@@ -2,7 +2,7 @@
 
 public class BrowserStackWebSettingsModel
 {
-    public const string BrowserStackWebJsonSectionName = "BrowserStackSettings";
+    public const string JsonSectionName = "BrowserStackSettings";
 
     public string BrowserStackOS { get; set; }
     public string BrowserStackOSVersion { get; set; }

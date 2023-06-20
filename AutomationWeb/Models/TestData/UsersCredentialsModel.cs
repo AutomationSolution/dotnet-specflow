@@ -2,7 +2,7 @@
 
 public class UsersCredentialsModel
 {
-    public const string UsersCredentialsJsonSectionName = "UsersCredentialsModel";
+    public const string JsonSectionName = "UsersCredentials";
 
     public SimpleUserModel StandardUser { get; set; }
     public SimpleUserModel LockedOutUser { get; set; }

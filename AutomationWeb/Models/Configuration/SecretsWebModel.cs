@@ -2,7 +2,7 @@
 
 public class SecretsWebModel
 {
-    public const string SecretsWebJsonSectionName = "Secrets";
+    public const string JsonSectionName = "Secrets";
 
     public string BackOfficeUsername { get; set; }
     public string BackOfficePassword { get; set; }
