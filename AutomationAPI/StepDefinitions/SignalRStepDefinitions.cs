@@ -29,11 +29,11 @@ public class SignalRStepDefinitions
     {
         var signalRConnection = scenarioContext.Get<SignalRConnection>();
         // TODO implement conditional wait for established connection, as it is connecting asynchronously, or make connection establishing synchronous
-        ConditionalWait.WaitFor<string>(() =>
-        {
-            LogManager.GetCurrentClassLogger().Debug("Code block execution. Wait for NOT NULL");
-            return null;
-        }, message: "Custom message on exception 1", codePurpose: "Wait until SignalR connection is established");
+        // ConditionalWait.WaitFor<string>(() =>
+        // {
+        //     LogManager.GetCurrentClassLogger().Debug("Code block execution. Wait for NOT NULL");
+        //     return null;
+        // }, message: "Custom message on exception 1", codePurpose: "Wait until SignalR connection is established");
         
         ConditionalWait.WaitForTrue(() =>
         {
