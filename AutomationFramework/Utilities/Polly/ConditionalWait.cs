@@ -7,6 +7,20 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class ConditionalWait
 {
+    public static T WaitForPredicateAndGetResult<T>(Func<T> condition, Func<T,bool> conditionPredicate, TimeSpan? timeout = null, TimeSpan? backoffDelay = null, string? failReason = null,
+        IList<Type> exceptionsToIgnore = null, string codePurpose = null)
+    {
+        var configuration = InitConditionalWaitConfigurationModel(timeout, backoffDelay);
+
+        return WaitForPredicateAndGetResult(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
+    }
+    
+    public static T WaitForPredicateAndGetResult<T>(Func<T> condition, Func<T,bool> conditionPredicate, ConditionalWaitConfigurationModel configuration, string? failReason = null,
+        IList<Type> exceptionsToIgnore = null, string codePurpose = null)
+    {
+        return WaitForWrapper(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
+    }
+    
     public static T WaitForAndGetResult<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? backoffDelay = null, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
@@ -18,7 +32,7 @@ public static class ConditionalWait
     public static T WaitForAndGetResult<T>(Func<T> condition, ConditionalWaitConfigurationModel configuration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var conditionPredicate = PollyPredicates.IsNullPredicate<T>();
+        var conditionPredicate = PollyPredicates.IsNotNullPredicate<T>();
 
         return WaitForWrapper(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
     }
@@ -34,16 +48,19 @@ public static class ConditionalWait
     public static void WaitForTrue(Func<bool> condition, ConditionalWaitConfigurationModel configuration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var conditionPredicate = PollyPredicates.IsFalsePredicate;
+        var conditionPredicate = PollyPredicates.IsTruePredicate;
 
         WaitForWrapper(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
     }
 
-    private static T WaitForWrapper<T>(Func<T> codeToExecute, Func<T, bool> conditionPredicate, ConditionalWaitConfigurationModel configuration, string? reason = null,
+    private static T WaitForWrapper<T>(Func<T> codeToExecute, Func<T, bool> conditionPredicate, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string? codePurpose = null)
     {
-        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicate, configuration);
-        
+        // It is more natural to define positive result, however, Polly works with negative result, that's why we need this negation
+        Func<T, bool> conditionPredicateNegate = (t) => !conditionPredicate(t); 
+
+        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicateNegate, waitConfiguration);
+
         // TODO add exceptionsToIgnore handling
 
         // Set up logging message
@@ -54,7 +71,7 @@ public static class ConditionalWait
         }
 
         messageBeforeExecution += "Execution attempt #1";
-        
+
         // Execute policy
         LogManager.GetCurrentClassLogger().Debug(messageBeforeExecution);
         T? executionResult; // TODO replace with callback policy if possible
@@ -68,10 +85,12 @@ public static class ConditionalWait
         }
 
         // Assert policy
-        if (conditionPredicate.Invoke(executionResult))
+        if (conditionPredicateNegate.Invoke(executionResult))
         {
-            throw new TimeoutException($"Unexpected code execution result on final retry attempt after {configuration.Timeout} timeout. Reason: {reason ?? "reason not specified"}");
+            throw new TimeoutException($"Unexpected code execution result on final retry attempt after {waitConfiguration.Timeout} timeout. Reason: {failReason ?? "reason not specified"}");
         }
+        
+        LogManager.GetCurrentClassLogger().Debug($"Code execution result in {nameof(WaitForTrue)} method have met expected predicate. Result: {executionResult}");
 
         return executionResult;
     }

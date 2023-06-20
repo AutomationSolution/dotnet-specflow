@@ -2,6 +2,6 @@
 
 public static class PollyPredicates
 {
-    public static Func<T, bool> IsNullPredicate<T>() => t => t == null;
-    public static readonly Func<bool, bool> IsFalsePredicate = t => t != true;
+    public static Func<T, bool> IsNotNullPredicate<T>() => t => t is not null;
+    public static readonly Func<bool, bool> IsTruePredicate = t => t;
 }

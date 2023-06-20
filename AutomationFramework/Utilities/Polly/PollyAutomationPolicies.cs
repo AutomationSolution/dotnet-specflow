@@ -8,19 +8,19 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, ConditionalWaitConfigurationModel configuration)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, ConditionalWaitConfigurationModel waitConfiguration)
     {
         var waitAndRetryPolicy = Policy<T>
             .HandleResult(handleResultDelegate)
             .WaitAndRetry(
-                CalculateBackoff(configuration), 
-                (delegateResult, span, arg3, arg4) =>
+                CalculateBackoff(waitConfiguration), 
+                (_, _, arg3, _) =>
             {
                 LogManager.GetCurrentClassLogger()
                     .Debug($"Unexpected code execution result. Retry attempt #{arg3 + 1}");
             });
 
-        var timeoutPolicy = Policy.Timeout(configuration.Timeout);
+        var timeoutPolicy = Policy.Timeout(waitConfiguration.Timeout);
 
         return timeoutPolicy.Wrap(waitAndRetryPolicy);
     }
