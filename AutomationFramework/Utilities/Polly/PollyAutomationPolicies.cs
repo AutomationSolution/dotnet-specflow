@@ -1,5 +1,4 @@
-﻿using AutomationFramework.Configuration;
-using AutomationFramework.Models.Configuration;
+﻿using AutomationFramework.Models.Configuration;
 using NLog;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
@@ -21,14 +20,14 @@ public static class PollyAutomationPolicies
                     .Debug($"Unexpected code execution result. Retry attempt #{arg3 + 1}");
             });
 
-        var timeoutPolicy = Policy.Timeout(AutomationFrameworkConfiguration.ConstantConditionalWait.Timeout);
+        var timeoutPolicy = Policy.Timeout(configuration.Timeout);
 
         return timeoutPolicy.Wrap(waitAndRetryPolicy);
     }
 
     private static IEnumerable<TimeSpan>? CalculateBackoff(ConditionalWaitConfigurationModel configuration)
     {
-        LogManager.GetCurrentClassLogger().Debug($"Executing {nameof(CalculateBackoff)} method. BackoffDelay: {configuration.BackOffDelay}; BackoffType: {configuration.BackoffType}");
+        LogManager.GetCurrentClassLogger().Debug($"Executing {nameof(CalculateBackoff)} method. BackoffDelay: {configuration.BackOffDelay}; RetryCount: {configuration.RetryCount}; BackoffType: {configuration.BackoffType}; Factor: {configuration.Factor}");
         switch (configuration.BackoffType)
         {
             case RetryBackoffType.Constant:
