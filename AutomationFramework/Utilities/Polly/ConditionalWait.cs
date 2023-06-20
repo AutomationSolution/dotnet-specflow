@@ -10,44 +10,25 @@ public static class ConditionalWait
     public static T WaitFor<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? backoffDelay = null, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var configuration = AutomationFrameworkConfiguration.ConstantConditionalWait;
-        if (timeout is not null)
-        {
-            configuration.Timeout = (TimeSpan) timeout;
-        }
-        
-        if (backoffDelay is not null)
-        {
-            configuration.BackOffDelay = (TimeSpan) backoffDelay;
-        }
-        
-        var conditionPredicate = PollyPredicates.IsNullPredicate<T>();
-        return WaitForWrapper(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
+        var configuration = InitConditionalWaitConfigurationModel(timeout, backoffDelay);
+
+        return WaitFor(condition, configuration, failReason, exceptionsToIgnore, codePurpose);
     }
     
     public static T WaitFor<T>(Func<T> condition, ConditionalWaitConfigurationModel configuration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
         var conditionPredicate = PollyPredicates.IsNullPredicate<T>();
+
         return WaitForWrapper(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
     }
 
     public static void WaitForTrue(Func<bool> condition, TimeSpan? timeout = null, TimeSpan? backoffDelay = null, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string codePurpose = null)
     {
-        var configuration = AutomationFrameworkConfiguration.ConstantConditionalWait;
-        if (timeout is not null)
-        {
-            configuration.Timeout = (TimeSpan) timeout;
-        }
-        
-        if (backoffDelay is not null)
-        {
-            configuration.BackOffDelay = (TimeSpan) backoffDelay;
-        }
-        
-        var conditionPredicate = PollyPredicates.IsFalsePredicate;
-        WaitForWrapper(condition, conditionPredicate, configuration, failReason, exceptionsToIgnore, codePurpose);
+        var configuration = InitConditionalWaitConfigurationModel(timeout, backoffDelay);
+
+        WaitForTrue(condition, configuration, failReason, exceptionsToIgnore, codePurpose);
     }
     
     public static void WaitForTrue(Func<bool> condition, ConditionalWaitConfigurationModel configuration, string? failReason = null,
@@ -64,8 +45,6 @@ public static class ConditionalWait
         var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicate, configuration);
         
         // TODO add exceptionsToIgnore handling
-        // TODO implement passing explicit timeouts
-        // TODO implement passing explicit polling intervals
 
         // Set up logging message
         var messageBeforeExecution = $"Trying to execute code in {nameof(WaitForTrue)} method. ";
@@ -95,5 +74,21 @@ public static class ConditionalWait
         }
 
         return executionResult;
+    }
+
+    private static ConditionalWaitConfigurationModel InitConditionalWaitConfigurationModel(TimeSpan? timeout = null, TimeSpan? backoffDelay = null)
+    {
+        var configuration = AutomationFrameworkConfiguration.ConstantConditionalWait;
+        if (timeout is not null)
+        {
+            configuration.Timeout = (TimeSpan) timeout;
+        }
+
+        if (backoffDelay is not null)
+        {
+            configuration.BackOffDelay = (TimeSpan) backoffDelay;
+        }
+
+        return configuration;
     }
 }
