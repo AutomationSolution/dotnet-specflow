@@ -11,7 +11,9 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     public static RuntimeConfigurationModel RuntimeConfigurationModel { get; private set; }
     public static LoggingModel LoggingModel { get; private set; }
     public static TestRunConfig TestRunConfig { get; private set; }
-    public static ConditionalWaitConfigurationModel DefaultConditionalWaitConfiguration { get; private set; }
+    public static ConditionalWaitConfigurationModel ConstantConditionalWait { get; private set; }
+    public static ConditionalWaitConfigurationModel LinearConditionalWait { get; private set; }
+    public static ConditionalWaitConfigurationModel ExponentialConditionalWait { get; private set; }
 
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
@@ -36,7 +38,9 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
         {
             TestRunStartTime = DateTime.Now
         };
-        DefaultConditionalWaitConfiguration = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:Default").Get<ConditionalWaitConfigurationModel>();
+        ConstantConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultConstant").Get<ConditionalWaitConfigurationModel>();
+        LinearConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultLinear").Get<ConditionalWaitConfigurationModel>();
+        ExponentialConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultExponential").Get<ConditionalWaitConfigurationModel>();
     }
 
     /// <summary>
