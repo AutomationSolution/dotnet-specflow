@@ -1,5 +1,7 @@
 ﻿using AutomationAPI.Utilities.SignalR;
+using AutomationFramework.Utilities.Polly;
 using FluentAssertions;
+using NLog;
 using TechTalk.SpecFlow;
 
 namespace AutomationAPI.StepDefinitions;
@@ -27,9 +29,18 @@ public class SignalRStepDefinitions
     {
         var signalRConnection = scenarioContext.Get<SignalRConnection>();
         // TODO implement conditional wait for established connection, as it is connecting asynchronously, or make connection establishing synchronous
-        Thread.Sleep(TimeSpan.FromSeconds(3));
-
-        signalRConnection.IsConnectionEstablished().Should().BeTrue("Connection should be established");
+        ConditionalWait.WaitFor<string>(() =>
+        {
+            LogManager.GetCurrentClassLogger().Debug("Code block execution. Wait for NOT NULL");
+            return null;
+        }, message: "Custom message on exception 1", codePurpose: "Wait until SignalR connection is established");
+        
+        ConditionalWait.WaitForTrue(() =>
+        {
+            LogManager.GetCurrentClassLogger().Debug("Code block execution. Wait for TRUE");
+            return signalRConnection.IsConnectionEstablished();
+        }, message: "Custom message on exception 2");
+        
         signalRConnection.SendMessage(messageName, messageValue).Wait();
     }
 
