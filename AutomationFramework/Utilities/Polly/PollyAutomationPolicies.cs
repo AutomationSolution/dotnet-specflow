@@ -1,24 +1,20 @@
 ﻿using AutomationFramework.Configuration;
+using AutomationFramework.Models.Configuration;
 using NLog;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
+using Polly.Retry;
 
 namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, ConditionalWaitConfigurationModel configuration)
     {
-        var retryCount = AutomationFrameworkConfiguration.ConstantConditionalWait.RetryCount + 1;    // + 1 to make sure that 
-        
-        var constantBackoff = Backoff.ConstantBackoff(AutomationFrameworkConfiguration.ConstantConditionalWait.BackOffDelay, retryCount);
-        var linearBackoff = Backoff.LinearBackoff(AutomationFrameworkConfiguration.LinearConditionalWait.BackOffDelay, retryCount);
-        var exponentialBackoff = Backoff.ExponentialBackoff(AutomationFrameworkConfiguration.ExponentialConditionalWait.BackOffDelay, retryCount);
-
         var waitAndRetryPolicy = Policy<T>
             .HandleResult(handleResultDelegate)
             .WaitAndRetry(
-                exponentialBackoff, 
+                CalculateBackoff(configuration), 
                 (delegateResult, span, arg3, arg4) =>
             {
                 LogManager.GetCurrentClassLogger()
@@ -28,5 +24,21 @@ public static class PollyAutomationPolicies
         var timeoutPolicy = Policy.Timeout(AutomationFrameworkConfiguration.ConstantConditionalWait.Timeout);
 
         return timeoutPolicy.Wrap(waitAndRetryPolicy);
+    }
+
+    private static IEnumerable<TimeSpan>? CalculateBackoff(ConditionalWaitConfigurationModel configuration)
+    {
+        LogManager.GetCurrentClassLogger().Debug($"Executing {nameof(CalculateBackoff)} method. BackoffDelay: {configuration.BackOffDelay}; BackoffType: {configuration.BackoffType}");
+        switch (configuration.BackoffType)
+        {
+            case RetryBackoffType.Constant:
+                return Backoff.ConstantBackoff(configuration.BackOffDelay, configuration.RetryCount);
+            case RetryBackoffType.Linear:
+                return Backoff.LinearBackoff(configuration.BackOffDelay, configuration.RetryCount, configuration.Factor);
+            case RetryBackoffType.Exponential:
+                return Backoff.ExponentialBackoff(configuration.BackOffDelay, configuration.RetryCount, configuration.Factor);
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }

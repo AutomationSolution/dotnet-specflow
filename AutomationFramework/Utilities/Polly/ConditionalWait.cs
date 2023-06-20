@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿using AutomationFramework.Configuration;
+using AutomationFramework.Models.Configuration;
+using NLog;
 using Polly;
 using Polly.Timeout;
 
@@ -7,19 +9,23 @@ namespace AutomationFramework.Utilities.Polly;
 public static class ConditionalWait
 {
     public static T WaitFor<T>(Func<T> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
-        IList<Type> exceptionsToIgnore = null, string codePurpose = null)
+        IList<Type> exceptionsToIgnore = null, string codePurpose = null, ConditionalWaitConfigurationModel? configuration = null)
     {
+        configuration ??= AutomationFrameworkConfiguration.ConstantConditionalWait;
+        
         var conditionDelegate = PollyPredicates.IsNullPredicate<T>();
-        var waitForNotNullPolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate);
+        var waitForNotNullPolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate, configuration);
 
         return WaitForWrapper(waitForNotNullPolicy, condition, conditionDelegate, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
     }
 
     public static void WaitForTrue(Func<bool> condition, TimeSpan? timeout = null, TimeSpan? pollingInterval = null, string message = null,
-        IList<Type> exceptionsToIgnore = null, string codePurpose = null)
+        IList<Type> exceptionsToIgnore = null, string codePurpose = null, ConditionalWaitConfigurationModel? configuration = null)
     {
+        configuration ??= AutomationFrameworkConfiguration.ConstantConditionalWait;
+        
         var conditionDelegate = PollyPredicates.IsFalsePredicate;
-        var waitForTruePolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate);
+        var waitForTruePolicy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionDelegate, configuration);
 
         WaitForWrapper(waitForTruePolicy, condition, conditionDelegate, timeout, pollingInterval, message, exceptionsToIgnore, codePurpose);
     }
