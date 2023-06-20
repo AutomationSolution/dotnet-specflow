@@ -2,6 +2,8 @@
 
 public sealed class EnvironmentModel
 {
+    public const string EnvironmentJsonSectionName = "Environment";
+
     public string Endpoint { get; set; }
     public string EnvironmentType { get; set; }
 

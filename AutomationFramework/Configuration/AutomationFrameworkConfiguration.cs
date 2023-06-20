@@ -30,13 +30,13 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     /// </summary>
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
-        RuntimeConfigurationModel = configurationManagerInstance.GetRequiredSection("RuntimeConfiguration").Get<RuntimeConfigurationModel>();
-        LoggingModel = configurationManagerInstance.GetSection("Logging").Get<LoggingModel>();
+        RuntimeConfigurationModel = configurationManagerInstance.GetRequiredSection(RuntimeConfigurationModel.JsonSectionName).Get<RuntimeConfigurationModel>();
+        LoggingModel = configurationManagerInstance.GetSection(LoggingModel.JsonSectionName).Get<LoggingModel>();
         TestRunConfig = new TestRunConfig
         {
             TestRunStartTime = DateTime.Now
         };
-        DefaultConditionalWaitConfiguration = configurationManagerInstance.GetRequiredSection("ConditionalWait:Default").Get<ConditionalWaitConfigurationModel>();
+        DefaultConditionalWaitConfiguration = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:Default").Get<ConditionalWaitConfigurationModel>();
     }
 
     /// <summary>

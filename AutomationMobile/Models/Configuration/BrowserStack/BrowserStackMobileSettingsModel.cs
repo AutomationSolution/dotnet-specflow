@@ -2,6 +2,8 @@
 
 public class BrowserStackMobileSettingsModel
 {
+    public const string JsonSectionName = "BrowserStackSettings";
+
     public Uri BrowserStackHubUrl { get; set; }
     public bool BrowserStackRealMobile { get; set; }
     public bool BrowserStackLocalTesting { get; set; }
