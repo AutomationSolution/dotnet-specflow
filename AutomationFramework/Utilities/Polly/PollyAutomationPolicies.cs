@@ -27,7 +27,7 @@ public static class PollyAutomationPolicies
 
     private static IEnumerable<TimeSpan>? CalculateBackoff(ConditionalWaitConfigurationModel configuration)
     {
-        LogManager.GetCurrentClassLogger().Debug($"Executing {nameof(CalculateBackoff)} method. BackoffDelay: {configuration.BackOffDelay}; RetryCount: {configuration.RetryCount}; BackoffType: {configuration.BackoffType}; Factor: {configuration.Factor}");
+        LogManager.GetCurrentClassLogger().Debug($"Executing {nameof(CalculateBackoff)} method. {configuration.Dump()}");
         switch (configuration.BackoffType)
         {
             case RetryBackoffType.Constant:
