@@ -27,7 +27,7 @@ public static class PollyAutomationPolicies
             });
 
         var timeoutPolicy = Policy
-            .Timeout(waitConfiguration.Timeout);
+            .Timeout(waitConfiguration.Timeout, TimeoutStrategy.Optimistic);
 
         var timeoutRejectedFallbackPolicy = Policy<T>
             .Handle<TimeoutRejectedException>()
