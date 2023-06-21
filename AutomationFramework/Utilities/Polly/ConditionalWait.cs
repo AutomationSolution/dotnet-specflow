@@ -59,7 +59,7 @@ public static class ConditionalWait
         // It is more natural to define positive result, however, Polly works with negative result, that's why we need this negation
         Func<T, bool> conditionPredicateNegate = (t) => !conditionPredicate(t); 
 
-        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicateNegate, waitConfiguration);
+        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicateNegate, codeToExecute, waitConfiguration);
 
         // TODO add exceptionsToIgnore handling
 
@@ -74,15 +74,7 @@ public static class ConditionalWait
 
         // Execute policy
         LogManager.GetCurrentClassLogger().Debug(messageBeforeExecution);
-        T? executionResult; // TODO replace with callback policy if possible
-        try
-        {
-            executionResult = policy.Execute(codeToExecute);
-        }
-        catch (TimeoutRejectedException)
-        {
-            executionResult = codeToExecute.Invoke();
-        }
+        var executionResult = policy.Execute(codeToExecute);
 
         // Assert policy
         if (conditionPredicateNegate.Invoke(executionResult))
