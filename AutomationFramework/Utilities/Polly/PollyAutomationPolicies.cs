@@ -9,7 +9,7 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null)
     {
         var waitAndRetryPolicy = Policy<T>
             .HandleResult(handleResultDelegate)
@@ -24,11 +24,17 @@ public static class PollyAutomationPolicies
         var timeoutPolicy = Policy
             .Timeout(waitConfiguration.Timeout);
 
-        var fallbackPolicy = Policy<T>
+        var timeoutRejectedFallbackPolicy = Policy<T>
             .Handle<TimeoutRejectedException>()
             .Fallback(codeToExecute.Invoke);
 
-        return fallbackPolicy.Wrap(timeoutPolicy.Wrap(waitAndRetryPolicy));
+        var timeoutExceededAndUnexpectedResultException = new TimeoutException(
+            $"Unexpected code execution result on final retry attempt after {waitConfiguration.Timeout} timeout. Reason: {failReason ?? "reason not specified"}");
+        var unexpectedResultFallbackPolicy = Policy<T>
+            .HandleResult(handleResultDelegate)
+            .Fallback(() => throw timeoutExceededAndUnexpectedResultException);
+
+        return unexpectedResultFallbackPolicy.Wrap(timeoutRejectedFallbackPolicy.Wrap(timeoutPolicy.Wrap(waitAndRetryPolicy)));
     }
 
     private static IEnumerable<TimeSpan>? CalculateBackoff(ConditionalWaitConfigurationModel configuration)
