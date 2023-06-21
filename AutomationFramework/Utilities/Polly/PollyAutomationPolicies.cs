@@ -14,15 +14,8 @@ public static class PollyAutomationPolicies
         var negatedHandleResultDelegateForPolly = NegateFuncTBoolResult(handleResultDelegate);
 
         var handleResultPolicyBuilder = Policy<T>
-            .HandleResult(negatedHandleResultDelegateForPolly);
-        
-        // Add custom exceptions to ignore if specified
-        if (exceptionsToIgnore is not null && exceptionsToIgnore.Count > 0)
-        {
-            var ignoreExceptionsList = IgnoreExceptionTypes(exceptionsToIgnore);
-            handleResultPolicyBuilder
-                .Or<Exception>(exception => ignoreExceptionsList.Any(type => type.IsInstanceOfType(exception)));
-        }
+            .HandleResult(negatedHandleResultDelegateForPolly)
+            .OrExceptionsFromIgnoreList(exceptionsToIgnore);
 
         var waitAndRetryPolicy = handleResultPolicyBuilder
             .WaitAndRetry(
@@ -46,6 +39,18 @@ public static class PollyAutomationPolicies
             .Fallback(() => throw timeoutExceededAndUnexpectedResultException);
 
         return unexpectedResultFallbackPolicy.Wrap(timeoutRejectedFallbackPolicy.Wrap(timeoutPolicy.Wrap(waitAndRetryPolicy)));
+    }
+
+    private static PolicyBuilder<T> OrExceptionsFromIgnoreList<T>(this PolicyBuilder<T> handleResultPolicyBuilder, IList<Type>? exceptionsToIgnore)
+    {
+        if (exceptionsToIgnore is not null && exceptionsToIgnore.Count > 0)
+        {
+            var ignoreExceptionsList = IgnoreExceptionTypes(exceptionsToIgnore);
+            handleResultPolicyBuilder
+                .Or<Exception>(exception => ignoreExceptionsList.Any(type => type.IsInstanceOfType(exception)));
+        }
+
+        return handleResultPolicyBuilder;
     }
 
     private static IEnumerable<TimeSpan>? CalculateBackoff(ConditionalWaitConfigurationModel configuration)
