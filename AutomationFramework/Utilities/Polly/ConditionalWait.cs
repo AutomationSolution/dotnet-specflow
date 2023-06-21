@@ -56,9 +56,7 @@ public static class ConditionalWait
     private static T WaitForWrapper<T>(Func<T> codeToExecute, Func<T, bool> conditionPredicate, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string? codePurpose = null)
     {
-        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicate, codeToExecute, waitConfiguration);
-
-        // TODO add exceptionsToIgnore handling
+        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicate, codeToExecute, waitConfiguration, failReason, exceptionsToIgnore);
 
         // TODO consider deleting
         // Set up logging message

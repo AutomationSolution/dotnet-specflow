@@ -9,12 +9,20 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null, IList<Type>? exceptionsToIgnore = null)
     {
         var negatedHandleResultDelegateForPolly = NegateFuncTBoolResult(handleResultDelegate);
 
         var handleResultPolicyBuilder = Policy<T>
             .HandleResult(negatedHandleResultDelegateForPolly);
+        
+        // Add custom exceptions to ignore if specified
+        if (exceptionsToIgnore is not null && exceptionsToIgnore.Count > 0)
+        {
+            var ignoreExceptionsList = IgnoreExceptionTypes(exceptionsToIgnore);
+            handleResultPolicyBuilder
+                .Or<Exception>(exception => ignoreExceptionsList.Any(type => type.IsInstanceOfType(exception)));
+        }
 
         var waitAndRetryPolicy = handleResultPolicyBuilder
             .WaitAndRetry(
@@ -59,5 +67,22 @@ public static class PollyAutomationPolicies
     private static Func<T, bool> NegateFuncTBoolResult<T>(Func<T, bool> conditionPredicate)
     {
         return t => !conditionPredicate(t); 
+    }
+
+    private static List<Type> IgnoreExceptionTypes(IList<Type> exceptionsToIgnore)
+    {
+        var resultedExceptionList = new List<Type>();
+        
+        if (exceptionsToIgnore == null)
+            throw new ArgumentNullException(nameof (exceptionsToIgnore), "exceptionTypes cannot be null");
+
+        foreach (var exceptionType in exceptionsToIgnore)
+        {
+            if (!typeof (Exception).IsAssignableFrom(exceptionType))
+                throw new ArgumentException("All types to be ignored must derive from System.Exception", nameof (exceptionsToIgnore));
+        }
+        resultedExceptionList.AddRange(exceptionsToIgnore);
+
+        return resultedExceptionList;
     }
 }
