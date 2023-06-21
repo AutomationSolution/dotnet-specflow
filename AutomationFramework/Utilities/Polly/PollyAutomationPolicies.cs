@@ -11,8 +11,10 @@ public static class PollyAutomationPolicies
 {
     public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null)
     {
+        var negatedHandleResultDelegateForPolly = NegateFuncTBoolResult(handleResultDelegate);
+        
         var waitAndRetryPolicy = Policy<T>
-            .HandleResult(handleResultDelegate)
+            .HandleResult(negatedHandleResultDelegateForPolly)
             .WaitAndRetry(
                 CalculateBackoff(waitConfiguration), 
                 (_, _, arg3, _) =>
@@ -31,7 +33,7 @@ public static class PollyAutomationPolicies
         var timeoutExceededAndUnexpectedResultException = new TimeoutException(
             $"Unexpected code execution result on final retry attempt after {waitConfiguration.Timeout} timeout. Reason: {failReason ?? "reason not specified"}");
         var unexpectedResultFallbackPolicy = Policy<T>
-            .HandleResult(handleResultDelegate)
+            .HandleResult(negatedHandleResultDelegateForPolly)
             .Fallback(() => throw timeoutExceededAndUnexpectedResultException);
 
         return unexpectedResultFallbackPolicy.Wrap(timeoutRejectedFallbackPolicy.Wrap(timeoutPolicy.Wrap(waitAndRetryPolicy)));
@@ -51,5 +53,10 @@ public static class PollyAutomationPolicies
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    private static Func<T, bool> NegateFuncTBoolResult<T>(Func<T, bool> conditionPredicate)
+    {
+        return t => !conditionPredicate(t); 
     }
 }

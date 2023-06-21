@@ -56,13 +56,11 @@ public static class ConditionalWait
     private static T WaitForWrapper<T>(Func<T> codeToExecute, Func<T, bool> conditionPredicate, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null,
         IList<Type> exceptionsToIgnore = null, string? codePurpose = null)
     {
-        // It is more natural to define positive result, however, Polly works with negative result, that's why we need this negation
-        Func<T, bool> conditionPredicateNegate = (t) => !conditionPredicate(t); 
-
-        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicateNegate, codeToExecute, waitConfiguration);
+        var policy = PollyAutomationPolicies.ConditionalWaitPolicy(conditionPredicate, codeToExecute, waitConfiguration);
 
         // TODO add exceptionsToIgnore handling
 
+        // TODO consider deleting
         // Set up logging message
         var messageBeforeExecution = $"Trying to execute code in {nameof(WaitForTrue)} method. ";
         if (codePurpose != null)
@@ -71,17 +69,12 @@ public static class ConditionalWait
         }
 
         messageBeforeExecution += "Execution attempt #1";
-
-        // Execute policy
         LogManager.GetCurrentClassLogger().Debug(messageBeforeExecution);
+        
+        // Execute policy
         var executionResult = policy.Execute(codeToExecute);
 
-        // Assert policy
-        if (conditionPredicateNegate.Invoke(executionResult))
-        {
-            throw new TimeoutException($"Unexpected code execution result on final retry attempt after {waitConfiguration.Timeout} timeout. Reason: {failReason ?? "reason not specified"}");
-        }
-        
+        // TODO consider deleting
         LogManager.GetCurrentClassLogger().Debug($"Code execution result in {nameof(WaitForTrue)} method have met expected predicate. Result: {executionResult}");
 
         return executionResult;
