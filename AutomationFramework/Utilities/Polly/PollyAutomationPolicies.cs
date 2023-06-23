@@ -1,4 +1,5 @@
 ﻿using AutomationFramework.Models.Configuration;
+using Humanizer;
 using NLog;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
@@ -9,7 +10,7 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null, IList<Type>? exceptionsToIgnore = null)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null, IList<Type>? exceptionsToIgnore = null, string? codePurpose = null)
     {
         var negatedHandleResultDelegateForPolly = NegateFuncTBoolResult(handleResultDelegate);
 
@@ -33,8 +34,8 @@ public static class PollyAutomationPolicies
             .Handle<TimeoutRejectedException>()
             .Fallback(codeToExecute.Invoke);
 
-        var timeoutExceededAndUnexpectedResultException = new TimeoutException(
-            $"Unexpected code execution result on final retry attempt after {waitConfiguration.Timeout} timeout. Reason: {failReason ?? "reason not specified"}");
+        var timeoutExceptionMessage = BuildExceptionMessage(waitConfiguration.Timeout, codePurpose, failReason);
+        var timeoutExceededAndUnexpectedResultException = new TimeoutException(timeoutExceptionMessage);
         var unexpectedResultFallbackPolicy = handleResultPolicyBuilder
             .Fallback(() => throw timeoutExceededAndUnexpectedResultException);
 
@@ -60,5 +61,22 @@ public static class PollyAutomationPolicies
     private static Func<T, bool> NegateFuncTBoolResult<T>(Func<T, bool> conditionPredicate)
     {
         return t => !conditionPredicate(t); 
+    }
+
+    private static string BuildExceptionMessage(TimeSpan timeout, string? codePurpose = null, string? failReason = null)
+    {
+        var timeoutExceptionMessage = $"ConditionalWait timed out after {timeout.Humanize()}.";
+
+        if (failReason is not null)
+        {
+            timeoutExceptionMessage += $" Fail reason: {failReason}.";
+        }
+
+        if (codePurpose is not null)
+        {
+            timeoutExceptionMessage += $" Executed code purpose: {codePurpose}.";
+        }
+
+        return timeoutExceptionMessage;
     }
 }
