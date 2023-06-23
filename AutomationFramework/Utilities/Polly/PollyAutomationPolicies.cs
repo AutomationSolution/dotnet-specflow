@@ -10,7 +10,9 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, IList<Type>? exceptionsToIgnore = null, string? failReason = null, string? codePurpose = null)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute,
+        ConditionalWaitConfigurationModel waitConfiguration, IList<Type>? exceptionsToIgnore = null, string? failReason = null,
+        string? codePurpose = null)
     {
         var negatedHandleResultDelegateForPolly = NegateFuncTBoolResult(handleResultDelegate);
 
@@ -20,12 +22,12 @@ public static class PollyAutomationPolicies
 
         var waitAndRetryPolicy = handleResultPolicyBuilder
             .WaitAndRetry(
-                CalculateBackoff(waitConfiguration), 
+                CalculateBackoff(waitConfiguration),
                 (_, _, arg3, _) =>
-            {
-                LogManager.GetCurrentClassLogger()
-                    .Debug($"Unexpected code execution result. Retry #{arg3} (Execution #{arg3 + 1}):");
-            });
+                {
+                    LogManager.GetCurrentClassLogger()
+                        .Debug($"Unexpected code execution result. Retry #{arg3} (Execution #{arg3 + 1}):");
+                });
 
         var timeoutPolicy = Policy
             .Timeout(waitConfiguration.Timeout, TimeoutStrategy.Optimistic);
@@ -60,7 +62,7 @@ public static class PollyAutomationPolicies
 
     private static Func<T, bool> NegateFuncTBoolResult<T>(Func<T, bool> conditionPredicate)
     {
-        return t => !conditionPredicate(t); 
+        return t => !conditionPredicate(t);
     }
 
     private static string BuildExceptionMessage(TimeSpan timeout, string? codePurpose = null, string? failReason = null)
