@@ -2,6 +2,8 @@
 
 public class LoggingModel
 {
+    public const string JsonSectionName = "Logging";
+
     public LogLevel LogLevel { get; set; }
 }
 

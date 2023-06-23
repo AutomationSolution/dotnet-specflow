@@ -20,8 +20,8 @@ public class AutomationAPIConfiguration : IAutomationConfiguration
 
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
-        SignalRData = configurationManagerInstance.GetRequiredSection("SignalR").Get<SignalRDataModel>();
-        GrpcData = configurationManagerInstance.GetRequiredSection("gRPC").Get<GrpcDataModel>();
-        OpenApiData = configurationManagerInstance.GetRequiredSection("OpenAPI").Get<OpenApiDataModel>();
+        SignalRData = configurationManagerInstance.GetRequiredSection(SignalRDataModel.JsonSectionName).Get<SignalRDataModel>();
+        GrpcData = configurationManagerInstance.GetRequiredSection(GrpcDataModel.JsonSectionName).Get<GrpcDataModel>();
+        OpenApiData = configurationManagerInstance.GetRequiredSection(OpenApiDataModel.JsonSectionName).Get<OpenApiDataModel>();
     }
 }

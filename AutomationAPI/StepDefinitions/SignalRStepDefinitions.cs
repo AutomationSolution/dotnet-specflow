@@ -1,4 +1,5 @@
 ﻿using AutomationAPI.Utilities.SignalR;
+using AutomationFramework.Utilities.Polly;
 using FluentAssertions;
 using TechTalk.SpecFlow;
 
@@ -26,10 +27,11 @@ public class SignalRStepDefinitions
     public void WhenISendASignalRMessageWithNameAndValue(string messageName, string messageValue)
     {
         var signalRConnection = scenarioContext.Get<SignalRConnection>();
-        // TODO implement conditional wait for established connection, as it is connecting asynchronously, or make connection establishing synchronous
-        Thread.Sleep(TimeSpan.FromSeconds(3));
 
-        signalRConnection.IsConnectionEstablished().Should().BeTrue("Connection should be established");
+        ConditionalWait.WaitForTrue(() => signalRConnection.IsConnectionEstablished(), 
+            failReason: "SignalR connection is not established",
+            codePurpose: "Wait until SignalR connection is established");
+        
         signalRConnection.SendMessage(messageName, messageValue).Wait();
     }
 
@@ -37,11 +39,17 @@ public class SignalRStepDefinitions
     public void ThenIAssertThatSignalRMessageWithNameAndValueIsReceived(string messageName, string messageValue)
     {
         var signalRConnection = scenarioContext.Get<SignalRConnection>();
-        // TODO implement conditional wait for established connection and for new messages received
-        Thread.Sleep(TimeSpan.FromSeconds(3));
 
-        signalRConnection.IsConnectionEstablished().Should().BeTrue("Connection should be established");
-        signalRConnection.GetReceivedMessages().Count.Should().BeGreaterThan(0, "Received messages should not be empty");
+        ConditionalWait.WaitForTrue(() => signalRConnection.IsConnectionEstablished(), 
+            failReason: "SignalR connection is not established",
+            codePurpose: "Wait until SignalR connection is established");
+
+        var result = ConditionalWait.WaitForPredicateAndGetResult(
+            () => signalRConnection.GetReceivedMessages().Count, 
+            i => i > 0, 
+            failReason: "Received messages from SignalR should not be empty",
+            codePurpose: "Wait until SignalR message is received");
+
         signalRConnection.GetReceivedMessages().Any(tuple => tuple.Item1.Equals(messageName) && tuple.Item2.Equals(messageValue)).Should()
             .BeTrue($"There should be a message with {messageName} name and {messageValue} value");
     }
