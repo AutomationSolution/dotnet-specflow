@@ -27,20 +27,15 @@ public static class PolicyBuilderUtilities
 
     private static bool IsExceptionListValid(IList<Type>? exceptionsToIgnore, bool strict = false)
     {
-        if (exceptionsToIgnore is null)
-        {
-            throw new ArgumentNullException(nameof(exceptionsToIgnore), "exceptionsToIgnore list cannot be null");
-        }
-
-        if (exceptionsToIgnore.Count == 0)
+        if (exceptionsToIgnore is null || exceptionsToIgnore.Count == 0)
         {
             if (strict)
             {
-                throw new ArgumentNullException(nameof(exceptionsToIgnore), "exceptionsToIgnore list cannot be empty");
+                throw new ArgumentNullException(nameof(exceptionsToIgnore), "exceptionsToIgnore list cannot be null or empty");
             }
 
             LogManager.GetCurrentClassLogger().Warn("Method to ignore exception list is called but the exception list is null or empty.");
-            return false; // Exception list is empty
+            return false; // Exception list is null or empty
         }
 
         foreach (var exceptionType in exceptionsToIgnore)
