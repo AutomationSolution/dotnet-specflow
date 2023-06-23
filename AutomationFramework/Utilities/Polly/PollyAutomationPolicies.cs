@@ -10,7 +10,7 @@ namespace AutomationFramework.Utilities.Polly;
 
 public static class PollyAutomationPolicies
 {
-    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, string? failReason = null, IList<Type>? exceptionsToIgnore = null, string? codePurpose = null)
+    public static Policy<T> ConditionalWaitPolicy<T>(Func<T, bool> handleResultDelegate, Func<T> codeToExecute, ConditionalWaitConfigurationModel waitConfiguration, IList<Type>? exceptionsToIgnore = null, string? failReason = null, string? codePurpose = null)
     {
         var negatedHandleResultDelegateForPolly = NegateFuncTBoolResult(handleResultDelegate);
 
