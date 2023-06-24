@@ -35,7 +35,7 @@ public class CustomScreenFactory : IScreenFactory
                                                 "Please specify value \"screensLocation\" in settings file", ex);
         }
 
-        if (screenType == null)
+        if (screenType is null)
             throw new InvalidOperationException($"Implementation for Screen {typeof(TAppScreen).Name} " +
                                                 $"for application type {AutomationMobileConfiguration.DeviceConfigModel.ApplicationName} " +
                                                 $"was not found in Assembly {AqualityServices.ApplicationProfile.ScreensLocation}");

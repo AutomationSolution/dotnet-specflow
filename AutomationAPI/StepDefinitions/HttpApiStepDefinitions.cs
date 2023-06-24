@@ -27,7 +27,7 @@ public class HttpApiStepDefinitions
     }
 
     [When(@"I send '(.*)' request via '(.*)' method by HTTP")]
-    public void WhenISendGetRequestByHttp(string requestPath, string httpMethod)
+    public void WhenISendRequestViaMethodByHttp(string requestPath, string httpMethod)
     {
         var httpClient = scenarioContext.Get<HttpClient>();
         

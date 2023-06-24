@@ -10,8 +10,8 @@ public sealed class SignalRConnection : IDisposable
 {
     private bool isConnected;
     private readonly List<Tuple<string, string>> receivedMessages = new();
-    private readonly string sendMessageMethod = "SendMessage";
-    private readonly string receiveMessageMethod = "ReceiveMessage";
+    private const string SendMessageMethod = "SendMessage";
+    private const string ReceiveMessageMethod = "ReceiveMessage";
     private HubConnection? hubConnection;
 
     public async Task Connect()
@@ -26,7 +26,7 @@ public sealed class SignalRConnection : IDisposable
             .WithAutomaticReconnect()
             .Build();
 
-        hubConnection.On<string, string>(receiveMessageMethod, (name, message) =>
+        hubConnection.On<string, string>(ReceiveMessageMethod, (name, message) =>
         {
             receivedMessages.Add(new Tuple<string, string>(name, message));
             LogManager.GetCurrentClassLogger().Debug($"SignalR Message Received: {name}; {message}");
@@ -41,7 +41,7 @@ public sealed class SignalRConnection : IDisposable
     {
         if (hubConnection is null)
             throw new NullReferenceException("Connection is null. Unable to send a message before establishing a connection");
-        await hubConnection.InvokeCoreAsync(sendMessageMethod, args: new object?[] {name, message});
+        await hubConnection.InvokeCoreAsync(SendMessageMethod, args: new object?[] {name, message});
     }
 
     public bool IsConnectionEstablished()
