@@ -38,10 +38,9 @@ public static class PolicyBuilderUtilities
             return false; // Exception list is null or empty
         }
 
-        foreach (var exceptionType in exceptionsToIgnore)
+        if (exceptionsToIgnore.Any(exceptionType => !typeof(Exception).IsAssignableFrom(exceptionType)))
         {
-            if (!typeof(Exception).IsAssignableFrom(exceptionType))
-                throw new ArgumentException("All types to be ignored must derive from System.Exception", nameof(exceptionsToIgnore));
+            throw new ArgumentException("All types to be ignored must derive from System.Exception", nameof(exceptionsToIgnore));
         }
 
         return true; // All checks passed

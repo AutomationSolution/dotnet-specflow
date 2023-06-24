@@ -55,8 +55,9 @@ public static class PollyAutomationPolicies
                 return Backoff.LinearBackoff(configuration.BackOffDelay, configuration.RetryCount, configuration.Factor);
             case RetryBackoffType.Exponential:
                 return Backoff.ExponentialBackoff(configuration.BackOffDelay, configuration.RetryCount, configuration.Factor);
+            case RetryBackoffType.ExponentialWithJitter:
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(configuration.BackoffType), $"{nameof(configuration.BackoffType)} is unsupported");
         }
     }
 
