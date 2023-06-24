@@ -47,10 +47,10 @@ public class AutomationWebConfiguration : IAutomationConfiguration
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
         // Bind necessary static objects
-        EnvironmentModel = configurationManagerInstance.GetRequiredSection(EnvironmentModel.JsonSectionName).Get<EnvironmentModel>(binderOptionsThrowOnError);
-        SecretsWebModel = configurationManagerInstance.GetRequiredSection(SecretsWebModel.JsonSectionName).Get<SecretsWebModel>(binderOptionsThrowOnError);
+        EnvironmentModel = configurationManagerInstance.GetRequiredSection(EnvironmentModel.JsonSectionName).Get<EnvironmentModel>(binderOptionsThrowOnError)!;
+        SecretsWebModel = configurationManagerInstance.GetRequiredSection(SecretsWebModel.JsonSectionName).Get<SecretsWebModel>(binderOptionsThrowOnError)!;
         ProjectProperties = Assembly.GetExecutingAssembly().GetCustomAttribute<ProjectPropertiesAttribute>();
-        WebEnvironment = configurationManagerInstance.GetRequiredSection(WebEnvironment.JsonSectionName).Get<WebEnvironment>();
+        WebEnvironment = configurationManagerInstance.GetRequiredSection(WebEnvironment.JsonSectionName).Get<WebEnvironment>()!;
     }
 
     public void AddThreadStaticSources(ConfigurationManager configurationManagerInstance)
@@ -69,7 +69,7 @@ public class AutomationWebConfiguration : IAutomationConfiguration
 
         BrowserStackModel = new BrowserStackModel()
         {
-            Settings = configurationManagerInstance.GetRequiredSection(BrowserStackWebSettingsModel.JsonSectionName).Get<BrowserStackWebSettingsModel>(),
+            Settings = configurationManagerInstance.GetRequiredSection(BrowserStackWebSettingsModel.JsonSectionName).Get<BrowserStackWebSettingsModel>()!,
             Data = new BrowserStackWebData()
         };
     }

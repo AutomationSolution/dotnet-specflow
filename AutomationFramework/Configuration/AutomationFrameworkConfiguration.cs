@@ -32,15 +32,15 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     /// </summary>
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
-        RuntimeConfigurationModel = configurationManagerInstance.GetRequiredSection(RuntimeConfigurationModel.JsonSectionName).Get<RuntimeConfigurationModel>();
+        RuntimeConfigurationModel = configurationManagerInstance.GetRequiredSection(RuntimeConfigurationModel.JsonSectionName).Get<RuntimeConfigurationModel>()!;
         LoggingModel = configurationManagerInstance.GetSection(LoggingModel.JsonSectionName).Get<LoggingModel>();
         TestRunConfig = new TestRunConfig
         {
             TestRunStartTime = DateTime.Now
         };
-        ConstantConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultConstant").Get<ConditionalWaitConfigurationModel>();
-        LinearConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultLinear").Get<ConditionalWaitConfigurationModel>();
-        ExponentialConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultExponential").Get<ConditionalWaitConfigurationModel>();
+        ConstantConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultConstant").Get<ConditionalWaitConfigurationModel>()!;
+        LinearConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultLinear").Get<ConditionalWaitConfigurationModel>()!;
+        ExponentialConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultExponential").Get<ConditionalWaitConfigurationModel>()!;
     }
 
     /// <summary>
