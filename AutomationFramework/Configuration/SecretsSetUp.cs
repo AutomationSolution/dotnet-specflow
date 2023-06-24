@@ -57,7 +57,7 @@ public static class SecretsSetUp
     {
         configurationManager.AddJsonFile(Path.Combine(ResourcesDirectoryName, ConfigurationDirectoryName, AzureKeyVaultSettingsFileName), optional: false);
 
-        var azureSettings = configurationManager.GetRequiredSection(AzureSettingsModel.JsonSectionName).Get<AzureSettingsModel>();
+        var azureSettings = configurationManager.GetRequiredSection(AzureSettingsModel.JsonSectionName).Get<AzureSettingsModel>()!;
 
         var clientSecretCredential = new ClientSecretCredential(azureSettings.TenantId.ToString(), azureSettings.ClientId.ToString(),
             azureSettings.ClientSecret.ToString());

@@ -36,10 +36,10 @@ public class LocatorAttribute : Attribute
 
     public override object TypeId => this;
 
-    public override bool Equals([NotNullWhen(true)] object obj) =>
+    public override bool Equals([NotNullWhen(true)] object? obj) =>
         obj is LocatorAttribute other && other.Locator == Locator;
 
-    public override int GetHashCode() => Locator?.GetHashCode() ^ Key?.GetHashCode() ?? 0;
+    public override int GetHashCode() => Locator.GetHashCode() ^ Key?.GetHashCode() ?? 0;
 
     public override bool IsDefaultAttribute() => Equals(Default);
 }
