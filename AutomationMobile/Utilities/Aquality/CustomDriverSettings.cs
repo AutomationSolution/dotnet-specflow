@@ -12,18 +12,18 @@ public class CustomDriverSettings : CapabilityBasedSettings, IDriverSettings
 
     private readonly ISettingsFile settingsFile;
 
-    private AppiumOptions appiumOptions;
+    private AppiumOptions? appiumOptions;
 
     public CustomDriverSettings(ISettingsFile settingsFile)
     {
         this.settingsFile = settingsFile;
     }
 
-    private string ApplicationPathJPath => $".driverSettings.{AutomationMobileConfiguration.DeviceConfigModel.PlatformName.ToString().ToLower()}.{ApplicationPathKey}";
+    private static string ApplicationPathJPath => $".driverSettings.{AutomationMobileConfiguration.DeviceConfigModel.PlatformName.ToString().ToLower()}.{ApplicationPathKey}";
 
     private bool HasApplicationPath => settingsFile.IsValuePresent(ApplicationPathJPath);
 
-    private IReadOnlyDictionary<string, object> DeviceCapabilities
+    private static IReadOnlyDictionary<string, object> DeviceCapabilities
     {
         get
         {
@@ -49,7 +49,7 @@ public class CustomDriverSettings : CapabilityBasedSettings, IDriverSettings
         }
     }
 
-    public string ApplicationPath
+    public string? ApplicationPath
     {
         get
         {

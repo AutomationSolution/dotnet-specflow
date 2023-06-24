@@ -24,9 +24,8 @@ public class CustomScreenFactory : IScreenFactory
                 .SingleOrDefault(t =>
                 {
                     var attribute =
-                        (CustomApplicationNameAttribute) Attribute.GetCustomAttribute(t,
-                            typeof(CustomApplicationNameAttribute));
-                    return attribute != null && attribute.ApplicationNameList.Contains(AutomationMobileConfiguration.DeviceConfigModel.ApplicationName);
+                        (CustomApplicationNameAttribute) Attribute.GetCustomAttribute(t, typeof(CustomApplicationNameAttribute));
+                    return attribute is not null && attribute.ApplicationNameList.Contains(AutomationMobileConfiguration.DeviceConfigModel.ApplicationName);
                 });
         }
         catch (FileNotFoundException ex)
@@ -40,6 +39,6 @@ public class CustomScreenFactory : IScreenFactory
                                                 $"for application type {AutomationMobileConfiguration.DeviceConfigModel.ApplicationName} " +
                                                 $"was not found in Assembly {AqualityServices.ApplicationProfile.ScreensLocation}");
 
-        return (TAppScreen) Activator.CreateInstance(screenType);
+        return (TAppScreen) (Activator.CreateInstance(screenType) ?? throw new InvalidOperationException($"Unable to create instance of {screenType} screenType"));
     }
 }
