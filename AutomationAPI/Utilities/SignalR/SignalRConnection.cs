@@ -16,7 +16,7 @@ public sealed class SignalRConnection : IDisposable
 
     public async Task Connect()
     {
-        var url = AutomationAPIConfiguration.SignalRData.SignalREndpoint.Append(AutomationAPIConfiguration.SignalRData.SignalRHubPath);
+        var url = AutomationApiConfiguration.SignalRData.SignalREndpoint.Append(AutomationApiConfiguration.SignalRData.SignalRHubPath);
         hubConnection = new HubConnectionBuilder()
             .WithUrl(url, options =>
             {

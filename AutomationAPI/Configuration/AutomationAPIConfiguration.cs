@@ -5,7 +5,7 @@ using static AutomationFramework.Configuration.ConfigurationPaths;
 
 namespace AutomationAPI.Configuration;
 
-public class AutomationAPIConfiguration : IAutomationConfiguration
+public class AutomationApiConfiguration : IAutomationConfiguration
 {
     public static SignalRDataModel SignalRData { get; private set; }
     public static GrpcDataModel GrpcData { get; private set; }

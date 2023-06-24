@@ -18,7 +18,7 @@ public class GrpcStepDefinitions
     [Given(@"gRPC connection is established")]
     public void GivenGrpcConnectionIsEstablished()
     {
-        var grpcChannel = GrpcChannel.ForAddress(AutomationAPIConfiguration.GrpcData.gRPCEndpoint);
+        var grpcChannel = GrpcChannel.ForAddress(AutomationApiConfiguration.GrpcData.gRPCEndpoint);
         scenarioContext.Set(grpcChannel);
     }
 

@@ -33,7 +33,7 @@ public class HttpApiStepDefinitions
         
         var request = new HttpRequestMessage();
         request.Method = new HttpMethod(httpMethod);
-        request.RequestUri = AutomationAPIConfiguration.OpenApiData.OpenAPIEndpoint.Append(requestPath);
+        request.RequestUri = AutomationApiConfiguration.OpenApiData.OpenAPIEndpoint.Append(requestPath);
 
         var response = httpClient.Send(request);
         
