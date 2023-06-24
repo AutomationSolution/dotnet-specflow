@@ -14,7 +14,7 @@ public class CustomScreenFactory : IScreenFactory
     /// <typeparam name="TAppScreen">Desired application screen.</typeparam>
     public TAppScreen GetScreen<TAppScreen>() where TAppScreen : IScreen
     {
-        Type screenType;
+        Type? screenType;
         try
         {
             screenType = Assembly.Load(AqualityServices.ApplicationProfile.ScreensLocation)
@@ -23,8 +23,7 @@ public class CustomScreenFactory : IScreenFactory
                 .Where(t => t.IsDefined(typeof(CustomApplicationNameAttribute), false))
                 .SingleOrDefault(t =>
                 {
-                    var attribute =
-                        (CustomApplicationNameAttribute) Attribute.GetCustomAttribute(t, typeof(CustomApplicationNameAttribute));
+                    var attribute = Attribute.GetCustomAttribute(t, typeof(CustomApplicationNameAttribute)) as CustomApplicationNameAttribute;
                     return attribute is not null && attribute.ApplicationNameList.Contains(AutomationMobileConfiguration.DeviceConfigModel.ApplicationName);
                 });
         }
