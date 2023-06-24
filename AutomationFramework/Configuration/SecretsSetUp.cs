@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using AutomationFramework.Enums.Configuration;
-using AutomationWeb.Models.Configuration;
+using AutomationFramework.Models.Configuration;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
