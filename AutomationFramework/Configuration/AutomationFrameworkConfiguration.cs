@@ -1,4 +1,5 @@
 ﻿using AutomationFramework.Models.Configuration;
+using DmitryLegostaev.Polly.ConditionalWait.Configuration;
 using Microsoft.Extensions.Configuration;
 using static AutomationFramework.Configuration.ConfigurationPaths;
 
@@ -11,9 +12,9 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
     public static RuntimeConfigurationModel RuntimeConfigurationModel { get; private set; }
     public static LoggingModel LoggingModel { get; private set; }
     public static TestRunConfig TestRunConfig { get; private set; }
-    public static ConditionalWaitConfigurationModel ConstantConditionalWait { get; private set; }
-    public static ConditionalWaitConfigurationModel LinearConditionalWait { get; private set; }
-    public static ConditionalWaitConfigurationModel ExponentialConditionalWait { get; private set; }
+    public static ConditionalWaitConfiguration ConstantConditionalWait { get; private set; }
+    public static ConditionalWaitConfiguration LinearConditionalWait { get; private set; }
+    public static ConditionalWaitConfiguration ExponentialConditionalWait { get; private set; }
 
     public void AddStaticSources(ConfigurationManager configurationManagerInstance)
     {
@@ -38,9 +39,9 @@ public class AutomationFrameworkConfiguration : IAutomationConfiguration
         {
             TestRunStartTime = DateTime.Now
         };
-        ConstantConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultConstant").Get<ConditionalWaitConfigurationModel>()!;
-        LinearConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultLinear").Get<ConditionalWaitConfigurationModel>()!;
-        ExponentialConditionalWait = configurationManagerInstance.GetRequiredSection($"{ConditionalWaitConfigurationModel.JsonSectionName}:DefaultExponential").Get<ConditionalWaitConfigurationModel>()!;
+        ConstantConditionalWait = configurationManagerInstance.GetRequiredSection($"ConditionalWait:DefaultConstant").Get<ConditionalWaitConfiguration>()!;
+        LinearConditionalWait = configurationManagerInstance.GetRequiredSection($"ConditionalWait:DefaultLinear").Get<ConditionalWaitConfiguration>()!;
+        ExponentialConditionalWait = configurationManagerInstance.GetRequiredSection($"ConditionalWait:DefaultExponential").Get<ConditionalWaitConfiguration>()!;
     }
 
     /// <summary>
