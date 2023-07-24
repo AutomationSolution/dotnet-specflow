@@ -11,6 +11,6 @@ public class ConfigurationHooks
     [BeforeTestRun(Order = 10)]
     public static void BeforeTestRunInitConfiguration(IObjectContainer objectContainer)
     {
-        objectContainer.RegisterTypeAs<AutomationAPIConfiguration, IAutomationConfiguration>();
+        objectContainer.RegisterTypeAs<AutomationApiConfiguration, IAutomationConfiguration>();
     }
 }

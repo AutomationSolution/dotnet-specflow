@@ -27,13 +27,13 @@ public class HttpApiStepDefinitions
     }
 
     [When(@"I send '(.*)' request via '(.*)' method by HTTP")]
-    public void WhenISendGetRequestByHttp(string requestPath, string httpMethod)
+    public void WhenISendRequestViaMethodByHttp(string requestPath, string httpMethod)
     {
         var httpClient = scenarioContext.Get<HttpClient>();
         
         var request = new HttpRequestMessage();
         request.Method = new HttpMethod(httpMethod);
-        request.RequestUri = AutomationAPIConfiguration.OpenApiData.OpenAPIEndpoint.Append(requestPath);
+        request.RequestUri = AutomationApiConfiguration.OpenApiData.OpenAPIEndpoint.Append(requestPath);
 
         var response = httpClient.Send(request);
         

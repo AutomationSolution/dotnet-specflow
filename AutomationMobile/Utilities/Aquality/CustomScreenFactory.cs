@@ -14,7 +14,7 @@ public class CustomScreenFactory : IScreenFactory
     /// <typeparam name="TAppScreen">Desired application screen.</typeparam>
     public TAppScreen GetScreen<TAppScreen>() where TAppScreen : IScreen
     {
-        Type screenType;
+        Type? screenType;
         try
         {
             screenType = Assembly.Load(AqualityServices.ApplicationProfile.ScreensLocation)
@@ -23,10 +23,8 @@ public class CustomScreenFactory : IScreenFactory
                 .Where(t => t.IsDefined(typeof(CustomApplicationNameAttribute), false))
                 .SingleOrDefault(t =>
                 {
-                    var attribute =
-                        (CustomApplicationNameAttribute) Attribute.GetCustomAttribute(t,
-                            typeof(CustomApplicationNameAttribute));
-                    return attribute != null && attribute.ApplicationNameList.Contains(AutomationMobileConfiguration.DeviceConfigModel.ApplicationName);
+                    var attribute = Attribute.GetCustomAttribute(t, typeof(CustomApplicationNameAttribute)) as CustomApplicationNameAttribute;
+                    return attribute is not null && attribute.ApplicationNameList.Contains(AutomationMobileConfiguration.DeviceConfigModel.ApplicationName);
                 });
         }
         catch (FileNotFoundException ex)
@@ -35,11 +33,11 @@ public class CustomScreenFactory : IScreenFactory
                                                 "Please specify value \"screensLocation\" in settings file", ex);
         }
 
-        if (screenType == null)
+        if (screenType is null)
             throw new InvalidOperationException($"Implementation for Screen {typeof(TAppScreen).Name} " +
                                                 $"for application type {AutomationMobileConfiguration.DeviceConfigModel.ApplicationName} " +
                                                 $"was not found in Assembly {AqualityServices.ApplicationProfile.ScreensLocation}");
 
-        return (TAppScreen) Activator.CreateInstance(screenType);
+        return (TAppScreen) (Activator.CreateInstance(screenType) ?? throw new InvalidOperationException($"Unable to create instance of {screenType} screenType"));
     }
 }

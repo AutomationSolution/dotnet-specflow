@@ -5,7 +5,7 @@ using static AutomationFramework.Configuration.ConfigurationPaths;
 
 namespace AutomationAPI.Configuration;
 
-public class AutomationAPIConfiguration : IAutomationConfiguration
+public class AutomationApiConfiguration : IAutomationConfiguration
 {
     public static SignalRDataModel SignalRData { get; private set; }
     public static GrpcDataModel GrpcData { get; private set; }
@@ -20,8 +20,8 @@ public class AutomationAPIConfiguration : IAutomationConfiguration
 
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
-        SignalRData = configurationManagerInstance.GetRequiredSection(SignalRDataModel.JsonSectionName).Get<SignalRDataModel>();
-        GrpcData = configurationManagerInstance.GetRequiredSection(GrpcDataModel.JsonSectionName).Get<GrpcDataModel>();
-        OpenApiData = configurationManagerInstance.GetRequiredSection(OpenApiDataModel.JsonSectionName).Get<OpenApiDataModel>();
+        SignalRData = configurationManagerInstance.GetRequiredSection(SignalRDataModel.JsonSectionName).Get<SignalRDataModel>()!;
+        GrpcData = configurationManagerInstance.GetRequiredSection(GrpcDataModel.JsonSectionName).Get<GrpcDataModel>()!;
+        OpenApiData = configurationManagerInstance.GetRequiredSection(OpenApiDataModel.JsonSectionName).Get<OpenApiDataModel>()!;
     }
 }

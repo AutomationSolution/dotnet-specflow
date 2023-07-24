@@ -21,7 +21,7 @@ public class OpenApiStepDefinitions
     {
         var httpclient = scenarioContext.Get<HttpClient>();
 
-        var weatherForecastService = new WeatherForecastService(AutomationAPIConfiguration.OpenApiData.OpenAPIEndpoint.ToString(), httpclient);
+        var weatherForecastService = new WeatherForecastService(AutomationApiConfiguration.OpenApiData.OpenAPIEndpoint.ToString(), httpclient);
 
         scenarioContext.Set(weatherForecastService);
     }

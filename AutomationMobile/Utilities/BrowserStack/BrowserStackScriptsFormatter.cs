@@ -5,36 +5,36 @@ namespace AutomationMobile.Utilities.BrowserStack;
 // Whole this class looks like a mess, but haven't found a better solution among existing ones
 public static class BrowserStackScriptsFormatter
 {
-    private static string doubleQuotes = "\"";
-    private static string bracketOpen = "{";
-    private static string bracketClose = "}";
-    private static string tempPlaceholderDoubleQuotes = "__TEMP__";
-    private static string tempPlaceholderBracketOpen = "__BRACKETOPEN__";
-    private static string tempPlaceholderBracketClose = "__BRACKETCLOSE__";
+    private const string DoubleQuotes = "\"";
+    private const string BracketOpen = "{";
+    private const string BracketClose = "}";
+    private const string TempPlaceholderDoubleQuotes = "__TEMP__";
+    private const string TempPlaceholderBracketOpen = "__BRACKETOPEN__";
+    private const string TempPlaceholderBracketClose = "__BRACKETCLOSE__";
 
-    private static string pattern = @"{\d+}";
-    private static string patternRestore = @"<<\d+>>";
+    private const string Pattern = @"{\d+}";
+    private const string PatternRestore = @"<<\d+>>";
 
     public static string ReplaceBeforeFormat(string input)
     {
         // Securing our targets to perform formatting
-        var result = Regex.Replace(input, pattern, FormattingReplacerBefore);
+        var result = Regex.Replace(input, Pattern, FormattingReplacerBefore);
         // Replacing conflicting symbols before formatting
         result = result
-            .Replace(doubleQuotes, tempPlaceholderDoubleQuotes)
-            .Replace(bracketOpen, tempPlaceholderBracketOpen)
-            .Replace(bracketClose, tempPlaceholderBracketClose);
+            .Replace(DoubleQuotes, TempPlaceholderDoubleQuotes)
+            .Replace(BracketOpen, TempPlaceholderBracketOpen)
+            .Replace(BracketClose, TempPlaceholderBracketClose);
         // Restoring out targets fo perform formatting
-        result = Regex.Replace(result, patternRestore, FormattingReplacerAfter);
+        result = Regex.Replace(result, PatternRestore, FormattingReplacerAfter);
         return result;
     }
 
     public static string ReplaceAfterFormat(string input)
     {
         return input
-            .Replace(tempPlaceholderDoubleQuotes, doubleQuotes)
-            .Replace(tempPlaceholderBracketOpen, bracketOpen)
-            .Replace(tempPlaceholderBracketClose, bracketClose);
+            .Replace(TempPlaceholderDoubleQuotes, DoubleQuotes)
+            .Replace(TempPlaceholderBracketOpen, BracketOpen)
+            .Replace(TempPlaceholderBracketClose, BracketClose);
     }
 
     private static string FormattingReplacerBefore(Match match)

@@ -9,9 +9,9 @@ public static class ContextUtils
 {
     #region Web frames contexts
 
-    public static void DoInCurrentFrame(Action action, IWebElement frameElement = null)
+    public static void DoInCurrentFrame(Action action, IWebElement? frameElement = null)
     {
-        if (frameElement == null)
+        if (frameElement is null)
             SwitchToCurrentFrame();
         else
             SwitchToCurrentFrame(frameElement);
@@ -20,9 +20,9 @@ public static class ContextUtils
         SwitchToDefaultContent();
     }
 
-    public static T DoInCurrentFrame<T>(Func<T> action, IWebElement frameElement = null)
+    public static T DoInCurrentFrame<T>(Func<T> action, IWebElement? frameElement = null)
     {
-        if (frameElement == null)
+        if (frameElement is null)
             SwitchToCurrentFrame();
         else
             SwitchToCurrentFrame(frameElement);
@@ -33,11 +33,11 @@ public static class ContextUtils
     }
 
 
-    public static T DoInDefaultFrame<T>(Func<T> action, IWebElement frameElement = null)
+    public static T DoInDefaultFrame<T>(Func<T> action, IWebElement? frameElement = null)
     {
         SwitchToDefaultContent();
         var result = action.Invoke();
-        if (frameElement == null)
+        if (frameElement is null)
             SwitchToCurrentFrame();
         else
             SwitchToCurrentFrame(frameElement);

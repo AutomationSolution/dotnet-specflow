@@ -12,7 +12,7 @@ namespace AutomationMobile.Utilities.Aquality;
 internal class CustomStartup : MobileStartup
 {
     public override IServiceCollection ConfigureServices(IServiceCollection services, Func<IServiceProvider, IApplication> applicationProvider,
-        ISettingsFile settings = null)
+        ISettingsFile? settings = null)
     {
         base.ConfigureServices(services, applicationProvider, settings);
         services.AddSingleton<IScreenFactory, CustomScreenFactory>();

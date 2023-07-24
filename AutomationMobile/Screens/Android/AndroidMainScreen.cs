@@ -1,6 +1,7 @@
 ﻿using Aquality.Appium.Mobile.Elements.Interfaces;
 using AutomationMobile.Enums.FrameworkAdditions;
 using AutomationMobile.Utilities.Aquality;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 
 namespace AutomationMobile.Screens.Android;
@@ -12,7 +13,7 @@ public class AndroidMainScreen : MainScreen
     {
     }
     
-    private IButton CartButton => ElementFactory.GetButton(MobileBy.XPath("//*[@content-desc='cart badge']"), "Cart");
+    private IButton CartButton => ElementFactory.GetButton(By.XPath("//*[@content-desc='cart badge']"), "Cart");
 
     public override void ClickCartButton() => CartButton.Click();
 }

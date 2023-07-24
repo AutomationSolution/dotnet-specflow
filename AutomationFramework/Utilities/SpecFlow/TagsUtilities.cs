@@ -32,7 +32,7 @@ public static class TagsUtilities
         {
             try
             {
-                var x = scenarioContext.ScenarioInfo.Tags.Single(x => x.Equals(scenarioType.ToString()));
+                var _ = scenarioContext.ScenarioInfo.Tags.Single(x => x.Equals(scenarioType.ToString()));
                 return scenarioType;
             }
             catch (InvalidOperationException)

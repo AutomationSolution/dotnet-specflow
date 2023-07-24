@@ -8,17 +8,14 @@ public static class MobileTagsUtilities
 {
     public static ApplicationName GetApplicationName(ScenarioContext scenarioContext)
     {
-        ApplicationName applicationName;
+        var applicationName = ApplicationName.iOSBusiness;  // Default value will not be used due to LINQ code functionality
         var applicationNameTag = scenarioContext.ScenarioInfo.Tags.Single(x => Enum.TryParse(x, out applicationName));
-        Enum.TryParse(applicationNameTag, out applicationName); // Duplicate code to remove compiler error
         return applicationName;
     }
 
     public static DeviceType GetDeviceType(ScenarioContext scenarioContext)
     {
-        if (scenarioContext.ScenarioInfo.Tags.Contains("tablet")) return DeviceType.Tablet;
-
-        return DeviceType.Phone;
+        return scenarioContext.ScenarioInfo.Tags.Contains("tablet") ? DeviceType.Tablet : DeviceType.Phone;
     }
     
     public static bool GetInstallFromAppCenterFlag(ScenarioContext scenarioContext)

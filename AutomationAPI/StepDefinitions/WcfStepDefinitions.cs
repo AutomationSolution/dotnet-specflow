@@ -10,7 +10,7 @@ namespace AutomationAPI.StepDefinitions;
 public class WcfStepDefinitions
 {
     private readonly ScenarioContext scenarioContext;
-    private readonly string wcfResponseAlias = "WCFResponse";
+    private const string WcfResponseAlias = "WCFResponse";
 
     public WcfStepDefinitions(ScenarioContext scenarioContext)
     {
@@ -28,13 +28,13 @@ public class WcfStepDefinitions
     {
         var wcfClient = scenarioContext.Get<WcfClient>();
         var response = wcfClient.ClientInstance.GetDataAsync(input).Result;
-        scenarioContext.Set(response, wcfResponseAlias);
+        scenarioContext.Set(response, WcfResponseAlias);
     }
 
     [Then(@"I assert that WCF service response contains '(\d+)'")]
-    public void ThenIAssertThatWcfServiceResponseIs(int input)
+    public void ThenIAssertThatWcfServiceResponseContains(int input)
     {
-        var response = scenarioContext.Get<string>(wcfResponseAlias);
+        var response = scenarioContext.Get<string>(WcfResponseAlias);
         response.Should().Contain(input.ToString(), "WCF service response should contain expected input");
     }
 
@@ -44,7 +44,7 @@ public class WcfStepDefinitions
         var wcfClient = scenarioContext.Get<WcfClient>();
         var compositeObject = table.CreateInstance<CompositeType>();
         var response = wcfClient.ClientInstance.GetDataUsingDataContractAsync(compositeObject).Result;
-        scenarioContext.Set(response, wcfResponseAlias);
+        scenarioContext.Set(response, WcfResponseAlias);
     }
 
     [Then(@"I assert that WCF service contract response contains the following object")]
@@ -52,7 +52,7 @@ public class WcfStepDefinitions
     {
         var expectedObject = table.CreateInstance<CompositeType>();
 
-        var response = scenarioContext.Get<CompositeType>(wcfResponseAlias);
+        var response = scenarioContext.Get<CompositeType>(WcfResponseAlias);
         response.Should().BeEquivalentTo(expectedObject, "Object from WCF response should be equal to expected object");
     }
 }

@@ -7,6 +7,9 @@ public static class EnumUtils
     public static T GetRandomEnumValue<T>()
     {
         var values = Enum.GetValues(typeof(T));
-        return (T) values.GetValue(Random.Next(values.Length));
+        var result = values.GetValue(Random.Next(values.Length));
+        if (result is not null) return (T) result;
+
+        throw new InvalidOperationException($"Cannot get random enum value from {typeof(T)} type");
     }
 }

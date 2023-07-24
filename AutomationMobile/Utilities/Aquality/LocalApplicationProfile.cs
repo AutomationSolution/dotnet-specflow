@@ -20,7 +20,7 @@ public class LocalApplicationProfile : IApplicationProfile
 
     public PlatformName PlatformName => AutomationMobileConfiguration.DeviceConfigModel.PlatformName;
 
-    public Uri RemoteConnectionUrl => new Uri(settingsFile.GetValue<string>(".remoteConnectionUrl"));
+    public Uri RemoteConnectionUrl => new(settingsFile.GetValue<string>(".remoteConnectionUrl"));
 
     public string ScreensLocation => settingsFile.GetValue<string>(".screensLocation");
 }

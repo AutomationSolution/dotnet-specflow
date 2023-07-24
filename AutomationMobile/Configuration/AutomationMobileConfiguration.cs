@@ -38,8 +38,8 @@ public class AutomationMobileConfiguration : IAutomationConfiguration
 
     public void InitStaticConfiguration(ConfigurationManager configurationManagerInstance)
     {
-        SecretsMobileModel = configurationManagerInstance.GetRequiredSection(SecretsMobileModel.JsonSectionName).Get<SecretsMobileModel>();
-        MobileEnvironment = configurationManagerInstance.GetRequiredSection(MobileEnvironment.JsonSectionName).Get<MobileEnvironment>();
+        SecretsMobileModel = configurationManagerInstance.GetRequiredSection(SecretsMobileModel.JsonSectionName).Get<SecretsMobileModel>()!;
+        MobileEnvironment = configurationManagerInstance.GetRequiredSection(MobileEnvironment.JsonSectionName).Get<MobileEnvironment>()!;
     }
 
     public void InitThreadStaticConfiguration(ConfigurationManager configurationManagerInstance, ScenarioContext scenarioContext)
@@ -48,7 +48,7 @@ public class AutomationMobileConfiguration : IAutomationConfiguration
         ScenarioMobileDataModel = new ScenarioMobileDataModel(scenarioContext);
         BrowserStackModel = new BrowserStackModel
         {
-            Settings = configurationManagerInstance.GetRequiredSection(BrowserStackMobileSettingsModel.JsonSectionName).Get<BrowserStackMobileSettingsModel>(),
+            Settings = configurationManagerInstance.GetRequiredSection(BrowserStackMobileSettingsModel.JsonSectionName).Get<BrowserStackMobileSettingsModel>()!,
             Data = new BrowserStackMobileData()
         };
 

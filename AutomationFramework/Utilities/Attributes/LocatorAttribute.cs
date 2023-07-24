@@ -22,24 +22,24 @@ public class LocatorAttribute : Attribute
     ///     Initializes a new instance of the <see cref='LocatorAttribute' />
     ///     class.
     /// </summary>
-    public LocatorAttribute(string locator, string key = null)
+    public LocatorAttribute(string locator, string? key = null)
     {
         LocatorValue = locator;
         LocatorKey = key;
     }
 
     public string Locator => LocatorValue;
-    public string Key => LocatorKey;
+    public string? Key => LocatorKey;
 
-    protected string LocatorKey { get; }
+    protected string? LocatorKey { get; }
     protected string LocatorValue { get; }
 
     public override object TypeId => this;
 
-    public override bool Equals([NotNullWhen(true)] object obj) =>
+    public override bool Equals([NotNullWhen(true)] object? obj) =>
         obj is LocatorAttribute other && other.Locator == Locator;
 
-    public override int GetHashCode() => Locator?.GetHashCode() ^ Key?.GetHashCode() ?? 0;
+    public override int GetHashCode() => Locator.GetHashCode() ^ Key?.GetHashCode() ?? 0;
 
     public override bool IsDefaultAttribute() => Equals(Default);
 }

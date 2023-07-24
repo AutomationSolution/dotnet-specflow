@@ -9,8 +9,8 @@ namespace AutomationFramework.Utilities.Attributes;
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class LogMethodAttribute : Attribute, IMethodDecorator
 {
-    private string additionalStringOnEntry = "";
-    private string additionalStringOnExit = "";
+    private readonly string additionalStringOnEntry = string.Empty;
+    private readonly string additionalStringOnExit = string.Empty;
     private readonly LogLevel logLevel;
     private MethodBase? methodBase;
 
@@ -45,14 +45,14 @@ public sealed class LogMethodAttribute : Attribute, IMethodDecorator
 
     public void OnEntry()
     {
-        var entryLogMessage = $"Started method \"{methodBase.Name}\" {additionalStringOnEntry}";
+        var entryLogMessage = $"Started method \"{methodBase?.Name}\" {additionalStringOnEntry}";
 
         LogManager.GetCurrentClassLogger().Log(logLevel, entryLogMessage);
     }
 
     public void OnExit()
     {
-        var exitLogMessage = $"Finished method \"{methodBase.Name}\" {additionalStringOnExit}";
+        var exitLogMessage = $"Finished method \"{methodBase?.Name}\" {additionalStringOnExit}";
 
         LogManager.GetCurrentClassLogger().Log(logLevel, exitLogMessage);
     }
